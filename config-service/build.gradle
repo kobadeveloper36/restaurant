@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.7.5'
+    id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group 'com.progect'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'com.progect.config.ConfigApplication'
+        )
+    }
+}
+
+ext {
+    set('springCloudVersion', "2021.0.4")
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+dependencies {
+    implementation "org.springframework.cloud:spring-cloud-config-server"
+    implementation 'org.springframework.boot:spring-boot-starter-security:2.7.5'
+    testCompileOnly(group: 'junit', name: 'junit', version: '4.13.1')
+}
+
+test {
+    useJUnitPlatform()
+}

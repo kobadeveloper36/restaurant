@@ -1,0 +1,10 @@
+rootProject.name = 'restaurant'
+include 'config-service'
+include 'registry'
+include 'gateway'
+include 'ui-service'
+include 'dish-service'
+include 'order-service'
+include 'comment-service'
+include 'user-service'
+

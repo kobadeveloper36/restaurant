@@ -1,0 +1,17 @@
+spring:
+  jpa:
+    database: POSTGRESQL
+    properties.hibernate.temp.use_jdbc_metadata_defaults: false
+    hibernate:
+      ddl-auto: update
+    properties:
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/dish_service_database
+    username: postgres
+    password: root
+
+server:
+  servlet:
+    context-path: /dishes
+  port: 8081

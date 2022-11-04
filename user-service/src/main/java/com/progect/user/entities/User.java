@@ -19,28 +19,28 @@ public class User {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, length = 50)
     private String name;
 
-    @Column(name = "phone", nullable = false)
+    @Column(name = "phone", nullable = false, length = 15)
     private String phone;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, length = 20)
     private String email;
 
     @Column(name = "address", nullable = false)
     private String address;
 
-    @Column(name = "flat", nullable = false)
+    @Column(name = "flat", nullable = false, length = 10)
     private String flat;
 
-    @Column(name = "entry", nullable = false)
+    @Column(name = "entry", nullable = false, length = 10)
     private String entry;
 
-    @Column(name = "floor", nullable = false)
+    @Column(name = "floor", nullable = false, length = 10)
     private String floor;
 
-    @Column(name = "login", nullable = false)
+    @Column(name = "login", nullable = false, length = 50)
     private String login;
 
     @Column(name = "password", nullable = false)
@@ -56,7 +56,7 @@ public class User {
     @CollectionTable(name = "user_orders", joinColumns = @JoinColumn(name = "user_id"))
     private List<Long> orders = new ArrayList<>();
 
-    @Column(name = "privileges", nullable = false)
+    @Column(name = "privileges", nullable = false, length = 10)
     private String privileges;
 
     public User(String name, String phone, String email, String address,

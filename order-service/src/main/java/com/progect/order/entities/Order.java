@@ -3,6 +3,7 @@ package com.progect.order.entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -20,13 +21,13 @@ public class Order {
     @Column(name = "order_id", nullable = false)
     private Long orderId;
 
-    @Column(name = "customer_name", nullable = false)
+    @Column(name = "customer_name", nullable = false, length = 50)
     private String customerName;
 
-    @Column(name = "customer_phone", nullable = false)
+    @Column(name = "customer_phone", nullable = false, length = 20)
     private String customerPhone;
 
-    @Column(name = "customer_email", nullable = false)
+    @Column(name = "customer_email", nullable = false, length = 50)
     private String customerEmail;
 
     @Column(name = "is_delivery", nullable = false)
@@ -38,10 +39,10 @@ public class Order {
     @Column(name = "order_date")
     private LocalDateTime orderDate;
 
-    @Column(name = "cutlery")
+    @Column(name = "cutlery", length = 25)
     private String cutlery;
 
-    @Column(name = "payment_kind")
+    @Column(name = "payment_kind", length = 10)
     private String paymentKind;
 
     @Column(name = "is_table_order", nullable = false)
@@ -49,6 +50,7 @@ public class Order {
 
     @Lob
     @Column(name = "notes")
+    @Type(type = "org.hibernate.type.TextType")
     private String notes;
 
     @ElementCollection

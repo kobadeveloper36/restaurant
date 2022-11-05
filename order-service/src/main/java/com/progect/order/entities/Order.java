@@ -57,11 +57,13 @@ public class Order {
     @Column(name = "dish_id")
     @CollectionTable(name = "order_dishes", joinColumns = @JoinColumn(name = "order_id"))
     private List<Long> dishes = new ArrayList<>();
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
 
     public Order(String customerName, String customerPhone, String customerEmail,
                  Boolean isDelivery, String deliveryAddress, LocalDateTime orderDate,
                  String cutlery, String paymentKind, Boolean isTableOrder,
-                 String notes, List<Long> dishes) {
+                 String notes, List<Long> dishes, Long userId) {
         this.customerName = customerName;
         this.customerPhone = customerPhone;
         this.customerEmail = customerEmail;
@@ -73,5 +75,6 @@ public class Order {
         this.isTableOrder = isTableOrder;
         this.notes = notes;
         this.dishes = dishes;
+        this.userId = userId;
     }
 }

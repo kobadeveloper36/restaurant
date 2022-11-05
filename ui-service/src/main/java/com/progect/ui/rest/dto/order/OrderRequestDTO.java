@@ -1,9 +1,8 @@
-package com.progect.order.controllers.dto;
+package com.progect.ui.rest.dto.order;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter

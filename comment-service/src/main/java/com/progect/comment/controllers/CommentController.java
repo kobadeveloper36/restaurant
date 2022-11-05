@@ -6,6 +6,8 @@ import com.progect.comment.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class CommentController {
 
@@ -34,5 +36,9 @@ public class CommentController {
     @DeleteMapping("/{commentId}")
     public CommentResponseDTO deleteDish(@PathVariable Long commentId) {
         return commentService.deleteComment(commentId);
+    }
+    @GetMapping("/user/{userId}")
+    public List<CommentResponseDTO> getCommentsById(@PathVariable Long userId){
+        return commentService.getCommentsById(userId);
     }
 }

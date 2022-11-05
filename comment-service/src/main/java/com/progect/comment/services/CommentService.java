@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
@@ -25,7 +27,8 @@ public class CommentService {
     }
 
     public Long createComment(CommentRequestDTO commentRequestDTO) {
-        Comment newComment = new Comment(commentRequestDTO.getText(), commentRequestDTO.getRating());
+        Comment newComment = new Comment(commentRequestDTO.getText(), commentRequestDTO.getRating(),
+                commentRequestDTO.getUserId());
         return commentRepository.save(newComment).getCommentId();
     }
 
@@ -42,5 +45,9 @@ public class CommentService {
         Comment commentById = getCommentById(commentId);
         commentRepository.deleteById(commentId);
         return new CommentResponseDTO(commentById);
+    }
+
+    public List<CommentResponseDTO> getCommentsById(Long userId){
+        return commentRepository.findAllByUserId(userId).stream().map(CommentResponseDTO::new).collect(Collectors.toList());
     }
 }

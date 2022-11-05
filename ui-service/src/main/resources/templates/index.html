@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ChiNa</title>
+    <link rel=”icon” href="../static/images/logo.png" type=”image/png”><!-- Зробити іконку та доробити навбар-->
+    <link rel="stylesheet" href="../static/css/carousel.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+</head>
+<body>
+<header class="container d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+    <a href="index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+        <img src="../static/images/logo.png"
+             alt="logo" style="width: 42px; height: 42px">
+        <span class=" fs-4 ms-2">Ресторан ChiNA</span>
+    </a>
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <a class="btn btn-outline-light me-2" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false">Меню</a>
+            <ul class="dropdown-menu dropdown-menu-light">
+                <li><a class="dropdown-item" href="menu.html#soups">Супи</a></li>
+                <li><a class="dropdown-item" href="menu.html#meet">М'ясо</a></li>
+                <li><a class="dropdown-item" href="menu.html#fowl">Птах</a></li>
+                <li><a class="dropdown-item" href="menu.html#seafood">Морепродукти</a></li>
+                <li><a class="dropdown-item" href="menu.html#handmade">Ліпимо самі</a></li>
+                <li><a class="dropdown-item" href="menu.html#noodles">Локшина</a></li>
+                <li><a class="dropdown-item" href="menu.html#sideDish">Гарніри</a></li>
+                <li><a class="dropdown-item" href="menu.html#salads">Салати</a></li>
+                <li><a class="dropdown-item" href="menu.html#snacks">Закуски</a></li>
+                <li><a class="dropdown-item" href="menu.html#desserts">Десерти</a></li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-outline-light me-2" data-bs-toggle="modal" href="#loginModal" role="button">Ваш акаунт</a>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-outline-light me-2" role="button" href="about_us.html">Про нас</a>
+        </li>
+        <li class="nav-item">
+            <a role="link" href="cart.html">
+                <img src="../static/images/cart.png" alt="" style="width: 38px; height: 38px">
+            </a>
+        </li>
+    </ul>
+</header>
+<main>
+    <!--  Modal login/register  -->
+
+    <div class="modal fade" id="loginModal" aria-hidden="true" aria-labelledby="loginModal" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Вхід</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="">
+                        <div class="mb-3">
+                            <label for="inputLoginLoginForm" class="form-label">Логін чи email</label>
+                            <input type="email" class="form-control" id="inputLoginLoginForm"
+                                   aria-describedby="emailHelp">
+                            <div id="loginHelpLoginForm" class="form-text">Ваші дані абсолютно конфіденційні</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputPasswordLoginForm" class="form-label">Пароль</label>
+                            <input type="password" class="form-control" id="inputPasswordLoginForm">
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="loginCheckLoginForm">
+                                <label class="form-check-label" for="loginCheckLoginForm">Запам'ятати мене</label>
+                            </div>
+                            <a id="forgotPasswordLoginForm" href="">Забули пароль?</a>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-between">
+                            <a href="" data-bs-target="#registerModal" data-bs-toggle="modal">Зареєструватися</a>
+                            <button id="submitBtnLoginForm" type="submit" class="btn btn-primary">Увійти</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="registerModal" aria-hidden="true" aria-labelledby="registerModal"
+         tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Реєстрація</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="">
+                        <div class="mb-3">
+                            <label for="inputLoginRegisterForm" class="form-label">Логін</label>
+                            <input type="email" class="form-control" id="inputLoginRegisterForm"
+                                   aria-describedby="emailHelp">
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputEmailRegisterForm" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="inputEmailRegisterForm"
+                                   aria-describedby="emailHelp">
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputPasswordRegisterForm" class="form-label">Пароль</label>
+                            <input type="password" class="form-control" id="inputPasswordRegisterForm">
+                        </div>
+                        <div class="modal-footer d-flex justify-content-between">
+                            <a href="" data-bs-target="#loginModal" data-bs-toggle="modal">Увійти</a>
+                            <button id="submitBtnRegisterForm" type="submit" class="btn btn-primary">Зареєструватися
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!--  Modal login/register  -->
+
+    <!--   Carousel  -->
+
+    <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class=""
+                    aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1" aria-label="Slide 2"
+                    class="active"
+                    aria-current="true"></button>
+            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="../static/images/carousel/restaurant.png" alt="" class="w-100">
+                <div class="carousel-caption d-md-block text-end">
+                    <h1 class="text-light">Ми відкрилися</h1>
+                    <p class="text-light">Наш новий ресторан вже чекає на вас</p>
+                    <p><a class="btn btn-lg btn-dark"
+                          href="about_us.html#orderingTableForm">Зарезервувати столик</a></p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="../static/images/carousel/family_dinner.png" alt="" class="w-100">
+                <div class="carousel-caption d-md-block">
+                    <h1>Нове меню</h1>
+                    <p>Ще більше страв для кожного</p>
+                    <p><a class="btn btn-lg btn-dark" href="menu.html">Детальніше</a></p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="../static/images/carousel/delivery.png" alt="" class="w-100">
+                <div class="carousel-caption d-md-block text-start">
+                    <h1>Доставка</h1>
+                    <p>Безкоштовна та швидка доставка</p>
+                    <p><a class="btn btn-lg btn-dark"
+                          href="menu.html">Замовити</a></p>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <!--  Popular   -->
+
+    <div class="container my-4">
+        <h2 class="text-warning my-3 h1">- Популярні страви</h2>
+        <div class="row">
+            <div class="card text-bg-dark col-md-4 com-sm-12 mb-2">
+                <a href="#" data-bs-toggle="modal"
+                   data-bs-target="#dishModal" data-bs-whatever="@mdo">
+                    <img src="https://brucelee.com.ua/wp-content/uploads/2019/11/bl011.jpg"
+                         class="card-img-top pt-2"
+                         alt="...">
+                </a>
+
+                <div class="card-body">
+                    <a class="card-title h5 link-light text-decoration-none" href="#" data-bs-toggle="modal"
+                       data-bs-target="#dishModal" data-bs-whatever="@mdo">ГОСТРА ТЕЛЯТИНА ПО-СИЧУАНСЬКИ</a>
+                    <p class="card-text"><small class="text-light">320 гр</small></p>
+                    <p class="card-text text-center text-muted">Телятина, цибуля, брокколі, перець болгарський</p>
+                    <div class="row card-footer">
+                        <p class="col-6 card-text text-warning">218 ГРН</p>
+                        <button class="col-6 btn btn-outline-warning round">Додати до кошика
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card text-bg-dark col-md-4 com-sm-12 mb-2">
+                <a href="#" data-bs-toggle="modal"
+                   data-bs-target="#dishModal" data-bs-whatever="@mdo">
+                    <img src="https://brucelee.com.ua/wp-content/uploads/2019/11/bl011.jpg"
+                         class="card-img-top pt-2"
+                         alt="...">
+                </a>
+
+                <div class="card-body">
+                    <a class="card-title h5 link-light text-decoration-none" href="#" data-bs-toggle="modal"
+                       data-bs-target="#dishModal" data-bs-whatever="@mdo">ГОСТРА ТЕЛЯТИНА ПО-СИЧУАНСЬКИ</a>
+                    <p class="card-text"><small class="text-light">320 гр</small></p>
+                    <p class="card-text text-center text-muted">Телятина, цибуля, брокколі, перець болгарський</p>
+                    <div class="row card-footer">
+                        <p class="col-6 card-text text-warning">218 ГРН</p>
+                        <button class="col-6 btn btn-outline-warning round">Додати до кошика
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card text-bg-dark col-md-4 com-sm-12 mb-2">
+                <a href="#" data-bs-toggle="modal"
+                   data-bs-target="#dishModal" data-bs-whatever="@mdo">
+                    <img src="https://brucelee.com.ua/wp-content/uploads/2019/11/bl011.jpg"
+                         class="card-img-top pt-2"
+                         alt="...">
+                </a>
+
+                <div class="card-body">
+                    <a class="card-title h5 link-light text-decoration-none" href="#" data-bs-toggle="modal"
+                       data-bs-target="#dishModal" data-bs-whatever="@mdo">ГОСТРА ТЕЛЯТИНА ПО-СИЧУАНСЬКИ</a>
+                    <p class="card-text"><small class="text-light">320 гр</small></p>
+                    <p class="card-text text-center text-muted">Телятина, цибуля, брокколі, перець болгарський</p>
+                    <div class="row card-footer">
+                        <p class="col-6 card-text text-warning">218 ГРН</p>
+                        <button class="col-6 btn btn-outline-warning round">Додати до кошика
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card text-bg-dark col-md-4 com-sm-12 mb-2">
+                <a href="#" data-bs-toggle="modal"
+                   data-bs-target="#dishModal" data-bs-whatever="@mdo">
+                    <img src="https://brucelee.com.ua/wp-content/uploads/2019/11/bl011.jpg"
+                         class="card-img-top pt-2"
+                         alt="...">
+                </a>
+
+                <div class="card-body">
+                    <a class="card-title h5 link-light text-decoration-none" href="#" data-bs-toggle="modal"
+                       data-bs-target="#dishModal" data-bs-whatever="@mdo">ГОСТРА ТЕЛЯТИНА ПО-СИЧУАНСЬКИ</a>
+                    <p class="card-text"><small class="text-light">320 гр</small></p>
+                    <p class="card-text text-center text-muted">Телятина, цибуля, брокколі, перець болгарський</p>
+                    <div class="row card-footer">
+                        <p class="col-6 card-text text-warning">218 ГРН</p>
+                        <button class="col-6 btn btn-outline-warning round">Додати до кошика
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card text-bg-dark col-md-4 com-sm-12 mb-2">
+                <a href="#" data-bs-toggle="modal"
+                   data-bs-target="#dishModal" data-bs-whatever="@mdo">
+                    <img src="https://brucelee.com.ua/wp-content/uploads/2019/11/bl011.jpg"
+                         class="card-img-top pt-2"
+                         alt="...">
+                </a>
+
+                <div class="card-body">
+                    <a class="card-title h5 link-light text-decoration-none" href="#" data-bs-toggle="modal"
+                       data-bs-target="#dishModal" data-bs-whatever="@mdo">ГОСТРА ТЕЛЯТИНА ПО-СИЧУАНСЬКИ</a>
+                    <p class="card-text"><small class="text-light">320 гр</small></p>
+                    <p class="card-text text-center text-muted">Телятина, цибуля, брокколі, перець болгарський</p>
+                    <div class="row card-footer">
+                        <p class="col-6 card-text text-warning">218 ГРН</p>
+                        <button class="col-6 btn btn-outline-warning round">Додати до кошика
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card text-bg-dark col-md-4 com-sm-12 mb-2">
+                <a href="#" data-bs-toggle="modal"
+                   data-bs-target="#dishModal" data-bs-whatever="@mdo">
+                    <img src="https://brucelee.com.ua/wp-content/uploads/2019/11/bl011.jpg"
+                         class="card-img-top pt-2"
+                         alt="...">
+                </a>
+
+                <div class="card-body">
+                    <a class="card-title h5 link-light text-decoration-none" href="#" data-bs-toggle="modal"
+                       data-bs-target="#dishModal" data-bs-whatever="@mdo">ГОСТРА ТЕЛЯТИНА ПО-СИЧУАНСЬКИ</a>
+                    <p class="card-text"><small class="text-light">320 гр</small></p>
+                    <p class="card-text text-center text-muted">Телятина, цибуля, брокколі, перець болгарський</p>
+                    <div class="row card-footer">
+                        <p class="col-6 card-text text-warning">218 ГРН</p>
+                        <button class="col-6 btn btn-outline-warning round">Додати до кошика
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--  End Carousel  -->
+
+
+    <!--  End Popular   -->
+
+    <!--  Modal Dish  -->
+
+    <div class="modal fade" id="dishModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-dark">
+                <div class="modal-header" style="border-color: white">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-4">
+                            <img src="https://brucelee.com.ua/wp-content/uploads/2019/11/bl011.jpg" alt=""
+                                 class="img-fluid rounded">
+                        </div>
+                        <div class="container col-8">
+                            <p class="h1 text-light">ГОСТРА ТЕЛЯТИНА ПО-СИЧУАНСЬКИ</p>
+                            <p class="text-warning">320 гр</p>
+                            <p class="h5 text-secondary">Склад: Телятина, цибуля, брокколі, перець болгарський</p>
+                            <div class="d-flex my-4">
+                                <p class="text-secondary">
+                                    Ніжне філе телятини, приготоване в поєднанні овочів і перцю чилі за китайським
+                                    рецептом</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer d-block">
+                    <div class="row d-flex align-items-center justify-content-end">
+                        <div class="row col-md-6 col-sm-12">
+                            <p class="col-5 h4 text-warning mt-1">218 ГРН</p>
+                            <button class="col-7 btn btn-outline-warning round">Додати до кошика</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const exampleModal = document.getElementById('dishModal')
+        exampleModal.addEventListener('show.bs.modal', event => {
+            // Button that triggered the modal
+            const button = event.relatedTarget
+            // Extract info from data-bs-* attributes
+            const recipient = button.getAttribute('data-bs-whatever')
+            // If necessary, you could initiate an AJAX request here
+            // and then do the updating in a callback.
+            //
+            // Update the modal's content.
+            const modalTitle = exampleModal.querySelector('.modal-title')
+            const modalBodyInput = exampleModal.querySelector('.modal-body input')
+
+            modalTitle.textContent = `New message to ${recipient}`
+            modalBodyInput.value = recipient
+        })
+    </script>
+    <!--  End Modal Dish  -->
+
+    <!--  Features  -->
+
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-md-4 col-sm-6 text-center">
+                <img src="../static/images/features/pay.png" alt="">
+                <h4 class="text-light m-2">НАДІЙНА ОНЛАЙН ОПЛАТА</h4>
+                <p class="text-light">Замовлення можна оплатити картою онлайн на
+                    нашому сайті або через термінал
+                    кур’єра</p>
+            </div>
+            <div class="col-md-4 col-sm-6 text-center">
+                <img src="../static/images/features/free.png" alt="">
+                <h4 class="text-light m-2">БЕЗКОШТОВНА ДОСТАВКА</h4>
+                <p class="text-light">Безкоштовна доставка по центру Києва.</p>
+                <p>
+                    <a href="" class="text-warning">Дивись карту доставки</a>
+                </p>
+            </div>
+            <div class="col-md-4 col-sm-6 text-center">
+                <img src="../static/images/features/fast.png" alt="">
+                <h4 class="text-light m-2">ЗАВЖДИ ШВИДКО ТА ВЧАСНО</h4>
+                <p class="text-light">Всі страви готуються виключно в
+                    <span><a href="" class="text-warning">нашому ресторані</a></span>
+                    шеф-кухарем особисто
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- End Features  -->
+
+</main>
+
+<footer class="m-5 d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+    <div class="col-md-4 d-flex align-items-center">
+        <a href="index.html" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+            <img src="../static/images/logo.png" alt="" style="height: 62px; width: 62px;">
+            <span class="mb-3 ms-2 mb-md-0 text-light">© 2022 ChiNA</span>
+        </a>
+    </div>
+
+    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+        <li class="ms-3"><a class="text-muted" href="https://web.telegram.org/">
+            <img src="../static/images/media/telegram.png" alt=""
+                 style="height: 42px; width: 42px;">
+        </a></li>
+        <li class="ms-3"><a class="text-muted" href="https://twitter.com/">
+            <img src="../static/images/media/twitter.png" alt=""
+                 style="height: 42px; width: 42px;">
+        </a></li>
+        <li class="ms-3"><a class="text-muted" href="https://www.instagram.com/">
+            <img src="../static/images/media/instagram.png" alt=""
+                 style="height: 42px; width: 42px;">
+        </a></li>
+        <li class="ms-3"><a class="text-muted" href="https://www.facebook.com/">
+            <img src="../static/images/media/facebook.png" alt="" style="height: 42px; width: 42px;">
+        </a></li>
+    </ul>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+</body>
+</html>

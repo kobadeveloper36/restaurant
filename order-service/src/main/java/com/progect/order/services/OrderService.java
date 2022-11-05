@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -30,7 +32,7 @@ public class OrderService {
                 orderRequestDTO.getCustomerEmail(), orderRequestDTO.getIsDelivery(),
                 orderRequestDTO.getDeliveryAddress(), LocalDateTime.now(), orderRequestDTO.getCutlery(),
                 orderRequestDTO.getPaymentKind(), orderRequestDTO.getIsTableOrder(), orderRequestDTO.getNotes(),
-                orderRequestDTO.getDishes());
+                orderRequestDTO.getDishes(), orderRequestDTO.getUserId());
         return orderRepository.save(newOrder).getOrderId();
     }
 
@@ -57,4 +59,9 @@ public class OrderService {
         orderRepository.deleteById(orderId);
         return new OrderResponseDTO(orderById);
     }
+
+    public List<OrderResponseDTO> getOrdersById(Long userId){
+        return orderRepository.findAllByUserId(userId).stream().map(OrderResponseDTO::new).collect(Collectors.toList());
+    }
+
 }

@@ -30,9 +30,13 @@ public class Comment {
     @Column(name = "rating", nullable = false)
     private Integer rating;
 
-    public Comment(String text, Integer rating) {
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
+    public Comment(String text, Integer rating, Long userId) {
         this.creationDate = LocalDateTime.now();
         this.text = text;
         this.rating = rating;
+        this.userId = userId;
     }
 }

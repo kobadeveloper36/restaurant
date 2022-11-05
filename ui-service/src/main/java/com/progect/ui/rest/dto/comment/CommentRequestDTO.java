@@ -1,9 +1,7 @@
-package com.progect.comment.controllers.dto;
+package com.progect.ui.rest.dto.comment;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor

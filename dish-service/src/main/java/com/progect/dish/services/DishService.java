@@ -6,6 +6,11 @@ import com.progect.dish.entities.Dish;
 import com.progect.dish.repository.DishRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DishService {
@@ -19,13 +24,14 @@ public class DishService {
 
     public Dish getDishById(Long dishId) {
         return dishRepository.findById(dishId).orElseThrow(
-                () -> new IllegalArgumentException("Dish with id: "+ dishId +"not found"));
+                () -> new IllegalArgumentException("Dish with id: " + dishId + "not found"));
     }
 
     public Long createDish(DishRequestDTO dishRequestDTO) {
         Dish newDish = new Dish(dishRequestDTO.getName(), dishRequestDTO.getWeight(),
                 dishRequestDTO.getComposition(), dishRequestDTO.getDescription(),
-                dishRequestDTO.getCategory(), dishRequestDTO.getPrice(), dishRequestDTO.getIs_Popular());
+                dishRequestDTO.getCategory(), dishRequestDTO.getPrice(),
+                dishRequestDTO.getIs_Popular(), dishRequestDTO.getOrderId());
         return dishRepository.save(newDish).getDishId();
     }
 
@@ -46,5 +52,9 @@ public class DishService {
         Dish dishById = getDishById(dishId);
         dishRepository.deleteById(dishId);
         return new DishResponseDTO(dishById);
+    }
+
+    public List<DishResponseDTO> getDishesById(Long orderId) {
+        return dishRepository.findAllByOrderId(orderId).stream().map(DishResponseDTO::new).collect(Collectors.toList());
     }
 }

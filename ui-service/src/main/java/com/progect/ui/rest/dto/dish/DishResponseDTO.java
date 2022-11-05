@@ -1,11 +1,12 @@
-package com.progect.dish.controllers.dto;
+package com.progect.ui.rest.dto.dish;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
-public class DishRequestDTO {
+@AllArgsConstructor
+public class DishResponseDTO {
+    private Long dishId;
     private String name;
     private Integer weight;
     private String composition;
@@ -13,5 +14,4 @@ public class DishRequestDTO {
     private String category;
     private Double price;
     private Boolean is_Popular;
-    private Long orderId;
 }

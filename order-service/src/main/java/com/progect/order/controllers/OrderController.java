@@ -6,6 +6,8 @@ import com.progect.order.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class OrderController {
 
@@ -34,5 +36,10 @@ public class OrderController {
     @DeleteMapping("/{orderId}")
     public OrderResponseDTO deleteUser(@PathVariable Long orderId) {
         return orderService.deleteOrder(orderId);
+    }
+
+    @GetMapping("/user/{userId}")
+    public List<OrderResponseDTO> getOrdersById(@PathVariable Long userId){
+        return orderService.getOrdersById(userId);
     }
 }

@@ -1,4 +1,4 @@
-package com.progect.dish.controllers.dto;
+package com.progect.ui.rest.dto.dish;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

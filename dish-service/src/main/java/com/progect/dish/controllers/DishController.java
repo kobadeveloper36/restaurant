@@ -6,6 +6,9 @@ import com.progect.dish.services.DishService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 public class DishController {
 
@@ -34,5 +37,10 @@ public class DishController {
     @DeleteMapping("/{dishId}")
     public DishResponseDTO deleteDish(@PathVariable Long dishId) {
         return dishService.deleteDish(dishId);
+    }
+
+    @GetMapping("/order/{orderId}")
+    public List<DishResponseDTO> getDishesById(@PathVariable Long orderId) {
+        return dishService.getDishesById(orderId);
     }
 }

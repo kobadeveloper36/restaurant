@@ -31,8 +31,9 @@ dependencyManagement {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.7.5'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator:2.7.5'
+    implementation "org.springframework.boot:spring-boot-starter-web:2.7.5"
+    implementation "org.springframework.boot:spring-boot-starter-thymeleaf:2.7.5"
+    implementation "org.springframework.boot:spring-boot-starter-actuator:2.7.5"
     implementation "org.springframework.cloud:spring-cloud-starter-config"
     implementation "org.springframework.cloud:spring-cloud-starter-bootstrap:3.1.4"
     implementation "org.springframework.cloud:spring-cloud-starter-openfeign"

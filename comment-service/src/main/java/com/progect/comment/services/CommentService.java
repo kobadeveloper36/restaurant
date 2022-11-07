@@ -16,7 +16,6 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
 
-    @Autowired
     public CommentService(CommentRepository commentRepository) {
         this.commentRepository = commentRepository;
     }
@@ -49,5 +48,9 @@ public class CommentService {
 
     public List<CommentResponseDTO> getCommentsById(Long userId){
         return commentRepository.findAllByUserId(userId).stream().map(CommentResponseDTO::new).collect(Collectors.toList());
+    }
+
+    public List<CommentResponseDTO> getAllComments() {
+        return commentRepository.findAll().stream().map(CommentResponseDTO::new).collect(Collectors.toList());
     }
 }

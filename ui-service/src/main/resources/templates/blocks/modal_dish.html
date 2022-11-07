@@ -1,0 +1,52 @@
+<div th:fragment="modal_dish">
+  <div class="modal fade" id="dishModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content bg-dark">
+        <div class="modal-header" style="border-color: white">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-4">
+              <img src="https://brucelee.com.ua/wp-content/uploads/2019/11/bl011.jpg" alt=""
+                   class="img-fluid rounded">
+            </div>
+            <div class="container col-8">
+              <p class="h1 text-light">ГОСТРА ТЕЛЯТИНА ПО-СИЧУАНСЬКИ</p>
+              <p class="text-warning">320 гр</p>
+              <p class="h5 text-secondary">Склад: Телятина, цибуля, брокколі, перець болгарський</p>
+              <div class="d-flex my-4">
+                <p class="text-secondary">
+                  Ніжне філе телятини, приготоване в поєднанні овочів і перцю чилі за китайським
+                  рецептом</p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer d-block">
+          <div class="row d-flex align-items-center justify-content-end">
+            <div class="row col-md-6 col-sm-12">
+              <p class="col-5 h4 text-warning mt-1">218 ГРН</p>
+              <button class="col-7 btn btn-outline-warning round">Додати до кошика</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const exampleModal = document.getElementById('dishModal')
+    exampleModal.addEventListener('show.bs.modal', event => {
+      const button = event.relatedTarget
+      const recipient = button.getAttribute('data-bs-whatever')
+      const modalTitle = exampleModal.querySelector('.modal-title')
+      const modalBodyInput = exampleModal.querySelector('.modal-body input')
+
+      modalTitle.textContent = `New message to ${recipient}`
+      modalBodyInput.value = recipient
+    })
+  </script>
+</div>

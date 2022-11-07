@@ -17,8 +17,9 @@ public class OrderResponseDTO {
     private String deliveryAddress;
     private LocalDateTime orderDate;
     private String cutlery;
-    private String paymentKind ;
+    private String paymentKind;
     private Boolean isTableOrder;
     private String notes;
+    private Double sum;
     private List<Long> dishes;
 }

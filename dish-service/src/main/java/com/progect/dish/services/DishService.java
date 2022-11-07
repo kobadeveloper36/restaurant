@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,7 +18,6 @@ public class DishService {
 
     private final DishRepository dishRepository;
 
-    @Autowired
     public DishService(DishRepository dishRepository) {
         this.dishRepository = dishRepository;
     }
@@ -30,7 +30,7 @@ public class DishService {
     public Long createDish(DishRequestDTO dishRequestDTO) {
         Dish newDish = new Dish(dishRequestDTO.getName(), dishRequestDTO.getWeight(),
                 dishRequestDTO.getComposition(), dishRequestDTO.getDescription(),
-                dishRequestDTO.getCategory(), dishRequestDTO.getPrice(),
+                dishRequestDTO.getCategory().getCategory().name(), dishRequestDTO.getPrice(),
                 dishRequestDTO.getIs_Popular(), dishRequestDTO.getOrderId());
         return dishRepository.save(newDish).getDishId();
     }
@@ -42,7 +42,7 @@ public class DishService {
         dish.setWeight(dishRequestDTO.getWeight());
         dish.setDescription(dishRequestDTO.getDescription());
         dish.setComposition(dishRequestDTO.getComposition());
-        dish.setCategory(dishRequestDTO.getCategory());
+        dish.setCategory(dishRequestDTO.getCategory().toString());
         dish.setPrice(dishRequestDTO.getPrice());
         dish.setIsPopular(dishRequestDTO.getIs_Popular());
         return new DishResponseDTO(dishRepository.save(dish));
@@ -56,5 +56,9 @@ public class DishService {
 
     public List<DishResponseDTO> getDishesById(Long orderId) {
         return dishRepository.findAllByOrderId(orderId).stream().map(DishResponseDTO::new).collect(Collectors.toList());
+    }
+
+    public Set<DishResponseDTO> getAllDishes() {
+        return dishRepository.findAll().stream().map(DishResponseDTO::new).collect(Collectors.toSet());
     }
 }

@@ -13,7 +13,6 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @Autowired
     public CommentController(CommentService commentService) {
         this.commentService = commentService;
     }
@@ -40,5 +39,10 @@ public class CommentController {
     @GetMapping("/user/{userId}")
     public List<CommentResponseDTO> getCommentsById(@PathVariable Long userId){
         return commentService.getCommentsById(userId);
+    }
+
+    @GetMapping("/")
+    public List<CommentResponseDTO> getAllComments(){
+        return commentService.getAllComments();
     }
 }

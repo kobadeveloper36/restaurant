@@ -10,7 +10,7 @@ public class DishRequestDTO {
     private Integer weight;
     private String composition;
     private String description;
-    private String category;
+    private CategoryDTO category;
     private Double price;
     private Boolean is_Popular;
     private Long orderId;

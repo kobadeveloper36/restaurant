@@ -1,0 +1,37 @@
+<div th:fragment="register">
+    <div class="modal fade" id="registerModal" aria-hidden="true" aria-labelledby="registerModal"
+         tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Реєстрація</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="">
+                        <div class="mb-3">
+                            <label for="inputLoginRegisterForm" class="form-label">Логін</label>
+                            <input type="email" class="form-control" id="inputLoginRegisterForm"
+                                   aria-describedby="emailHelp">
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputEmailRegisterForm" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="inputEmailRegisterForm"
+                                   aria-describedby="emailHelp">
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputPasswordRegisterForm" class="form-label">Пароль</label>
+                            <input type="password" class="form-control" id="inputPasswordRegisterForm">
+                        </div>
+                        <div class="modal-footer d-flex justify-content-between">
+                            <a href="" data-bs-target="#loginModal" data-bs-toggle="modal">Увійти</a>
+                            <button id="submitBtnRegisterForm" type="submit" class="btn btn-primary">Зареєструватися
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -6,12 +6,13 @@ import com.progect.user.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class UserController {
 
     private final UserService userService;
 
-    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -34,5 +35,10 @@ public class UserController {
     @DeleteMapping("/{userId}")
     public UserResponseDTO deleteUser(@PathVariable Long userId) {
         return userService.deleteUser(userId);
+    }
+
+    @GetMapping("/")
+    public List<UserResponseDTO> getAllUsers(){
+        return userService.getAllUsers();
     }
 }

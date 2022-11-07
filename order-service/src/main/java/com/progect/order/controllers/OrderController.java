@@ -13,7 +13,6 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @Autowired
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
     }
@@ -39,7 +38,12 @@ public class OrderController {
     }
 
     @GetMapping("/user/{userId}")
-    public List<OrderResponseDTO> getOrdersById(@PathVariable Long userId){
+    public List<OrderResponseDTO> getOrdersById(@PathVariable Long userId) {
         return orderService.getOrdersById(userId);
+    }
+
+    @GetMapping("/")
+    public List<OrderResponseDTO> getAllOrders() {
+        return orderService.getAllOrders();
     }
 }

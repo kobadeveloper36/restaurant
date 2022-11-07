@@ -7,12 +7,14 @@ import com.progect.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
 
-    @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -53,5 +55,9 @@ public class UserService {
         User userById = getUserById(userId);
         userRepository.deleteById(userId);
         return new UserResponseDTO(userById);
+    }
+
+    public List<UserResponseDTO> getAllUsers() {
+        return userRepository.findAll().stream().map(UserResponseDTO::new).collect(Collectors.toList());
     }
 }

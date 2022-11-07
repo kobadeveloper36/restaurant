@@ -3,19 +3,14 @@ package com.progect.ui.rest;
 import com.progect.ui.rest.dto.dish.DishRequestDTO;
 import com.progect.ui.rest.dto.dish.DishResponseDTO;
 import org.springframework.cloud.openfeign.FeignClient;
-<<<<<<< HEAD
 import org.springframework.web.bind.annotation.GetMapping;
-=======
->>>>>>> origin/master
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-<<<<<<< HEAD
 import java.util.List;
+import java.util.Set;
 
-=======
->>>>>>> origin/master
 @FeignClient(name = "dish-service")
 public interface DishServiceClient {
     @RequestMapping(value = "dishes/{dishId}", method = RequestMethod.GET)
@@ -29,10 +24,10 @@ public interface DishServiceClient {
 
     @RequestMapping(value = "dishes/{dishId}", method = RequestMethod.DELETE)
     DishResponseDTO deleteDishById(@PathVariable Long dishId);
-<<<<<<< HEAD
 
-    @GetMapping("/order/{orderId}")
+    @GetMapping("dishes/order/{orderId}")
     List<DishResponseDTO> getDishesById(@PathVariable Long orderId);
-=======
->>>>>>> origin/master
+
+    @GetMapping("dishes/")
+    Set<DishResponseDTO> getAllDishes();
 }

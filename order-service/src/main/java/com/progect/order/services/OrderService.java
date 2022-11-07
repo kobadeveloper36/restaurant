@@ -17,7 +17,6 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
 
-    @Autowired
     public OrderService(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
@@ -32,7 +31,7 @@ public class OrderService {
                 orderRequestDTO.getCustomerEmail(), orderRequestDTO.getIsDelivery(),
                 orderRequestDTO.getDeliveryAddress(), LocalDateTime.now(), orderRequestDTO.getCutlery(),
                 orderRequestDTO.getPaymentKind(), orderRequestDTO.getIsTableOrder(), orderRequestDTO.getNotes(),
-                orderRequestDTO.getDishes(), orderRequestDTO.getUserId());
+                orderRequestDTO.getDishes(), orderRequestDTO.getUserId(), orderRequestDTO.getSum());
         return orderRepository.save(newOrder).getOrderId();
     }
 
@@ -60,8 +59,11 @@ public class OrderService {
         return new OrderResponseDTO(orderById);
     }
 
-    public List<OrderResponseDTO> getOrdersById(Long userId){
+    public List<OrderResponseDTO> getOrdersById(Long userId) {
         return orderRepository.findAllByUserId(userId).stream().map(OrderResponseDTO::new).collect(Collectors.toList());
     }
 
+    public List<OrderResponseDTO> getAllOrders() {
+        return orderRepository.findAll().stream().map(OrderResponseDTO::new).collect(Collectors.toList());
+    }
 }

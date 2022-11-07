@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -14,7 +15,6 @@ public class DishController {
 
     private final DishService dishService;
 
-    @Autowired
     public DishController(DishService dishService) {
         this.dishService = dishService;
     }
@@ -42,5 +42,10 @@ public class DishController {
     @GetMapping("/order/{orderId}")
     public List<DishResponseDTO> getDishesById(@PathVariable Long orderId) {
         return dishService.getDishesById(orderId);
+    }
+
+    @GetMapping("/")
+    public Set<DishResponseDTO> getAllDishes() {
+        return dishService.getAllDishes();
     }
 }

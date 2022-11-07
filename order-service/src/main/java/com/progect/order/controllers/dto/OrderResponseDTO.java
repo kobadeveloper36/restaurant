@@ -18,9 +18,10 @@ public class OrderResponseDTO {
     private String deliveryAddress;
     private LocalDateTime orderDate;
     private String cutlery;
-    private String paymentKind ;
+    private String paymentKind;
     private Boolean isTableOrder;
     private String notes;
+    private Double sum;
     private List<Long> dishes;
 
     public OrderResponseDTO(Order order) {
@@ -35,6 +36,7 @@ public class OrderResponseDTO {
         this.paymentKind = order.getPaymentKind();
         this.isTableOrder = order.getIsTableOrder();
         this.notes = order.getNotes();
+        this.sum = order.getSum();
         this.dishes = order.getDishes();
     }
 }

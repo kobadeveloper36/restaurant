@@ -53,17 +53,20 @@ public class Order {
     @Type(type = "org.hibernate.type.TextType")
     private String notes;
 
+    @Column(name = "sum")
+    private Double sum;
+
     @ElementCollection
     @Column(name = "dish_id")
     @CollectionTable(name = "order_dishes", joinColumns = @JoinColumn(name = "order_id"))
     private List<Long> dishes = new ArrayList<>();
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "user_id")
     private Long userId;
 
     public Order(String customerName, String customerPhone, String customerEmail,
                  Boolean isDelivery, String deliveryAddress, LocalDateTime orderDate,
                  String cutlery, String paymentKind, Boolean isTableOrder,
-                 String notes, List<Long> dishes, Long userId) {
+                 String notes, List<Long> dishes, Long userId, Double sum) {
         this.customerName = customerName;
         this.customerPhone = customerPhone;
         this.customerEmail = customerEmail;
@@ -76,5 +79,6 @@ public class Order {
         this.notes = notes;
         this.dishes = dishes;
         this.userId = userId;
+        this.sum = sum;
     }
 }

@@ -1,0 +1,39 @@
+<div th:fragment="header">
+    <div id="header" class="container d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <img src="/images/logo.png"
+                 alt="logo" style="width: 42px; height: 42px">
+            <span class=" fs-4 ms-2">Ресторан ChiNA</span>
+        </a>
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="btn btn-outline-light me-2" role="button" data-bs-toggle="dropdown"
+                   aria-expanded="false">Меню</a>
+                <ul class="dropdown-menu dropdown-menu-light">
+                    <li><a class="dropdown-item" href="/menu#soups">Супи</a></li>
+                    <li><a class="dropdown-item" href="/menu#meet">М'ясо</a></li>
+                    <li><a class="dropdown-item" href="/menu#fowl">Птах</a></li>
+                    <li><a class="dropdown-item" href="/menu#seafood">Морепродукти</a></li>
+                    <li><a class="dropdown-item" href="/menu#handmade">Ліпимо самі</a></li>
+                    <li><a class="dropdown-item" href="/menu#noodles">Локшина</a></li>
+                    <li><a class="dropdown-item" href="/menu#sideDish">Гарніри</a></li>
+                    <li><a class="dropdown-item" href="/menu#salads">Салати</a></li>
+                    <li><a class="dropdown-item" href="/menu#snacks">Закуски</a></li>
+                    <li><a class="dropdown-item" href="/menu#desserts">Десерти</a></li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="btn btn-outline-light me-2" data-bs-toggle="modal" href="/#loginModal" role="button">Ваш
+                    акаунт</a>
+            </li>
+            <li class="nav-item">
+                <a class="btn btn-outline-light me-2" role="button" href="/about_us">Про нас</a>
+            </li>
+            <li class="nav-item">
+                <a role="link" href="/cart">
+                    <img src="/images/cart.png" alt="" style="width: 38px; height: 38px">
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

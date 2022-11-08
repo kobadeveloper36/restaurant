@@ -13,5 +13,6 @@ public class DishRequestDTO {
     private CategoryDTO category;
     private Double price;
     private Boolean is_Popular;
+    private String img;
     private Long orderId;
 }

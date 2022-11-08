@@ -31,7 +31,7 @@ public class DishService {
         Dish newDish = new Dish(dishRequestDTO.getName(), dishRequestDTO.getWeight(),
                 dishRequestDTO.getComposition(), dishRequestDTO.getDescription(),
                 dishRequestDTO.getCategory().getCategory().name(), dishRequestDTO.getPrice(),
-                dishRequestDTO.getIs_Popular(), dishRequestDTO.getOrderId());
+                dishRequestDTO.getImg(), dishRequestDTO.getIs_Popular(), dishRequestDTO.getOrderId());
         return dishRepository.save(newDish).getDishId();
     }
 

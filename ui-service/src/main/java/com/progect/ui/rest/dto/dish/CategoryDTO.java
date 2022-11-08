@@ -3,10 +3,12 @@ package com.progect.ui.rest.dto.dish;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.progect.ui.rest.dto.dish.enums.Category;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @ToString
+@NoArgsConstructor
 public class CategoryDTO {
     @Getter
     @Setter

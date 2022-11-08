@@ -29,12 +29,12 @@ public class MainController {
         return "index";
     }
 
-    @GetMapping("/")
+    @GetMapping("/menu")
     public String menu(Model model) {
         Set<DishResponseDTO> soups = mainService.getDishesByCategory(Category.SOUPS);
         model.addAttribute("soups", soups);
-        Set<DishResponseDTO> meet = mainService.getDishesByCategory(Category.MEET);
-        model.addAttribute("meet", meet);
+        Set<DishResponseDTO> meat = mainService.getDishesByCategory(Category.MEAT);
+        model.addAttribute("meat", meat);
         Set<DishResponseDTO> fowl = mainService.getDishesByCategory(Category.FOWL);
         model.addAttribute("fowl", fowl);
         Set<DishResponseDTO> seafood = mainService.getDishesByCategory(Category.SEAFOOD);

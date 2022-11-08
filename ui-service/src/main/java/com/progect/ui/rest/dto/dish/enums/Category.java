@@ -2,7 +2,7 @@ package com.progect.ui.rest.dto.dish.enums;
 
 public enum Category {
         SOUPS,
-        MEET,
+        MEAT,
         FOWL,
         SEAFOOD,
         HANDMADE,

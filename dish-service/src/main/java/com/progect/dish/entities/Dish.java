@@ -39,12 +39,14 @@ public class Dish {
 
     @Column(name = "is_popular", nullable = false)
     private Boolean isPopular = false;
-
+    @Column(name = "img", nullable = false)
+    private String img;
     @Column(name = "order_id")
     private Long orderId;
 
+
     public Dish(String name, Integer weight, String composition, String description,
-                String category, Double price, Boolean isPopular, Long orderId) {
+                String category, Double price, String img, Boolean isPopular, Long orderId) {
         this.name = name;
         this.weight = weight;
         this.composition = composition;
@@ -52,6 +54,7 @@ public class Dish {
         this.category = category;
         this.price = price;
         this.isPopular = isPopular;
+        this.img = img;
         this.orderId = orderId;
     }
 

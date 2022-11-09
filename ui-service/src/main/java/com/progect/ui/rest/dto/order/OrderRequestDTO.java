@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -15,6 +16,7 @@ public class OrderRequestDTO {
     private String customerEmail;
     private Boolean isDelivery;
     private String deliveryAddress;
+    private LocalDateTime orderDate;
     private String cutlery;
     private String paymentKind;
     private Boolean isTableOrder;

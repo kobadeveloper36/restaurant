@@ -24,8 +24,8 @@ public interface CommentServiceClient {
     @RequestMapping(value = "comments/{commentId}", method = RequestMethod.DELETE)
     CommentResponseDTO deleteCommentById(@PathVariable Long commentId);
 
-    @GetMapping("comments/user/{userId}")
-    List<CommentResponseDTO> getCommentsById(@PathVariable Long userId);
+    @GetMapping("comments/user/{userName}")
+    List<CommentResponseDTO> getCommentsByUserName(@PathVariable String userName);
 
     @GetMapping("comments/")
     List<CommentResponseDTO> getAllComments();

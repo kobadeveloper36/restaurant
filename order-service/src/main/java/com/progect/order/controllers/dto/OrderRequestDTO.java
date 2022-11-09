@@ -14,6 +14,7 @@ public class OrderRequestDTO {
     private String customerEmail;
     private Boolean isDelivery;
     private String deliveryAddress;
+    private LocalDateTime orderDate;
     private String cutlery;
     private String paymentKind;
     private Boolean isTableOrder;

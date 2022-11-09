@@ -12,12 +12,12 @@ public class CommentResponseDTO {
     private Long commentId;
     private LocalDateTime creationDate;
     private String text;
-    private Integer rating;
+    private String userName;
 
     public CommentResponseDTO(Comment comment) {
         this.commentId = comment.getCommentId();
         this.creationDate = comment.getCreationDate();
         this.text = comment.getText();
-        this.rating = comment.getRating();
+        this.userName = comment.getUserName();
     }
 }

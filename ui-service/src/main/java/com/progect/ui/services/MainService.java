@@ -4,6 +4,7 @@ import com.progect.ui.rest.CommentServiceClient;
 import com.progect.ui.rest.DishServiceClient;
 import com.progect.ui.rest.OrderServiceClient;
 import com.progect.ui.rest.UserServiceClient;
+import com.progect.ui.rest.dto.comment.CommentRequestDTO;
 import com.progect.ui.rest.dto.comment.CommentResponseDTO;
 import com.progect.ui.rest.dto.dish.DishResponseDTO;
 import com.progect.ui.rest.dto.dish.enums.Category;
@@ -56,8 +57,8 @@ public class MainService {
         return userServiceClient.getUserById(userId);
     }
 
-    public List<CommentResponseDTO> getCommentsById(Long userId) {
-        return commentServiceClient.getCommentsById(userId);
+    public List<CommentResponseDTO> getCommentsByUserName(String userName) {
+        return commentServiceClient.getCommentsByUserName(userName);
     }
 
     public List<OrderResponseDTO> getOrdersById(Long userId) {
@@ -72,7 +73,11 @@ public class MainService {
         return dishServiceClient.getDishById(dishId);
     }
 
-    public void createOrder(OrderRequestDTO orderRequestDTO) {
-        orderServiceClient.createOrder(orderRequestDTO);
+    public Long createOrder(OrderRequestDTO orderRequestDTO) {
+        return orderServiceClient.createOrder(orderRequestDTO);
+    }
+
+    public Long createComment(CommentRequestDTO commentRequestDTO) {
+        return commentServiceClient.createComment(commentRequestDTO);
     }
 }

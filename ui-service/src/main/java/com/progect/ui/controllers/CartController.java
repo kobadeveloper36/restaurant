@@ -1,18 +1,30 @@
 package com.progect.ui.controllers;
 
+import com.progect.ui.rest.dto.comment.CommentRequestDTO;
+import com.progect.ui.rest.dto.comment.CommentResponseDTO;
+import com.progect.ui.rest.dto.dish.DishResponseDTO;
 import com.progect.ui.rest.dto.order.OrderRequestDTO;
 import com.progect.ui.services.MainService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.stream.IntStream;
 
 @Controller
 public class CartController {
     private final MainService mainService;
-    private final List<OrderedDish> orderedDishes;
+    private List<OrderedDish> orderedDishes;
 
     public CartController(MainService mainService, List<OrderedDish> orderedDishes) {
         this.mainService = mainService;
@@ -22,43 +34,47 @@ public class CartController {
     @GetMapping("/cart")
     public String cart(Model model) {
         model.addAttribute("orderedDishes", orderedDishes);
+        double sum = orderedDishes.stream().map(OrderedDish::getSum).reduce(0.0, Double::sum);
+        model.addAttribute("sum", sum);
+        List<String> orderTimes = new ArrayList<>();
+        LocalTime timeNow = LocalTime.now();
+        IntStream.rangeClosed(1, 4).forEach(x ->
+                orderTimes.add(timeNow.plusMinutes(40L * x).format(DateTimeFormatter.ofPattern("hh:mm"))));
+        model.addAttribute("orderTimes", orderTimes);
         return "cart/cart";
     }
 
-    @PostMapping("/cart/add/{dishId}")
+    @GetMapping("/cart/add/{dishId}")
     public String addToCart(@PathVariable Long dishId) {
-        List<OrderedDish> dishes = orderedDishes.stream()
-                .filter(x -> x.equals(new OrderedDish(mainService.getDishById(dishId))))
-                .peek(OrderedDish::addDish).toList();
-        if (dishes.get(0) != null) {
-            dishes.get(0).addDish();
+        OrderedDish orderedDish = new OrderedDish(mainService.getDishById(dishId));
+        if (orderedDishes.contains(orderedDish)) {
+            orderedDishes.get(orderedDishes.indexOf(orderedDish)).addDish();
+            return "redirect:/cart";
         } else {
-            orderedDishes.add(new OrderedDish(mainService.getDishById(dishId)));
+            orderedDishes.add(orderedDish);
+            return "redirect:/cart";
         }
-        return "redirect: /cart";
     }
 
-    @PostMapping("/cart/remove/{dishId}")
+    @GetMapping("/cart/remove/{dishId}")
     public String removeOneFromCart(@PathVariable Long dishId) {
-        OrderedDish dish = findDish(dishId);
-        if (dish.getCountOfDishes() > 0) {
-            orderedDishes.remove(dish);
-        } else {
-            dish.removeDish();
+        OrderedDish orderedDish = new OrderedDish(mainService.getDishById(dishId));
+        int index = orderedDishes.indexOf(orderedDish);
+        if (orderedDishes.contains(orderedDish)) {
+            if (orderedDishes.get(index).getCountOfDishes() == 1) {
+                orderedDishes.remove(orderedDish);
+            } else {
+                orderedDishes.get(index).removeDish();
+            }
         }
-        return "redirect: /cart";
+        return "redirect:/cart";
     }
 
-    @PostMapping("/cart/delete/{dishId}")
+    @GetMapping("/cart/delete/{dishId}")
     public String removeFromCart(@PathVariable Long dishId) {
-        orderedDishes.remove(findDish(dishId));
-        return "redirect: /cart";
-    }
-
-    @GetMapping("/cart/pickup")
-    public String pickup(Model model) {
-        model.addAttribute("orderedDishes", orderedDishes);
-        return "cart/pickup";
+        OrderedDish orderedDish = new OrderedDish(mainService.getDishById(dishId));
+        orderedDishes.remove(orderedDish);
+        return "redirect:/cart";
     }
 
     @PostMapping("/cart/pickup")
@@ -68,26 +84,27 @@ public class CartController {
         boolean isDelivery = false;
         boolean isTableOrder = false;
         String deliveryAddress = null;
+        LocalDate date = switch (day) {
+            case "1" -> LocalDate.now();
+            case "2" -> LocalDate.now().plusDays(1);
+            default -> throw new IllegalStateException("Unexpected value: " + day);
+        };
+        LocalDateTime orderDate =
+                LocalDateTime.of(date, LocalTime.parse(time));
         List<Long> dishes = getDishesId();
         Long userId = null;
         Double sum = orderedDishes.stream().map(OrderedDish::getSum).reduce(0.0, Double::sum);
-        mainService.createOrder(new OrderRequestDTO(name, phone, email, isDelivery, deliveryAddress,
-                cutlery, paymentKind, isTableOrder, notes, dishes, userId, sum));
-        return "redirect: /";
-    }
-
-    @GetMapping("/cart/delivery")
-    public String delivery(Model model) {
-        model.addAttribute("orderedDishes", orderedDishes);
-        return "cart/delivery";
+        Long orderId = mainService.createOrder(new OrderRequestDTO(name, phone, email, isDelivery, deliveryAddress,
+                orderDate, cutlery, paymentKind, isTableOrder, notes, dishes, userId, sum));
+        orderedDishes = new ArrayList<>();
+        return "redirect:/cart/addComment/" + orderId;
     }
 
     @PostMapping("/cart/delivery")
     public String createDeliveryOrder(@RequestParam String name, @RequestParam String phone, @RequestParam String email,
                                       @RequestParam String street, @RequestParam String flat, @RequestParam String entry,
-                                      @RequestParam String floor, @RequestParam String day, @RequestParam String time,
-                                      @RequestParam String cutlery, @RequestParam String paymentKind,
-                                      @RequestParam String notes) {
+                                      @RequestParam String floor, @RequestParam String cutlery,
+                                      @RequestParam String paymentKind, @RequestParam String notes) {
         boolean isDelivery = true;
         boolean isTableOrder = false;
         List<Long> dishes = getDishesId();
@@ -99,11 +116,23 @@ public class CartController {
                 deliveryAddress = deliveryAddress + ", " + floor;
             }
         }
-
         Double sum = orderedDishes.stream().map(OrderedDish::getSum).reduce(0.0, Double::sum);
-        mainService.createOrder(new OrderRequestDTO(name, phone, email, isDelivery, deliveryAddress,
-                cutlery, paymentKind, isTableOrder, notes, dishes, userId, sum));
-        return "redirect: /";
+        Long orderId = mainService.createOrder(new OrderRequestDTO(name, phone, email, isDelivery, deliveryAddress,
+                null, cutlery, paymentKind, isTableOrder, notes, dishes, userId, sum));
+        orderedDishes = new ArrayList<>();
+        return "redirect:/cart/addComment/" + orderId;
+    }
+
+    @GetMapping("/cart/addComment/{orderId}")
+    public String addComment(@PathVariable Long orderId, Model model) {
+        model.addAttribute("orderId", orderId);
+        return "cart/addComment";
+    }
+
+    @PostMapping("/cart/addComment")
+    public String createComment(@RequestParam String text, Model model) {
+        mainService.createComment(new CommentRequestDTO(text, "user"));
+        return "redirect:/";
     }
 
     private List<Long> getDishesId() {
@@ -115,16 +144,10 @@ public class CartController {
                 for (int i = 0; i < countOfDishes; i++) {
                     dishes.add(dish.getDishResponseDTO().getDishId());
                 }
+            } else {
+                dishes.add(dish.getDishResponseDTO().getDishId());
             }
-            dishes.add(dish.getDishResponseDTO().getDishId());
         }
         return dishes;
-    }
-
-    private OrderedDish findDish(Long dishId) {
-        List<OrderedDish> dishes = orderedDishes.stream()
-                .filter(x -> x.equals(new OrderedDish(mainService.getDishById(dishId))))
-                .peek(OrderedDish::addDish).toList();
-        return dishes.get(0);
     }
 }

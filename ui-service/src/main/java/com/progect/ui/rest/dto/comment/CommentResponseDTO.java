@@ -11,5 +11,5 @@ public class CommentResponseDTO {
     private Long commentId;
     private LocalDateTime creationDate;
     private String text;
-    private Integer rating;
+    private String userName;
 }

@@ -54,15 +54,15 @@ public class MainController {
         return "menu";
     }
 
-    @GetMapping("/about_us")
+    @GetMapping("/aboutUs")
     public String aboutUs(Model model) {
         List<CommentResponseDTO> comments = mainService.getAllComments();
         model.addAttribute("comments", comments);
-        return "about_us";
+        return "aboutUs";
     }
 
-    @PostMapping("/about_us")
-    public void createTableOrder(@RequestParam String name, @RequestParam String phone, @RequestParam String email) {
+    @PostMapping("/aboutUs")
+    public String createTableOrder(@RequestParam String name, @RequestParam String phone, @RequestParam String email, Model model) {
         boolean isDelivery = false;
         boolean isTableOrder = true;
         String deliveryAddress = null;
@@ -73,6 +73,7 @@ public class MainController {
         String paymentKind = null;
         String notes = null;
         mainService.createOrder(new OrderRequestDTO(name, phone, email, isDelivery, deliveryAddress,
-                cutlery, paymentKind, isTableOrder, notes, dishes, userId, sum));
+                null, cutlery, paymentKind, isTableOrder, notes, dishes, userId, sum));
+        return "redirect:/aboutUs";
     }
 }

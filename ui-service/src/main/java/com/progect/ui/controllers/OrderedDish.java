@@ -13,7 +13,7 @@ public class OrderedDish {
 
     public OrderedDish(DishResponseDTO dishResponseDTO) {
         this.dishResponseDTO = dishResponseDTO;
-        countOfDishes = 0;
+        countOfDishes = 1;
     }
 
     public void addDish() {

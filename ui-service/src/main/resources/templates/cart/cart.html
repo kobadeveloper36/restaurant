@@ -1,110 +1,26 @@
 <!doctype html>
-<html lang="en">
+<html lang="ua" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ChiNa</title>
-    <link rel=”icon” href="../../static/images/logo.png" type=”image/png”><!-- Зробити іконку та доробити навбар-->
-    <link rel="stylesheet" href="../../static/css/carousel.css">
+    <link rel="icon" href="/images/logo.png" type="image/png">
+    <link rel="stylesheet" href="/css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 </head>
 <body>
-<header class="container d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-    <a href="../index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-        <img src="../../static/images/logo.png"
-             alt="logo" style="width: 42px; height: 42px">
-        <span class=" fs-4 ms-2">Ресторан ChiNA</span>
-    </a>
-    <ul class="nav nav-pills">
-        <li class="nav-item">
-            <a class="btn btn-outline-light me-2" type="button" data-bs-toggle="dropdown"
-               aria-expanded="false">Меню</a>
-            <ul class="dropdown-menu dropdown-menu-light">
-                <li><a class="dropdown-item" href="../menu.html#soups">Супи</a></li>
-                <li><a class="dropdown-item" href="../menu.html#meet">М'ясо</a></li>
-                <li><a class="dropdown-item" href="../menu.html#fowl">Птах</a></li>
-                <li><a class="dropdown-item" href="../menu.html#seafood">Морепродукти</a></li>
-                <li><a class="dropdown-item" href="../menu.html#handmade">Ліпимо самі</a></li>
-                <li><a class="dropdown-item" href="../menu.html#noodles">Локшина</a></li>
-                <li><a class="dropdown-item" href="../menu.html#sideDish">Гарніри</a></li>
-                <li><a class="dropdown-item" href="../menu.html#salads">Салати</a></li>
-                <li><a class="dropdown-item" href="../menu.html#snacks">Закуски</a></li>
-                <li><a class="dropdown-item" href="../menu.html#desserts">Десерти</a></li>
-            </ul>
-        </li>
-        <li class="nav-item">
-            <a class="btn btn-outline-light me-2" href="../account/account.html">Ваш акаунт</a>
-        </li>
-        <li class="nav-item">
-            <a class="btn btn-outline-light me-2" href="../about_us.html">Про нас</a>
-        </li>
-        <li class="nav-item">
-            <a href="cart.html">
-                <img src="../../static/images/cart.png" alt="" style="width: 38px; height: 38px">
-            </a>
-        </li>
-    </ul>
-</header>
+
+<header th:insert="blocks/header :: #header"></header>
+
+<div th:insert="blocks/login :: #loginModal"></div>
+
+<div th:insert="blocks/registration :: #registerModal"></div>
+
 <main>
     <!--  Modal Dish  -->
 
-    <div class="modal fade" id="dishModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content bg-dark">
-                <div class="modal-header" style="border-color: white">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-4">
-                            <img src="https://brucelee.com.ua/wp-content/uploads/2019/11/bl011.jpg" alt=""
-                                 class="img-fluid rounded">
-                        </div>
-                        <div class="container col-8">
-                            <p class="h1 text-light">ГОСТРА ТЕЛЯТИНА ПО-СИЧУАНСЬКИ</p>
-                            <p class="text-warning">320 гр</p>
-                            <p class="h5 text-secondary">Склад: Телятина, цибуля, брокколі, перець болгарський</p>
-                            <div class="d-flex my-4">
-                                <p class="text-secondary">
-                                    Ніжне філе телятини, приготоване в поєднанні овочів і перцю чилі за китайським
-                                    рецептом</p>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer d-block">
-                    <div class="row d-flex align-items-center justify-content-end">
-                        <div class="row col-md-6 col-sm-12">
-                            <p class="col-5 h4 text-warning mt-1">218 ГРН</p>
-                            <button class="col-7 btn btn-outline-warning round">Додати до кошика</button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        const exampleModal = document.getElementById('dishModal')
-        exampleModal.addEventListener('show.bs.modal', event => {
-            // Button that triggered the modal
-            const button = event.relatedTarget
-            // Extract info from data-bs-* attributes
-            const recipient = button.getAttribute('data-bs-whatever')
-            // If necessary, you could initiate an AJAX request here
-            // and then do the updating in a callback.
-            //
-            // Update the modal's content.
-            const modalTitle = exampleModal.querySelector('.modal-title')
-            const modalBodyInput = exampleModal.querySelector('.modal-body input')
-
-            modalTitle.textContent = `New message to ${recipient}`
-            modalBodyInput.value = recipient
-        })
-    </script>
+    <div th:insert="blocks/modal_dish :: dishModal"></div>
 
     <!--  End Modal Dish  -->
 
@@ -118,95 +34,331 @@
 
                 <div class="card bg-dark rounded-3 mb-4">
                     <div class="card-body p-4">
-                        <div class="row d-flex justify-content-between align-items-center">
+                        <div th:each="dish : ${orderedDishes}"
+                             class="row d-flex justify-content-between align-items-center border-bottom border-white py-4   ">
                             <div class="col-md-2 col-lg-2 col-xl-2">
                                 <a class="card-title h5 link-light text-decoration-none" href="#" data-bs-toggle="modal"
-                                   data-bs-target="#dishModal" data-bs-whatever="@mdo">
+                                   data-bs-target="#dishModal"
+                                   th:data-dish-name="${dish.getDishResponseDTO().getName()}"
+                                   th:data-dish-weight="${dish.getDishResponseDTO().getWeight()}"
+                                   th:data-dish-composition="${dish.getDishResponseDTO().getComposition()}"
+                                   th:data-dish-price="${dish.getDishResponseDTO().getPrice()}"
+                                   th:data-dish-description="${dish.getDishResponseDTO().getDescription()}"
+                                   th:data-dish-img="${dish.getDishResponseDTO().getImg()}"
+                                   th:data-dish-id="${dish.getDishResponseDTO().getDishId()}">
                                     <img
-                                            src="../../static/images/dishes/spicy_veal.png"
-                                            class="img-fluid rounded-3 center-cropped" alt="ГОСТРА ТЕЛЯТИНА ПО-СИЧУАНСЬКИ">
+                                            th:src="${dish.getDishResponseDTO().getImg()}"
+                                            class="img-fluid rounded-3 center-cropped"
+                                            alt="...">
                                 </a>
                             </div>
                             <div class="col-md-3 col-lg-3 col-xl-4">
-                                <p class="lead fw-normal mb-2 text-light">ГОСТРА ТЕЛЯТИНА ПО-СИЧУАНСЬКИ</p>
+                                <p class="lead fw-normal mb-2 text-light"
+                                   th:text="${dish.getDishResponseDTO().getName()}"></p>
                             </div>
                             <div class="col-md-2 col-lg-3 col-xl-2 d-flex">
-                                <button class="btn btn-link px-2"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
-                                         class="bi bi-dash-square-dotted text-light" viewBox="0 0 16 16">
-                                        <path d="M2.5 0c-.166 0-.33.016-.487.048l.194.98A1.51 1.51 0 0 1 2.5 1h.458V0H2.5zm2.292 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zm1.833 0h-.916v1h.916V0zm1.834 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zM13.5 0h-.458v1h.458c.1 0 .199.01.293.029l.194-.981A2.51 2.51 0 0 0 13.5 0zm2.079 1.11a2.511 2.511 0 0 0-.69-.689l-.556.831c.164.11.305.251.415.415l.83-.556zM1.11.421a2.511 2.511 0 0 0-.689.69l.831.556c.11-.164.251-.305.415-.415L1.11.422zM16 2.5c0-.166-.016-.33-.048-.487l-.98.194c.018.094.028.192.028.293v.458h1V2.5zM.048 2.013A2.51 2.51 0 0 0 0 2.5v.458h1V2.5c0-.1.01-.199.029-.293l-.981-.194zM0 3.875v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 5.708v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 7.542v.916h1v-.916H0zm15 .916h1v-.916h-1v.916zM0 9.375v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .916v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .917v.458c0 .166.016.33.048.487l.98-.194A1.51 1.51 0 0 1 1 13.5v-.458H0zm16 .458v-.458h-1v.458c0 .1-.01.199-.029.293l.981.194c.032-.158.048-.32.048-.487zM.421 14.89c.183.272.417.506.69.689l.556-.831a1.51 1.51 0 0 1-.415-.415l-.83.556zm14.469.689c.272-.183.506-.417.689-.69l-.831-.556c-.11.164-.251.305-.415.415l.556.83zm-12.877.373c.158.032.32.048.487.048h.458v-1H2.5c-.1 0-.199-.01-.293-.029l-.194.981zM13.5 16c.166 0 .33-.016.487-.048l-.194-.98A1.51 1.51 0 0 1 13.5 15h-.458v1h.458zm-9.625 0h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zm1.834 0h.916v-1h-.916v1zm1.833 0h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zM4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7z"/>
-                                    </svg>
-                                </button>
+                                <form th:action="'/cart/remove/' + ${dish.getDishResponseDTO().getDishId()}"
+                                      method="get">
+                                    <button class="btn btn-link px-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                             fill="currentColor"
+                                             class="bi bi-dash-square-dotted text-light" viewBox="0 0 16 16">
+                                            <path d="M2.5 0c-.166 0-.33.016-.487.048l.194.98A1.51 1.51 0 0 1 2.5 1h.458V0H2.5zm2.292 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zm1.833 0h-.916v1h.916V0zm1.834 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zM13.5 0h-.458v1h.458c.1 0 .199.01.293.029l.194-.981A2.51 2.51 0 0 0 13.5 0zm2.079 1.11a2.511 2.511 0 0 0-.69-.689l-.556.831c.164.11.305.251.415.415l.83-.556zM1.11.421a2.511 2.511 0 0 0-.689.69l.831.556c.11-.164.251-.305.415-.415L1.11.422zM16 2.5c0-.166-.016-.33-.048-.487l-.98.194c.018.094.028.192.028.293v.458h1V2.5zM.048 2.013A2.51 2.51 0 0 0 0 2.5v.458h1V2.5c0-.1.01-.199.029-.293l-.981-.194zM0 3.875v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 5.708v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 7.542v.916h1v-.916H0zm15 .916h1v-.916h-1v.916zM0 9.375v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .916v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .917v.458c0 .166.016.33.048.487l.98-.194A1.51 1.51 0 0 1 1 13.5v-.458H0zm16 .458v-.458h-1v.458c0 .1-.01.199-.029.293l.981.194c.032-.158.048-.32.048-.487zM.421 14.89c.183.272.417.506.69.689l.556-.831a1.51 1.51 0 0 1-.415-.415l-.83.556zm14.469.689c.272-.183.506-.417.689-.69l-.831-.556c-.11.164-.251.305-.415.415l.556.83zm-12.877.373c.158.032.32.048.487.048h.458v-1H2.5c-.1 0-.199-.01-.293-.029l-.194.981zM13.5 16c.166 0 .33-.016.487-.048l-.194-.98A1.51 1.51 0 0 1 13.5 15h-.458v1h.458zm-9.625 0h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zm1.834 0h.916v-1h-.916v1zm1.833 0h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zM4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7z"/>
+                                        </svg>
+                                    </button>
+                                </form>
 
-                                <input id="form" min="0" name="quantity" value="1" type="number"
-                                       class="form-control form-control-sm"/>
+                                <input class="form-control form-control-sm text-dark" disabled
+                                       th:placeholder="${dish.getCountOfDishes()}"/>
 
-                                <button class="btn btn-link px-2"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
-                                         class="bi bi-plus-square-dotted text-light" viewBox="0 0 16 16">
-                                        <path d="M2.5 0c-.166 0-.33.016-.487.048l.194.98A1.51 1.51 0 0 1 2.5 1h.458V0H2.5zm2.292 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zm1.833 0h-.916v1h.916V0zm1.834 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zM13.5 0h-.458v1h.458c.1 0 .199.01.293.029l.194-.981A2.51 2.51 0 0 0 13.5 0zm2.079 1.11a2.511 2.511 0 0 0-.69-.689l-.556.831c.164.11.305.251.415.415l.83-.556zM1.11.421a2.511 2.511 0 0 0-.689.69l.831.556c.11-.164.251-.305.415-.415L1.11.422zM16 2.5c0-.166-.016-.33-.048-.487l-.98.194c.018.094.028.192.028.293v.458h1V2.5zM.048 2.013A2.51 2.51 0 0 0 0 2.5v.458h1V2.5c0-.1.01-.199.029-.293l-.981-.194zM0 3.875v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 5.708v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 7.542v.916h1v-.916H0zm15 .916h1v-.916h-1v.916zM0 9.375v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .916v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .917v.458c0 .166.016.33.048.487l.98-.194A1.51 1.51 0 0 1 1 13.5v-.458H0zm16 .458v-.458h-1v.458c0 .1-.01.199-.029.293l.981.194c.032-.158.048-.32.048-.487zM.421 14.89c.183.272.417.506.69.689l.556-.831a1.51 1.51 0 0 1-.415-.415l-.83.556zm14.469.689c.272-.183.506-.417.689-.69l-.831-.556c-.11.164-.251.305-.415.415l.556.83zm-12.877.373c.158.032.32.048.487.048h.458v-1H2.5c-.1 0-.199-.01-.293-.029l-.194.981zM13.5 16c.166 0 .33-.016.487-.048l-.194-.98A1.51 1.51 0 0 1 13.5 15h-.458v1h.458zm-9.625 0h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zm1.834-1v1h.916v-1h-.916zm1.833 1h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
-                                    </svg>
-                                </button>
+                                <form th:action="'/cart/add/' + ${dish.getDishResponseDTO().getDishId()}"
+                                      method="get">
+                                    <button class="btn btn-link px-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                             fill="currentColor"
+                                             class="bi bi-plus-square-dotted text-light" viewBox="0 0 16 16">
+                                            <path d="M2.5 0c-.166 0-.33.016-.487.048l.194.98A1.51 1.51 0 0 1 2.5 1h.458V0H2.5zm2.292 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zm1.833 0h-.916v1h.916V0zm1.834 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zM13.5 0h-.458v1h.458c.1 0 .199.01.293.029l.194-.981A2.51 2.51 0 0 0 13.5 0zm2.079 1.11a2.511 2.511 0 0 0-.69-.689l-.556.831c.164.11.305.251.415.415l.83-.556zM1.11.421a2.511 2.511 0 0 0-.689.69l.831.556c.11-.164.251-.305.415-.415L1.11.422zM16 2.5c0-.166-.016-.33-.048-.487l-.98.194c.018.094.028.192.028.293v.458h1V2.5zM.048 2.013A2.51 2.51 0 0 0 0 2.5v.458h1V2.5c0-.1.01-.199.029-.293l-.981-.194zM0 3.875v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 5.708v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 7.542v.916h1v-.916H0zm15 .916h1v-.916h-1v.916zM0 9.375v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .916v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .917v.458c0 .166.016.33.048.487l.98-.194A1.51 1.51 0 0 1 1 13.5v-.458H0zm16 .458v-.458h-1v.458c0 .1-.01.199-.029.293l.981.194c.032-.158.048-.32.048-.487zM.421 14.89c.183.272.417.506.69.689l.556-.831a1.51 1.51 0 0 1-.415-.415l-.83.556zm14.469.689c.272-.183.506-.417.689-.69l-.831-.556c-.11.164-.251.305-.415.415l.556.83zm-12.877.373c.158.032.32.048.487.048h.458v-1H2.5c-.1 0-.199-.01-.293-.029l-.194.981zM13.5 16c.166 0 .33-.016.487-.048l-.194-.98A1.51 1.51 0 0 1 13.5 15h-.458v1h.458zm-9.625 0h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zm1.834-1v1h.916v-1h-.916zm1.833 1h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+                                        </svg>
+                                    </button>
+                                </form>
+
                             </div>
                             <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                <h5 class="mb-0 text-light">218 грн</h5>
+                                <h5 class="mb-0 text-light"
+                                    th:text="${dish.getSum()}+' грн'"></h5>
                             </div>
                             <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                <button class="btn btn-link px-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
-                                         class="bi bi-x-square text-danger" viewBox="0 0 16 16">
-                                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                                    </svg>
-                                </button>
+                                <form th:action="'/cart/delete/' + ${dish.getDishResponseDTO().getDishId()}"
+                                      method="get">
+                                    <button class="btn btn-link px-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                             fill="currentColor"
+                                             class="bi bi-x-square text-danger" viewBox="0 0 16 16">
+                                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                        </svg>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="card bg-dark mt-4">
                     <div class="card-header text-end">
-                        <p class="h4 text-light">Разом до сплати: 218 грн</p>
+                        <p class="h4 text-light" th:text="'Разом до сплати: '+${sum}+' грн'"></p>
                     </div>
                     <div class="card-body text-center">
-                        <a role="button" class="btn btn-warning btn-block btn-lg me-2" href="delivery.html">Доставка по
-                            місту</a>
-                        <a role="button" class="btn btn-warning btn-block btn-lg ms-2" href="pickup.html">Заберу сам</a>
+                        <a class="btn btn-warning btn-block btn-lg me-2" data-bs-toggle="collapse" href="#delivery"
+                           role="button" aria-expanded="false" aria-controls="delivery">
+                            Доставка по місту</a>
+                        <a role="button" class="btn btn-warning btn-block btn-lg ms-2" data-bs-toggle="collapse"
+                           href="#pickup" aria-expanded="false" aria-controls="pickup">Заберу сам</a>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="collapse" id="delivery">
+        <div class="container">
+            <div class="row mt-3 d-flex justify-content-center align-items-center h-100">
+                <div class="col-10 text-light">
+                    <h2 class="text-light mb-2">Оформлення доставки</h2>
+                    <form class="row card bg-dark mt-1 g-3 needs-validation p-2" action="/cart/delivery" method="post"
+                          novalidate>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="nameDelivery" class="form-label text-light">Ім'я</label>
+                                <input type="text" class="form-control" id="nameDelivery" name="name" required>
+                                <div class="invalid-feedback">
+                                    Заповніть поле
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="phoneDelivery" class="form-label text-light">Номер телефону</label>
+                                <input type="text" class="form-control" id="phoneDelivery" name="phone" required>
+                                <div class="invalid-feedback">
+                                    Заповніть поле
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="emailDelivery" class="form-label text-light">Email</label>
+                                <input type="text" class="form-control" id="emailDelivery" name="email" required>
+                                <div class="invalid-feedback">
+                                    Заповніть поле
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="addressDelivery" class="form-label text-light">Адреса</label>
+                                <input type="text" class="form-control" id="addressDelivery" name="street" required>
+                                <div class="invalid-feedback">
+                                    Заповніть поле
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="flatDelivery" class="form-label text-light">Квартира/Офіс</label>
+                                <input type="text" class="form-control" id="flatDelivery" name="flat" required>
+                                <div class="invalid-feedback">
+                                    Заповніть поле
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="entranceDelivery" class="form-label text-light">Під'їзд</label>
+                                <input type="text" class="form-control" id="entranceDelivery" name="entry">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="floorDelivery" class="form-label text-light">Поверх</label>
+                                <input type="text" class="form-control" id="floorDelivery" name="floor">
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input mt-2" type="checkbox" value="" id="accessDelivery"
+                                           required>
+                                    <label class="form-check-label text-light my-1" for="accessDelivery">
+                                        Даю згоду на обробку персональних даних
+                                    </label>
+                                    <div class="invalid-feedback mb-2">
+                                        Відмітьте галочку
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 row">
+                                <div class="col-md-3 col-sm-6">
+                                    <label for="cutleryTooltipDelivery" class="form-label text-light">Столове
+                                        приладдя</label>
+                                    <select class="form-select" id="cutleryTooltipDelivery" name="cutlery">
+                                        <option value="Звичайні палички">Звичайні палички</option>
+                                        <option value="Навчальні палички">Навчальні палички</option>
+                                        <option value="Європейські прилади">Європейські прилади</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <p class="h5 text-light mt-2" id="sumDelivery"
+                                   th:text="'Загальна сума '+${sum}+' грн'"></p>
+                                <p class="h5 text-light mt-2">Оплата</p>
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="cashFormCheckDelivery"
+                                           name="paymentKind" value="cash" required>
+                                    <label class="form-check-label text-light"
+                                           for="cashFormCheckDelivery">Готівкою</label>
+                                </div>
+                                <div class="form-check mb-3">
+                                    <input type="radio" class="form-check-input" id="cardFormCheckDelivery"
+                                           name="paymentKind" value="card" required>
+                                    <label class="form-check-label text-light"
+                                           for="cardFormCheckDelivery">Карткою</label>
+                                    <div class="invalid-feedback">Оберіть варіант</div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text">Примітки</span>
+                                    <textarea class="form-control" id="notesDelivery" aria-label="Notes"
+                                              name="notes"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class=" d-flex justify-content-center my-2">
+                                    <button class="btn btn-outline-warning flex-grow-1" type="submit">Сплатити</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="collapse" id="pickup">
+        <div class="container">
+            <div class="row mt-3 d-flex justify-content-center align-items-center h-100">
+                <div class="col-10 text-light">
+                    <h2>Оформлення самовивозу</h2>
+                    <p>Забрати замовлення з нашого ресторану можна за адресою:
+                        <a href="/about_us#map" class="text-warning">м. Київ, вул.
+                            Антоновича, 20</a></p>
+                    <p class="text-light">Режим роботи з <span class="text-warning">10:00 до 22:00</span>. Без вихідних.
+                    </p>
+
+                    <form class="row card bg-dark mt-1 g-3 needs-validation p-2" action="/cart/pickup" method="post"
+                          novalidate>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="namePickup" class="form-label text-light">Ім'я</label>
+                                <input type="text" class="form-control" id="namePickup" name="name" required>
+                                <div class="invalid-feedback">
+                                    Заповніть поле
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="phonePickup" class="form-label text-light">Номер телефону</label>
+                                <input type="text" class="form-control" id="phonePickup" name="phone" required>
+                                <div class="invalid-feedback">
+                                    Заповніть поле
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="emailPickup" class="form-label text-light">Email</label>
+                                <input type="text" class="form-control" id="emailPickup" name="email" required>
+                                <div class="invalid-feedback">
+                                    Заповніть поле
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input mt-2" type="checkbox" value="" id="accessPickup"
+                                           required>
+                                    <label class="form-check-label text-light my-1" for="accessPickup">
+                                        Даю згоду на обробку персональних даних
+                                    </label>
+                                    <div class="invalid-feedback mb-2">
+                                        Відмітьте галочку
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 row">
+                                <h5 class="text-dark mt-2">Заберете</h5>
+                                <div class="col-md-2 col-sm-6">
+                                    <label for="dayPickup" class="form-label text-light">День</label>
+                                    <select class="form-select" id="dayPickup" name="day">
+                                        <option value="1">Сьогодні</option>
+                                        <option value="2">Завтра</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2 col-sm-6">
+                                    <label for="hourPickup" class="form-label text-light">Година</label>
+                                    <select class="form-select" id="hourPickup" name="time">
+                                        <option th:each="time: ${orderTimes}"
+                                                th:text="${time}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <label for="cutleryTooltipPickup" class="form-label text-light">Столове
+                                        приладдя</label>
+                                    <select class="form-select" id="cutleryTooltipPickup" name="cutlery">
+                                        <option value="Звичайні палички">Звичайні палички</option>
+                                        <option value="Навчальні палички">Навчальні палички</option>
+                                        <option value="Європейські прилади">Європейські прилади</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <p class="h5 text-light mt-2" id="sumPickup"
+                                   th:text="'Загальна сума '+${sum}+' грн'"></p>
+                                <p class="h5 text-light mt-2">Оплата</p>
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="cashFormCheckPickup"
+                                           name="paymentKind" value="cash" required>
+                                    <label class="form-check-label text-light"
+                                           for="cashFormCheckPickup">Готівкою</label>
+                                </div>
+                                <div class="form-check mb-3">
+                                    <input type="radio" class="form-check-input" id="cardFormCheckPickup"
+                                           name="paymentKind" value="card" required>
+                                    <label class="form-check-label text-light" for="cardFormCheckPickup">Карткою</label>
+                                    <div class="invalid-feedback">Оберіть варіант</div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text">Примітки</span>
+                                    <textarea class="form-control" aria-label="Notes" id="notesPickup"
+                                              name="notes"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class=" d-flex justify-content-center my-2">
+                                    <button class="btn btn-outline-warning flex-grow-1" type="submit">Сплатити</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </main>
 
-<footer class="m-5 d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-    <div class="col-md-4 d-flex align-items-center">
-        <a href="../index.html" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
-            <img src="../../static/images/logo.png" alt="" style="height: 62px; width: 62px;">
-            <span class="mb-3 ms-2 mb-md-0 text-light">© 2022 ChiNA</span>
-        </a>
-    </div>
+<div th:insert="blocks/footer :: #footer"></div>
 
-    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-        <li class="ms-3"><a class="text-muted" href="https://web.telegram.org/">
-            <img src="../../static/images/media/telegram.png" alt=""
-                 style="height: 42px; width: 42px;">
-        </a></li>
-        <li class="ms-3"><a class="text-muted" href="https://twitter.com/">
-            <img src="../../static/images/media/twitter.png" alt=""
-                 style="height: 42px; width: 42px;">
-        </a></li>
-        <li class="ms-3"><a class="text-muted" href="https://www.instagram.com/">
-            <img src="../../static/images/media/instagram.png" alt=""
-                 style="height: 42px; width: 42px;">
-        </a></li>
-        <li class="ms-3"><a class="text-muted" href="https://www.facebook.com/">
-            <img src="../../static/images/media/facebook.png" alt="" style="height: 42px; width: 42px;">
-        </a></li>
-    </ul>
-</footer>
+<script>
+    (() => {
+        'use strict'
+
+        const forms = document.querySelectorAll('.needs-validation')
+
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
         crossorigin="anonymous"></script>

@@ -1,24 +1,24 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ua" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ChiNa</title>
-    <link rel="icon" href="/images/logo.png" type=”image/png”>
+    <link rel="icon" href="/images/logo.png" type="image/png">
     <link rel="stylesheet" href="/css/carousel.css">
+    <link rel="stylesheet" href="/css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 </head>
 <body>
+
 <header th:insert="blocks/header :: #header"></header>
+
+<div th:insert="blocks/login :: #loginModal"></div>
+
+<div th:insert="blocks/registration :: #registerModal"></div>
+
 <main>
-    <!--  Modal login/register  -->
-
-    <div th:insert="blocks/login :: #loginModal"></div>
-
-    <div th:insert="blocks/register :: #registerModal"></div>
-
-    <!--  Modal login/register  -->
 
     <!--   Carousel  -->
 
@@ -38,7 +38,7 @@
                     <h1 class="text-light">Ми відкрилися</h1>
                     <p class="text-light">Наш новий ресторан вже чекає на вас</p>
                     <p><a class="btn btn-lg btn-dark"
-                          href="/about_us#orderingTableForm">Зарезервувати столик</a></p>
+                          href="/aboutUs#orderingTableForm">Зарезервувати столик</a></p>
                 </div>
             </div>
             <div class="carousel-item">
@@ -105,7 +105,7 @@
                     <p class="card-text text-center text-muted" th:text="${dish.getComposition()}"></p>
                     <div class="row card-footer">
                         <p class="col-6 card-text text-warning" th:text="${dish.getPrice()} + ' ГРН'"></p>
-                        <form class="col-6 text-end" th:action="'/cart/add/' + ${dish.getDishId()}" method="post">
+                        <form class="col-6 text-end" th:action="'/cart/add/' + ${dish.getDishId()}" method="get">
                             <button class="btn btn-outline-warning round" type="submit">Додати до кошика</button>
                         </form>
                     </div>
@@ -119,19 +119,19 @@
 
     <!--  Modal Dish  -->
 
-    <div th:insert="blocks/modal_dish :: modal_dish"></div>
+    <div th:insert="blocks/modal_dish :: dishModal"></div>
 
     <!--  End Modal Dish  -->
 
     <!--  Features  -->
 
-    <div th:insert="blocks/features :: features"></div>
+    <div th:insert="blocks/features :: #features"></div>
 
     <!-- End Features  -->
 
 </main>
 
-<footer th:insert="blocks/footer :: footer"></footer>
+<footer th:insert="blocks/footer :: #footer"></footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
         crossorigin="anonymous"></script>

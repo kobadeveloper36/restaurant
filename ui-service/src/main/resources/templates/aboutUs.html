@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="ua" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ChiNa</title>
+    <link rel="icon" href="/images/logo.png" type="image/png">
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+</head>
+<body>
+
+<header th:insert="blocks/header :: #header"></header>
+
+<div th:insert="blocks/login :: #loginModal"></div>
+
+<div th:insert="blocks/registration :: #registerModal"></div>
+
+<main>
+    <!--  About Us  -->
+
+    <div id="aboutUs" class="container">
+        <h1 class="text-light my-3">- Про нас</h1>
+        <div class="bg-dark p-5">
+            <p class="h4 text-light">Китайський ресторан ЧіНа – це і відмінна домашня кухня по-китайськи, і віртуозні
+                рецепти
+                фірмових страв.
+            </p>
+            <p class="h4 text-secondary">Ми – маленький затишний і дуже модний ресторанчик китайкою кухні, який
+                причаївся в
+                затишному куточку Києва, і вже добре відомий місцевим гурманам, як місце, де можна пікантно пообідати і
+                смачно повечеряти.
+                До нас із задоволенням заходять кияни та гості міста, і, крім того, у нас дуже вигідно замовляти
+                китайську їжу на будинок: доставка з меню ChiNa в центрі Києва – безкоштовна!</p>
+        </div>
+    </div>
+
+    <!--  End About Us  -->
+
+    <!--  Information features  -->
+
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-md-4 col-sm-6 text-center">
+                <img src="https://cdn-icons-png.flaticon.com/128/957/957161.png" alt="">
+                <h4 class="text-light m-2">АДРЕСА РЕСТОРАНУ</h4>
+                <a class="text-warning" href="#map">Показати на карті</a>
+            </div>
+            <div class="col-md-4 col-sm-6 text-center">
+                <img src="https://cdn-icons-png.flaticon.com/128/7610/7610961.png" alt="">
+                <h4 class="text-light m-2">КОНТАКТНИЙ ТЕЛЕФОН</h4>
+                <a class="text-warning h5" href="tel:+38(063)107-48-83">+38(063)107-48-83</a>
+            </div>
+            <div class="col-md-4 col-sm-6 text-center">
+                <img src="https://cdn-icons-png.flaticon.com/128/4388/4388415.png" alt="">
+                <h4 class="text-light m-2">ЧАС РОБОТИ</h4>
+                <p class="text-warning h5">
+                    З 10:00 ДО 22:00<br>
+                    БЕЗ ВИХІДНИХ
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!--  End Information features  -->
+
+    <!--  Ordering table  -->
+
+    <div id="orderingTableForm" class="container my-5">
+        <div class="row">
+            <div class="col-md-7 col-sm-12">
+                <img class="w-100"
+                     src="https://st.depositphotos.com/1993019/3266/i/450/depositphotos_32666525-stock-photo-chinese-restaurant.jpg"
+                     alt="">
+            </div>
+            <div class="col-md-5 col-sm-12 text-light bg-dark p-3">
+                <h2 class="text-light mb-3">Замовити столик</h2>
+                <form action="/aboutUs" method="post" class="row g-3 needs-validation"
+                      novalidate>
+                    <div>
+                        <label for="name" class="form-label">Ім'я</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                        <div class="invalid-feedback">
+                            Заповніть поле
+                        </div>
+                    </div>
+                    <div>
+                        <label for="phone" class="form-label">Номер телефону</label>
+                        <input type="text" class="form-control" id="phone" name="phone" required>
+                        <div class="invalid-feedback">
+                            Заповніть поле
+                        </div>
+                    </div>
+                    <div>
+                        <label for="email" class="form-label">Email</label>
+                        <input type="text" class="form-control" id="email" name="email" required>
+                        <div class="invalid-feedback">
+                            Заповніть поле
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="access" required>
+                            <label class="form-check-label" for="access">
+                                Даю згоду на обробку персональних даних
+                            </label>
+                            <div class="invalid-feedback">
+                                Відмітьте галочку
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex justify-content-center">
+                            <button class="btn btn-outline-warning flex-grow-1">Відправити</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        (() => {
+            'use strict'
+
+            const forms = document.querySelectorAll('.needs-validation')
+
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+
+    <!-- End Ordering table  -->
+
+    <!--  Location Map  -->
+
+    <div class="container">
+        <iframe id="map" class="w-100 mx-auto d-block"
+                style="height: 40rem"
+                src="https://www.google.com/maps/d/u/0/embed?mid=16P8BGgodcWhapOQMoyKHa96no7b8jbg&ehbc=2E312F"></iframe>
+    </div>
+
+    <!-- End Location Map  -->
+
+    <div class="container my-5 py-5">
+        <div class="row d-flex justify-content-center">
+            <div class="card bg-dark text-dark">
+                <div class="card-body p-4">
+                    <h4 class="mb-0 text-light">Відгуки про ресторан</h4>
+                    <p class="fw-light mb-4 pb-2  text-light">
+                        Користувачі можуть залишити відгук тільки після оплати та авторизації
+                    </p>
+
+                    <div th:each="comment : ${comments}" class="d-flex flex-start my-2 py-2 border-bottom border-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="white"
+                             class="bi bi-person-circle rounded-circle me-3" viewBox="0 0 16 16">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                            <path fill-rule="evenodd"
+                                  d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                        </svg>
+                        <div>
+                            <h6 class="fw-bold mb-1 text-light" th:text="${comment.getUserName()}"></h6>
+                            <div class="d-flex align-items-center mb-3">
+                                <p class="mb-0 text-light">
+                                    <!--                                   th:text="${comment.getCreationDate().format(DateTimeFormatter.BASIC_ISO_DATE)}"--></p>
+                            </div>
+                            <p class="mb-0  text-light" th:text="${comment.getText()}"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="my-0"/>
+            </div>
+        </div>
+    </div>
+
+    <!--  Features  -->
+
+    <div th:insert="blocks/features :: #features"></div>
+
+    <!-- End Features  -->
+
+</main>
+<div th:insert="blocks/footer :: #footer"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+</body>

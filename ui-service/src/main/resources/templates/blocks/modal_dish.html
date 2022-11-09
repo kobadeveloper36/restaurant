@@ -1,5 +1,5 @@
-<div th:fragment="modal_dish">
-    <div class="modal fade" id="dishModal" tabindex="-1" aria-hidden="true">
+<div th:fragment="dishModal">
+    <div id="dishModal" class="modal fade" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content bg-dark">
                 <div class="modal-header" style="border-color: white">
@@ -26,7 +26,7 @@
                     <div class="row d-flex align-items-center justify-content-end">
                         <div class="row col-md-6 col-sm-12">
                             <p id="dishPrice" class="col-5 h4 text-warning mt-1"></p>
-                            <form id="dishId" class="col-7" action="" method="post">
+                            <form id="dishId" class="col-7" action="" method="get">
                                 <button class="btn btn-outline-warning round">Додати до кошика</button>
                             </form>
                         </div>
@@ -55,7 +55,7 @@
             const dishDescription = dishModal.querySelector('#dishDescription')
 
             dishName.textContent = name
-            dishWeight.textContent =  `${weight} гр`
+            dishWeight.textContent = `${weight} гр`
             dishComposition.textContent = `Склад страви: ${composition}`
             dishPrice.textContent = `${price} ГРН`
             dishDescription.textContent = description

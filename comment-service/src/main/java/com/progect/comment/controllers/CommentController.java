@@ -3,7 +3,6 @@ package com.progect.comment.controllers;
 import com.progect.comment.controllers.dto.CommentRequestDTO;
 import com.progect.comment.controllers.dto.CommentResponseDTO;
 import com.progect.comment.services.CommentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,9 +35,9 @@ public class CommentController {
     public CommentResponseDTO deleteDish(@PathVariable Long commentId) {
         return commentService.deleteComment(commentId);
     }
-    @GetMapping("/user/{userId}")
-    public List<CommentResponseDTO> getCommentsById(@PathVariable Long userId){
-        return commentService.getCommentsById(userId);
+    @GetMapping("/user/{userName}")
+    public List<CommentResponseDTO> getCommentsById(@PathVariable String userName){
+        return commentService.getCommentsByUserName(userName);
     }
 
     @GetMapping("/")

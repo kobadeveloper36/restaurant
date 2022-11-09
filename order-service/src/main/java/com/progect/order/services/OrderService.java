@@ -29,7 +29,7 @@ public class OrderService {
     public Long createOrder(OrderRequestDTO orderRequestDTO) {
         Order newOrder = new Order(orderRequestDTO.getCustomerName(), orderRequestDTO.getCustomerPhone(),
                 orderRequestDTO.getCustomerEmail(), orderRequestDTO.getIsDelivery(),
-                orderRequestDTO.getDeliveryAddress(), LocalDateTime.now(), orderRequestDTO.getCutlery(),
+                orderRequestDTO.getDeliveryAddress(), orderRequestDTO.getOrderDate(), orderRequestDTO.getCutlery(),
                 orderRequestDTO.getPaymentKind(), orderRequestDTO.getIsTableOrder(), orderRequestDTO.getNotes(),
                 orderRequestDTO.getDishes(), orderRequestDTO.getUserId(), orderRequestDTO.getSum());
         return orderRepository.save(newOrder).getOrderId();
@@ -43,7 +43,7 @@ public class OrderService {
         order.setCustomerEmail(orderRequestDTO.getCustomerEmail());
         order.setIsDelivery(orderRequestDTO.getIsDelivery());
         order.setDeliveryAddress(orderRequestDTO.getDeliveryAddress());
-        order.setOrderDate(LocalDateTime.now());
+        order.setOrderDate(orderRequestDTO.getOrderDate());
         order.setCutlery(orderRequestDTO.getCutlery());
         order.setPaymentKind(orderRequestDTO.getPaymentKind());
         order.setIsTableOrder(orderRequestDTO.getIsTableOrder());

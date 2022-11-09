@@ -27,16 +27,12 @@ public class Comment {
     @Type(type = "org.hibernate.type.TextType")
     private String text;
 
-    @Column(name = "rating", nullable = false)
-    private Integer rating;
+    @Column(name = "user_name", nullable = false)
+    private String userName;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
-
-    public Comment(String text, Integer rating, Long userId) {
+    public Comment(String text, String userName) {
         this.creationDate = LocalDateTime.now();
         this.text = text;
-        this.rating = rating;
-        this.userId = userId;
+        this.userName = userName;
     }
 }

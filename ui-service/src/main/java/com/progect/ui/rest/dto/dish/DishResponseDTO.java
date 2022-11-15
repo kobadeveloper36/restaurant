@@ -13,10 +13,11 @@ public class DishResponseDTO {
     private Integer weight;
     private String composition;
     private String description;
-    private CategoryDTO category;
+    private String category;
     private Double price;
     private Boolean is_Popular;
     private String img;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

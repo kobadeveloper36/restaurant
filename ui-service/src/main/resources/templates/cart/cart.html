@@ -17,10 +17,11 @@
 
 <div th:insert="blocks/registration :: #registerModal"></div>
 
+<div th:insert="blocks/modal_dish :: dishModal"></div>
+
 <main>
     <!--  Modal Dish  -->
 
-    <div th:insert="blocks/modal_dish :: dishModal"></div>
 
     <!--  End Modal Dish  -->
 
@@ -44,10 +45,10 @@
                                    th:data-dish-composition="${dish.getDishResponseDTO().getComposition()}"
                                    th:data-dish-price="${dish.getDishResponseDTO().getPrice()}"
                                    th:data-dish-description="${dish.getDishResponseDTO().getDescription()}"
-                                   th:data-dish-img="${dish.getDishResponseDTO().getImg()}"
+                                   th:data-dish-img="'img/dishes/'+${dish.getDishResponseDTO().getImg()}"
                                    th:data-dish-id="${dish.getDishResponseDTO().getDishId()}">
                                     <img
-                                            th:src="${dish.getDishResponseDTO().getImg()}"
+                                            th:src="'img/dishes/'+${dish.getDishResponseDTO().getImg()}"
                                             class="img-fluid rounded-3 center-cropped"
                                             alt="...">
                                 </a>

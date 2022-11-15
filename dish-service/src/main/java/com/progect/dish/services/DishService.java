@@ -4,13 +4,9 @@ import com.progect.dish.controllers.dto.DishRequestDTO;
 import com.progect.dish.controllers.dto.DishResponseDTO;
 import com.progect.dish.entities.Dish;
 import com.progect.dish.repository.DishRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,7 +26,7 @@ public class DishService {
     public Long createDish(DishRequestDTO dishRequestDTO) {
         Dish newDish = new Dish(dishRequestDTO.getName(), dishRequestDTO.getWeight(),
                 dishRequestDTO.getComposition(), dishRequestDTO.getDescription(),
-                dishRequestDTO.getCategory().getCategory().name(), dishRequestDTO.getPrice(),
+                dishRequestDTO.getCategory(), dishRequestDTO.getPrice(),
                 dishRequestDTO.getImg(), dishRequestDTO.getIs_Popular(), dishRequestDTO.getOrderId());
         return dishRepository.save(newDish).getDishId();
     }
@@ -42,9 +38,10 @@ public class DishService {
         dish.setWeight(dishRequestDTO.getWeight());
         dish.setDescription(dishRequestDTO.getDescription());
         dish.setComposition(dishRequestDTO.getComposition());
-        dish.setCategory(dishRequestDTO.getCategory().toString());
+        dish.setCategory(dishRequestDTO.getCategory());
         dish.setPrice(dishRequestDTO.getPrice());
         dish.setIsPopular(dishRequestDTO.getIs_Popular());
+        dish.setImg(dishRequestDTO.getImg());
         return new DishResponseDTO(dishRepository.save(dish));
     }
 
@@ -58,7 +55,7 @@ public class DishService {
         return dishRepository.findAllByOrderId(orderId).stream().map(DishResponseDTO::new).collect(Collectors.toList());
     }
 
-    public Set<DishResponseDTO> getAllDishes() {
-        return dishRepository.findAll().stream().map(DishResponseDTO::new).collect(Collectors.toSet());
+    public List<DishResponseDTO> getAllDishes() {
+        return dishRepository.findAll().stream().map(DishResponseDTO::new).collect(Collectors.toList());
     }
 }

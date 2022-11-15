@@ -18,7 +18,6 @@
 <div th:insert="blocks/registration :: #registerModal"></div>
 
 <main>
-    <!--  About Us  -->
 
     <div id="aboutUs" class="container">
         <h1 class="text-light my-3">- Про нас</h1>
@@ -36,9 +35,6 @@
         </div>
     </div>
 
-    <!--  End About Us  -->
-
-    <!--  Information features  -->
 
     <div class="container my-5">
         <div class="row">
@@ -63,9 +59,6 @@
         </div>
     </div>
 
-    <!--  End Information features  -->
-
-    <!--  Ordering table  -->
 
     <div id="orderingTableForm" class="container my-5">
         <div class="row">
@@ -138,17 +131,12 @@
         })()
     </script>
 
-    <!-- End Ordering table  -->
-
-    <!--  Location Map  -->
 
     <div class="container">
         <iframe id="map" class="w-100 mx-auto d-block"
                 style="height: 40rem"
                 src="https://www.google.com/maps/d/u/0/embed?mid=16P8BGgodcWhapOQMoyKHa96no7b8jbg&ehbc=2E312F"></iframe>
     </div>
-
-    <!-- End Location Map  -->
 
     <div class="container my-5 py-5">
         <div class="row d-flex justify-content-center">
@@ -170,23 +158,17 @@
                             <h6 class="fw-bold mb-1 text-light" th:text="${comment.getUserName()}"></h6>
                             <div class="d-flex align-items-center mb-3">
                                 <p class="mb-0 text-light">
-                                    <!--                                   th:text="${comment.getCreationDate().format(DateTimeFormatter.BASIC_ISO_DATE)}"--></p>
                             </div>
                             <p class="mb-0  text-light" th:text="${comment.getText()}"></p>
                         </div>
                     </div>
                 </div>
-
                 <hr class="my-0"/>
             </div>
         </div>
     </div>
 
-    <!--  Features  -->
-
     <div th:insert="blocks/features :: #features"></div>
-
-    <!-- End Features  -->
 
 </main>
 <div th:insert="blocks/footer :: #footer"></div>

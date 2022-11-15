@@ -9,16 +9,8 @@
             <a class="btn btn-outline-light me-2" role="button" data-bs-toggle="dropdown"
                aria-expanded="false">Меню</a>
             <ul class="dropdown-menu dropdown-menu-light">
-                <li><a class="dropdown-item" href="/menu#soups">Супи</a></li>
-                <li><a class="dropdown-item" href="/menu#meet">М'ясо</a></li>
-                <li><a class="dropdown-item" href="/menu#fowl">Птах</a></li>
-                <li><a class="dropdown-item" href="/menu#seafood">Морепродукти</a></li>
-                <li><a class="dropdown-item" href="/menu#handmade">Ліпимо самі</a></li>
-                <li><a class="dropdown-item" href="/menu#noodles">Локшина</a></li>
-                <li><a class="dropdown-item" href="/menu#sideDish">Гарніри</a></li>
-                <li><a class="dropdown-item" href="/menu#salads">Салати</a></li>
-                <li><a class="dropdown-item" href="/menu#snacks">Закуски</a></li>
-                <li><a class="dropdown-item" href="/menu#desserts">Десерти</a></li>
+                <li th:each="category : ${categories}">
+                    <a class="dropdown-item" th:href="'/menu#'+${category}" th:text="${category}"></a></li>
             </ul>
         </li>
         <li class="nav-item">

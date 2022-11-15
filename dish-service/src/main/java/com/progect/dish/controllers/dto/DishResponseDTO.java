@@ -14,7 +14,7 @@ public class DishResponseDTO {
     private Integer weight;
     private String composition;
     private String description;
-    private CategoryDTO category;
+    private String category;
     private Double price;
     private Boolean is_Popular;
     private String img;
@@ -25,7 +25,7 @@ public class DishResponseDTO {
         this.weight = dish.getWeight();
         this.composition = dish.getComposition();
         this.description = dish.getDescription();
-        this.category = new CategoryDTO(dish.getCategory());
+        this.category = dish.getCategory();
         this.price = dish.getPrice();
         this.is_Popular = dish.getIsPopular();
         this.img = dish.getImg();

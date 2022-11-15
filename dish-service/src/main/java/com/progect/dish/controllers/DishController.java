@@ -3,12 +3,9 @@ package com.progect.dish.controllers;
 import com.progect.dish.controllers.dto.DishRequestDTO;
 import com.progect.dish.controllers.dto.DishResponseDTO;
 import com.progect.dish.services.DishService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @RestController
 public class DishController {
@@ -45,7 +42,7 @@ public class DishController {
     }
 
     @GetMapping("/")
-    public Set<DishResponseDTO> getAllDishes() {
+    public List<DishResponseDTO> getAllDishes() {
         return dishService.getAllDishes();
     }
 }

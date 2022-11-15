@@ -18,6 +18,8 @@
 
 <div th:insert="blocks/registration :: #registerModal"></div>
 
+<div th:insert="blocks/modal_dish :: dishModal"></div>
+
 <main>
 
     <!--   Carousel  -->
@@ -83,9 +85,9 @@
                    th:data-dish-composition="${dish.getComposition()}"
                    th:data-dish-price="${dish.getPrice()}"
                    th:data-dish-description="${dish.getDescription()}"
-                   th:data-dish-img="${dish.getImg()}"
+                   th:data-dish-img="'img/dishes/'+${dish.getImg()}"
                    th:data-dish-id="${dish.getDishId()}">
-                    <img th:src="${dish.getImg()}"
+                    <img th:src="'img/dishes/'+${dish.getImg()}"
                          class="card-img-top pt-2"
                          alt="...">
                 </a>
@@ -98,17 +100,19 @@
                        th:data-dish-composition="${dish.getComposition()}"
                        th:data-dish-price="${dish.getPrice()}"
                        th:data-dish-description="${dish.getDescription()}"
-                       th:data-dish-img="${dish.getImg()}"
+                       th:data-dish-img="'img/dishes/'+${dish.getImg()}"
                        th:data-dish-id="${dish.getDishId()}"
                        th:text="${dish.getName()}"></a>
                     <p class="card-text"><small class="text-light" th:text="${dish.getWeight()} + ' гр'"></small></p>
                     <p class="card-text text-center text-muted" th:text="${dish.getComposition()}"></p>
-                    <div class="row card-footer">
-                        <p class="col-6 card-text text-warning" th:text="${dish.getPrice()} + ' ГРН'"></p>
-                        <form class="col-6 text-end" th:action="'/cart/add/' + ${dish.getDishId()}" method="get">
-                            <button class="btn btn-outline-warning round" type="submit">Додати до кошика</button>
-                        </form>
+                </div>
+                <div class="row card-footer mb-2">
+                    <div class="col-6 d-flex align-items-center">
+                        <p class="card-text text-warning" th:text="${dish.getPrice()} + ' ГРН'"></p>
                     </div>
+                    <form class="col-6 text-end" th:action="'/cart/add/' + ${dish.getDishId()}" method="get">
+                        <button class="btn btn-outline-warning round" type="submit">Додати до кошика</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -119,15 +123,8 @@
 
     <!--  Modal Dish  -->
 
-    <div th:insert="blocks/modal_dish :: dishModal"></div>
-
-    <!--  End Modal Dish  -->
-
-    <!--  Features  -->
 
     <div th:insert="blocks/features :: #features"></div>
-
-    <!-- End Features  -->
 
 </main>
 

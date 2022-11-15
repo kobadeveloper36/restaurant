@@ -1,10 +1,11 @@
 package com.progect.ui.controllers;
 
 import com.progect.ui.rest.dto.comment.CommentRequestDTO;
-import com.progect.ui.rest.dto.comment.CommentResponseDTO;
-import com.progect.ui.rest.dto.dish.DishResponseDTO;
 import com.progect.ui.rest.dto.order.OrderRequestDTO;
+import com.progect.ui.services.CommentService;
+import com.progect.ui.services.DishService;
 import com.progect.ui.services.MainService;
+import com.progect.ui.services.OrderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,21 +19,31 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.stream.IntStream;
 
 @Controller
 public class CartController {
     private final MainService mainService;
+    private final DishService dishService;
+    private final OrderService orderService;
+    private final CommentService commentService;
     private List<OrderedDish> orderedDishes;
 
-    public CartController(MainService mainService, List<OrderedDish> orderedDishes) {
+    private Set<String> categories;
+
+    public CartController(MainService mainService, DishService dishService, OrderService orderService, CommentService commentService, List<OrderedDish> orderedDishes) {
         this.mainService = mainService;
+        this.dishService = dishService;
+        this.orderService = orderService;
+        this.commentService = commentService;
         this.orderedDishes = orderedDishes;
+        this.categories = mainService.getCategoriesSet();
     }
 
     @GetMapping("/cart")
     public String cart(Model model) {
+        model.addAttribute("categories", categories);
         model.addAttribute("orderedDishes", orderedDishes);
         double sum = orderedDishes.stream().map(OrderedDish::getSum).reduce(0.0, Double::sum);
         model.addAttribute("sum", sum);
@@ -46,7 +57,7 @@ public class CartController {
 
     @GetMapping("/cart/add/{dishId}")
     public String addToCart(@PathVariable Long dishId) {
-        OrderedDish orderedDish = new OrderedDish(mainService.getDishById(dishId));
+        OrderedDish orderedDish = new OrderedDish(dishService.getDishById(dishId));
         if (orderedDishes.contains(orderedDish)) {
             orderedDishes.get(orderedDishes.indexOf(orderedDish)).addDish();
             return "redirect:/cart";
@@ -58,7 +69,7 @@ public class CartController {
 
     @GetMapping("/cart/remove/{dishId}")
     public String removeOneFromCart(@PathVariable Long dishId) {
-        OrderedDish orderedDish = new OrderedDish(mainService.getDishById(dishId));
+        OrderedDish orderedDish = new OrderedDish(dishService.getDishById(dishId));
         int index = orderedDishes.indexOf(orderedDish);
         if (orderedDishes.contains(orderedDish)) {
             if (orderedDishes.get(index).getCountOfDishes() == 1) {
@@ -72,7 +83,7 @@ public class CartController {
 
     @GetMapping("/cart/delete/{dishId}")
     public String removeFromCart(@PathVariable Long dishId) {
-        OrderedDish orderedDish = new OrderedDish(mainService.getDishById(dishId));
+        OrderedDish orderedDish = new OrderedDish(dishService.getDishById(dishId));
         orderedDishes.remove(orderedDish);
         return "redirect:/cart";
     }
@@ -94,7 +105,7 @@ public class CartController {
         List<Long> dishes = getDishesId();
         Long userId = null;
         Double sum = orderedDishes.stream().map(OrderedDish::getSum).reduce(0.0, Double::sum);
-        Long orderId = mainService.createOrder(new OrderRequestDTO(name, phone, email, isDelivery, deliveryAddress,
+        Long orderId = orderService.createOrder(new OrderRequestDTO(name, phone, email, isDelivery, deliveryAddress,
                 orderDate, cutlery, paymentKind, isTableOrder, notes, dishes, userId, sum));
         orderedDishes = new ArrayList<>();
         return "redirect:/cart/addComment/" + orderId;
@@ -117,7 +128,7 @@ public class CartController {
             }
         }
         Double sum = orderedDishes.stream().map(OrderedDish::getSum).reduce(0.0, Double::sum);
-        Long orderId = mainService.createOrder(new OrderRequestDTO(name, phone, email, isDelivery, deliveryAddress,
+        Long orderId = orderService.createOrder(new OrderRequestDTO(name, phone, email, isDelivery, deliveryAddress,
                 null, cutlery, paymentKind, isTableOrder, notes, dishes, userId, sum));
         orderedDishes = new ArrayList<>();
         return "redirect:/cart/addComment/" + orderId;
@@ -125,19 +136,20 @@ public class CartController {
 
     @GetMapping("/cart/addComment/{orderId}")
     public String addComment(@PathVariable Long orderId, Model model) {
+        model.addAttribute("categories", categories);
         model.addAttribute("orderId", orderId);
         return "cart/addComment";
     }
 
     @PostMapping("/cart/addComment")
     public String createComment(@RequestParam String text, Model model) {
-        mainService.createComment(new CommentRequestDTO(text, "user"));
+        commentService.createComment(new CommentRequestDTO(text, "user"));
         return "redirect:/";
     }
 
     private List<Long> getDishesId() {
         List<Long> dishes = new ArrayList<>();
-        int countOfDishes = 0;
+        int countOfDishes;
         for (OrderedDish dish : orderedDishes) {
             countOfDishes = dish.getCountOfDishes();
             if (countOfDishes > 1) {

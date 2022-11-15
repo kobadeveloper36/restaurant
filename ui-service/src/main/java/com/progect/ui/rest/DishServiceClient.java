@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
-import java.util.Set;
 
 @FeignClient(name = "dish-service")
 public interface DishServiceClient {
@@ -29,5 +28,5 @@ public interface DishServiceClient {
     List<DishResponseDTO> getDishesById(@PathVariable Long orderId);
 
     @GetMapping("dishes/")
-    Set<DishResponseDTO> getAllDishes();
+    List<DishResponseDTO> getAllDishes();
 }

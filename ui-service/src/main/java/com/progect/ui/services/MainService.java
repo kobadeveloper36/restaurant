@@ -1,83 +1,39 @@
 package com.progect.ui.services;
 
-import com.progect.ui.rest.CommentServiceClient;
-import com.progect.ui.rest.DishServiceClient;
-import com.progect.ui.rest.OrderServiceClient;
-import com.progect.ui.rest.UserServiceClient;
-import com.progect.ui.rest.dto.comment.CommentRequestDTO;
-import com.progect.ui.rest.dto.comment.CommentResponseDTO;
 import com.progect.ui.rest.dto.dish.DishResponseDTO;
-import com.progect.ui.rest.dto.dish.enums.Category;
-import com.progect.ui.rest.dto.order.OrderRequestDTO;
-import com.progect.ui.rest.dto.order.OrderResponseDTO;
-import com.progect.ui.rest.dto.user.UserResponseDTO;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class MainService {
-    private final DishServiceClient dishServiceClient;
+    private final DishService dishService;
+    private final CommentService commentService;
 
-    private final CommentServiceClient commentServiceClient;
+    private final OrderService orderService;
 
-    private final OrderServiceClient orderServiceClient;
+    private final UserService userService;
 
-    private final UserServiceClient userServiceClient;
-
-    public MainService(DishServiceClient dishServiceClient, CommentServiceClient commentServiceClient, OrderServiceClient orderServiceClient, UserServiceClient userServiceClient) {
-        this.dishServiceClient = dishServiceClient;
-        this.commentServiceClient = commentServiceClient;
-        this.orderServiceClient = orderServiceClient;
-        this.userServiceClient = userServiceClient;
+    public MainService(DishService dishService, CommentService commentService, OrderService orderService, UserService userService) {
+        this.dishService = dishService;
+        this.commentService = commentService;
+        this.orderService = orderService;
+        this.userService = userService;
     }
 
     public Set<DishResponseDTO> getPopularDishes() {
-        Set<DishResponseDTO> allDishes = dishServiceClient.getAllDishes();
+        Set<DishResponseDTO> allDishes = dishService.getAllDishesSet();
         return allDishes.stream()
                 .filter(DishResponseDTO::getIs_Popular).collect(Collectors.toSet());
     }
 
-    public List<DishResponseDTO> getDishesById(Long dishId) {
-        return dishServiceClient.getDishesById(dishId);
+    public Set<DishResponseDTO> getDishesByCategory(String category) {
+        return dishService.getAllDishes().stream()
+                .filter(x -> x.getCategory().equals(category)).collect(Collectors.toSet());
     }
 
-    public Set<DishResponseDTO> getDishesByCategory(Category category) {
-        return dishServiceClient.getAllDishes().stream()
-                .filter(x -> x.getCategory().getCategory().equals(category)).collect(Collectors.toSet());
-    }
-
-    public List<CommentResponseDTO> getAllComments() {
-        return commentServiceClient.getAllComments();
-    }
-
-    public UserResponseDTO getUserById(Long userId) {
-        return userServiceClient.getUserById(userId);
-    }
-
-    public List<CommentResponseDTO> getCommentsByUserName(String userName) {
-        return commentServiceClient.getCommentsByUserName(userName);
-    }
-
-    public List<OrderResponseDTO> getOrdersById(Long userId) {
-        return orderServiceClient.getOrdersById(userId);
-    }
-
-    public OrderResponseDTO getOrderById(Long orderId) {
-        return orderServiceClient.getOrderById(orderId);
-    }
-
-    public DishResponseDTO getDishById(Long dishId) {
-        return dishServiceClient.getDishById(dishId);
-    }
-
-    public Long createOrder(OrderRequestDTO orderRequestDTO) {
-        return orderServiceClient.createOrder(orderRequestDTO);
-    }
-
-    public Long createComment(CommentRequestDTO commentRequestDTO) {
-        return commentServiceClient.createComment(commentRequestDTO);
+    public Set<String> getCategoriesSet() {
+        return dishService.getAllDishes().stream().map(DishResponseDTO::getCategory).collect(Collectors.toSet());
     }
 }

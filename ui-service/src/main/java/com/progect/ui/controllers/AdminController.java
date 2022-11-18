@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -32,7 +34,7 @@ public class AdminController {
 
     private Set<String> categories;
 
-    public AdminController(Set<String> categories, MainService mainService, DishService dishService, CommentService commentService, UserService userService) {
+    public AdminController(MainService mainService, DishService dishService, CommentService commentService, UserService userService) {
         this.mainService = mainService;
         this.categories = mainService.getCategoriesSet();
         this.dishService = dishService;
@@ -46,6 +48,17 @@ public class AdminController {
         model.addAttribute("categories", categories);
 
         Set<CommentResponseDTO> comments = new HashSet<>(commentService.getAllComments());
+        model.addAttribute("comments", comments);
+        return "admin/comments";
+    }
+
+    @PostMapping("/admin/comments")
+    public String searchedComments(@RequestParam String searchedLogin, Model model) {
+        Set<String> categories = mainService.getCategoriesSet();
+        model.addAttribute("categories", categories);
+
+        Set<CommentResponseDTO> comments = new HashSet<>(commentService.getAllComments())
+                .stream().filter(x -> x.getUserName().equals(searchedLogin.toLowerCase())).collect(Collectors.toSet());
         model.addAttribute("comments", comments);
         return "admin/comments";
     }

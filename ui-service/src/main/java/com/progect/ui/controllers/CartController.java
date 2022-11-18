@@ -143,7 +143,7 @@ public class CartController {
 
     @PostMapping("/cart/addComment")
     public String createComment(@RequestParam String text, Model model) {
-        commentService.createComment(new CommentRequestDTO(text, "user"));
+        commentService.createComment(new CommentRequestDTO(text, "user", LocalDate.now()));
         return "redirect:/";
     }
 

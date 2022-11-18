@@ -6,7 +6,6 @@ import com.progect.comment.entities.Comment;
 import com.progect.comment.repository.CommentRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +25,7 @@ public class CommentService {
 
     public Long createComment(CommentRequestDTO commentRequestDTO) {
         Comment newComment = new Comment(commentRequestDTO.getText(),
-                commentRequestDTO.getUserName());
+                commentRequestDTO.getUserName(), commentRequestDTO.getCreationDate());
         return commentRepository.save(newComment).getCommentId();
     }
 
@@ -34,7 +33,7 @@ public class CommentService {
         Comment comment = new Comment();
         comment.setCommentId(commentId);
         comment.setText(commentRequestDTO.getText());
-        comment.setCreationDate(LocalDateTime.now());
+        comment.setCreationDate(commentRequestDTO.getCreationDate());
         comment.setUserName(commentRequestDTO.getUserName());
         return new CommentResponseDTO(commentRepository.save(comment));
     }
@@ -45,7 +44,7 @@ public class CommentService {
         return new CommentResponseDTO(commentById);
     }
 
-    public List<CommentResponseDTO> getCommentsByUserName(String userName){
+    public List<CommentResponseDTO> getCommentsByUserName(String userName) {
         return commentRepository.findAllByUserName(userName).stream().map(CommentResponseDTO::new).collect(Collectors.toList());
     }
 

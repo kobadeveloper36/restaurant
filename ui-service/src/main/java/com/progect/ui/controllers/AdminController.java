@@ -2,17 +2,22 @@ package com.progect.ui.controllers;
 
 import com.progect.ui.rest.dto.comment.CommentResponseDTO;
 import com.progect.ui.rest.dto.dish.DishResponseDTO;
+import com.progect.ui.rest.dto.order.OrderResponseDTO;
+import com.progect.ui.rest.dto.user.UserResponseDTO;
 import com.progect.ui.services.CommentService;
 import com.progect.ui.services.DishService;
 import com.progect.ui.services.MainService;
+import com.progect.ui.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 public class AdminController {
@@ -23,13 +28,16 @@ public class AdminController {
 
     private final CommentService commentService;
 
+    private final UserService userService;
+
     private Set<String> categories;
 
-    public AdminController(Set<String> categories, MainService mainService, DishService dishService, CommentService commentService) {
+    public AdminController(Set<String> categories, MainService mainService, DishService dishService, CommentService commentService, UserService userService) {
         this.mainService = mainService;
         this.categories = mainService.getCategoriesSet();
         this.dishService = dishService;
         this.commentService = commentService;
+        this.userService = userService;
     }
 
     @GetMapping("/admin/comments")
@@ -42,9 +50,41 @@ public class AdminController {
         return "admin/comments";
     }
 
+    @GetMapping("/admin/comment/page/add")
+    public String addCommentPage(Model model) {
+        model.addAttribute("categories", categories);
+
+        List<CommentResponseDTO> comments = commentService.getAllComments();
+        long commentId = getLastCommentId(comments) + 1;
+        model.addAttribute("commentId", commentId);
+        LocalDate creationDate = LocalDate.now();
+        model.addAttribute("creationDate", creationDate);
+        String commentText = "";
+        model.addAttribute("commentText", commentText);
+        List<String> logins = userService.getAllUsers().stream()
+                .map(UserResponseDTO::getLogin).collect(Collectors.toList());
+        model.addAttribute("logins", logins);
+        String actionPath = "/admin/comment/add";
+        model.addAttribute("actionPath", actionPath);
+        return "/admin/commentPage";
+    }
+
+    @GetMapping("/admin/comment/page/edit/{commentId}")
+    public String editCommentPage(@PathVariable Long commentId, Model model) {
+        model.addAttribute("categories", categories);
+
+        CommentResponseDTO comment = commentService.getCommentById(commentId);
+        model.addAttribute("commentId", commentId);
+        model.addAttribute("creationDate", comment.getCreationDate());
+        model.addAttribute("commentText", comment.getText());
+        model.addAttribute("commentUserName", comment.getUserName());
+        String actionPath = "/admin/comment/edit/" + comment.getCommentId();
+        model.addAttribute("actionPath", actionPath);
+        return "/admin/commentPage";
+    }
+
     @GetMapping("/admin/{category}")
     public String dishesCategory(@PathVariable String category, Model model) {
-        Set<String> categories = mainService.getCategoriesSet();
         model.addAttribute("categories", categories);
 
         Set<DishResponseDTO> dishes = mainService.getDishesByCategory(category);
@@ -54,7 +94,6 @@ public class AdminController {
 
     @GetMapping("/admin/dish/page/edit/{dishId}")
     public String editDishPage(@PathVariable Long dishId, Model model) {
-        Set<String> categories = mainService.getCategoriesSet();
         model.addAttribute("categories", categories);
 
 
@@ -75,7 +114,6 @@ public class AdminController {
 
     @GetMapping("/admin/dish/page/add/{category}")
     public String addDishPage(@PathVariable String category, Model model) {
-        Set<String> categories = mainService.getCategoriesSet();
         model.addAttribute("categories", categories);
 
 
@@ -111,6 +149,30 @@ public class AdminController {
             return 0;
         } else {
             return dishes.get(dishes.size() - 1).getDishId();
+        }
+    }
+
+    private long getLastCommentId(List<CommentResponseDTO> comments) {
+        if (comments.isEmpty()) {
+            return 0;
+        } else {
+            return comments.get(comments.size() - 1).getCommentId();
+        }
+    }
+
+    private long getLastOrdersId(List<OrderResponseDTO> orders) {
+        if (orders.isEmpty()) {
+            return 0;
+        } else {
+            return orders.get(orders.size() - 1).getOrderId();
+        }
+    }
+
+    private long getLastUserId(List<UserResponseDTO> users) {
+        if (users.isEmpty()) {
+            return 0;
+        } else {
+            return users.get(users.size() - 1).getUserId();
         }
     }
 }

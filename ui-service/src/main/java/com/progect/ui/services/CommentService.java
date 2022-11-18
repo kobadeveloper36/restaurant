@@ -26,4 +26,16 @@ public class CommentService {
     public List<CommentResponseDTO> getCommentsByUserName(String userName) {
         return commentServiceClient.getCommentsByUserName(userName);
     }
+
+    public CommentResponseDTO updateCommentById(Long commentId, CommentRequestDTO commentRequestDTO) {
+        return commentServiceClient.updateCommentById(commentId, commentRequestDTO);
+    }
+
+    public CommentResponseDTO deleteCommentById(Long dishId) {
+        return commentServiceClient.deleteCommentById(dishId);
+    }
+
+    public CommentResponseDTO getCommentById(Long commentId) {
+        return commentServiceClient.getCommentById(commentId);
+    }
 }

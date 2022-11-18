@@ -6,7 +6,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -20,7 +20,7 @@ public class Comment {
     private Long commentId;
 
     @Column(name = "creation_date", nullable = false)
-    private LocalDateTime creationDate;
+    private LocalDate creationDate;
 
     @Lob
     @Column(name = "text")
@@ -30,8 +30,8 @@ public class Comment {
     @Column(name = "user_name", nullable = false)
     private String userName;
 
-    public Comment(String text, String userName) {
-        this.creationDate = LocalDateTime.now();
+    public Comment(String text, String userName, LocalDate creationDate) {
+        this.creationDate = creationDate;
         this.text = text;
         this.userName = userName;
     }

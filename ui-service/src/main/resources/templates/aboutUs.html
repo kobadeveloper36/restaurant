@@ -157,7 +157,7 @@
                         <div>
                             <h6 class="fw-bold mb-1 text-light" th:text="${comment.getUserName()}"></h6>
                             <div class="d-flex align-items-center mb-3">
-                                <p class="mb-0 text-light">
+                                <p class="mb-0 text-light" th:text="${comment.getCreationDate()}"></p>
                             </div>
                             <p class="mb-0  text-light" th:text="${comment.getText()}"></p>
                         </div>

@@ -1,4 +1,3 @@
-<!doctype html>
 <html lang="ua" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
@@ -15,125 +14,201 @@
             <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
                 <div th:insert="blocks/adminPanel :: #adminPanel"></div>
             </div>
-
             <div class="col py-3">
-                <div class="row ps-1 pb-3 border-bottom">
-                    <p class="h3" th:text="'Замовлення №'+${order}"></p>
-                    <p class="h4 my-2">Адреса доставки: вул. Антоновича, 20, кв.70</p>
-                    <p class="h4">Отримувач: Богдан</p>
-                    <p class="h4">Номер телефону отримувача: +38(063)107-48-83</p>
-                    <p class="h4">Дата доставки: 20-08-2022</p>
+                <div class="ps-1 pb-3 border-bottom">
+                    <p class="h3 ms-3" th:text="'Замовлення №'+${orderId}"></p>
                 </div>
-                <div class="mx-1">
-                    <p class="h4 text-center my-2">Список страв</p>
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th scope="col">№</th>
-                            <th scope="col">Назва</th>
-                            <th scope="col">Вага</th>
-                            <th scope="col">Сума</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>ГОСТРА ТЕЛЯТИНА ПО-СИЧУАНСЬКИ</td>
-                            <td>320 гр</td>
-                            <td>218 грн</td>
-                            <td><a href="#" data-bs-target="#dishModal"
-                                   data-bs-toggle="modal" data-bs-whatever="@mdo">Детальніше</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>ГОСТРА ТЕЛЯТИНА ПО-СИЧУАНСЬКИ</td>
-                            <td>320 гр</td>
-                            <td>218 грн</td>
-                            <td><a href="#" data-bs-target="#dishModal"
-                                   data-bs-toggle="modal" data-bs-whatever="@mdo">Детальніше</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>ГОСТРА ТЕЛЯТИНА ПО-СИЧУАНСЬКИ</td>
-                            <td>320 гр</td>
-                            <td>218 грн</td>
-                            <td><a href="#" data-bs-target="#dishModal"
-                                   data-bs-toggle="modal" data-bs-whatever="@mdo">Детальніше</a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <form class="card-body px-4 my-3 g-2 needs-validation" th:action="${actionPath}" method="post"
+                      novalidate>
+                    <div class="row">
+                        <div class="col-md-6 my-1 pe-0">
+                            <label for="customerLogin" class="form-label">Логін клієнта</label>
+                            <select class="form-select" id="customerLogin" name="customerId" required>
+                                <option value="0">Неавторизований</option>
+                                <option th:each="customer : ${customers}" th:value="${customer.getUserId()}"
+                                        th:text="${customer.getLogin()}"></option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Заповніть поле
+                            </div>
+                        </div>
+                        <div class="col-md-6 my-1 pe-0">
+                            <label for="customerName" class="form-label">Ім'я користувача</label>
+                            <input type="text" class="form-control" id="customerName" name="customerName"
+                                   th:value="${customerName}" required>
+                            <div class="invalid-feedback">
+                                Заповніть поле
+                            </div>
+                        </div>
+                        <div class="col-md-6 my-1 pe-0">
+                            <label for="customerPhone" class="form-label">Телефон користувача</label>
+                            <input type="text" class="form-control" id="customerPhone" name="customerPhone"
+                                   th:value="${customerPhone}" required>
+                            <div class="invalid-feedback">
+                                Заповніть поле
+                            </div>
+                        </div>
+                        <div class="col-md-6 my-1 pe-0">
+                            <label for="customerEmail" class="form-label">Email користувача</label>
+                            <input type="text" class="form-control" id="customerEmail" name="customerEmail"
+                                   th:value="${customerEmail}" required>
+                            <div class="invalid-feedback">
+                                Заповніть поле
+                            </div>
+                        </div>
+
+                        <div class="col-12 my-3">
+                            <p class="h5">Тип замовлення</p>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="isDelivery"
+                                       name="orderType" value="Доставка" th:checked="${isDelivery}">
+                                <label class="form-check-label text-dark"
+                                       for="isDelivery">Доставка</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="isTableOrder"
+                                       name="orderType" value="Замовлення столика" th:checked="${isTableOrder}">
+                                <label class="form-check-label text-dark" for="isTableOrder">Замовлення
+                                    столика</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="isPickup"
+                                       name="orderType" value="Самовивіз" th:checked="${isPickup}">
+                                <label class="form-check-label text-dark" for="isPickup">Самовивіз</label>
+                                <div class="invalid-feedback">Оберіть варіант</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 my-1 pe-0">
+                            <label for="deliveryAddress" class="form-label">Адреса доставки</label>
+                            <input type="text" class="form-control" id="deliveryAddress" name="deliveryAddress"
+                                   th:value="${deliveryAddress}">
+                        </div>
+
+                        <div class="col-md-12 my-1 pe-0">
+                            <label for="orderDate" class="form-label">Дата та час доставки</label>
+                            <input type="datetime-local" class="form-control" id="orderDate" name="orderDate"
+                                   th:value="${orderDate}" required>
+                            <div class="invalid-feedback">
+                                Заповніть поле
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-6">
+                            <label for="cutlerySelect" class="form-label text-light">Столове приладдя</label>
+                            <select class="form-select" id="cutlerySelect" name="cutlery">
+                                <option value="Звичайні палички">Звичайні палички</option>
+                                <option value="Навчальні палички">Навчальні палички</option>
+                                <option value="Європейські прилади">Європейські прилади</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12 my-2">
+                            <p class="h5">Оплата</p>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="cashFormCheck"
+                                       name="paymentKind" value="Готівкою" th:checked="${isCash}" required>
+                                <label class="form-check-label text-dark"
+                                       for="cashFormCheck">Готівкою</label>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input type="radio" class="form-check-input" id="cardFormCheck"
+                                       name="paymentKind" value="Карткою" th:checked="${isCard}" required>
+                                <label class="form-check-label text-dark" for="cardFormCheck">Карткою</label>
+                                <div class="invalid-feedback">Оберіть варіант</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 my-2 pe-0 list-group"
+                             style="height: 300px; overflow-y: scroll">
+                            <div th:each="entry : ${orderedDishes}" class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-10 d-flex align-items-center">
+                                        <input class="form-check-input mt-0" type="text"
+                                               th:value="${entry.key.getDishId()}" th:text="${entry.key.getName()}"
+                                               name="dishesIds" hidden>
+                                    </div>
+                                    <div class="col-md-2 d-flex justify-align-center my-1">
+                                        <a class="btn btn-link px-2"
+                                           th:onclick="'decrementValue('+${entry.key.getDishId()}+')'">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="black"
+                                                 class="bi bi-dash-square-dotted text-light" viewBox="0 0 16 16">
+                                                <path d="M2.5 0c-.166 0-.33.016-.487.048l.194.98A1.51 1.51 0 0 1 2.5 1h.458V0H2.5zm2.292 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zm1.833 0h-.916v1h.916V0zm1.834 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zM13.5 0h-.458v1h.458c.1 0 .199.01.293.029l.194-.981A2.51 2.51 0 0 0 13.5 0zm2.079 1.11a2.511 2.511 0 0 0-.69-.689l-.556.831c.164.11.305.251.415.415l.83-.556zM1.11.421a2.511 2.511 0 0 0-.689.69l.831.556c.11-.164.251-.305.415-.415L1.11.422zM16 2.5c0-.166-.016-.33-.048-.487l-.98.194c.018.094.028.192.028.293v.458h1V2.5zM.048 2.013A2.51 2.51 0 0 0 0 2.5v.458h1V2.5c0-.1.01-.199.029-.293l-.981-.194zM0 3.875v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 5.708v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 7.542v.916h1v-.916H0zm15 .916h1v-.916h-1v.916zM0 9.375v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .916v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .917v.458c0 .166.016.33.048.487l.98-.194A1.51 1.51 0 0 1 1 13.5v-.458H0zm16 .458v-.458h-1v.458c0 .1-.01.199-.029.293l.981.194c.032-.158.048-.32.048-.487zM.421 14.89c.183.272.417.506.69.689l.556-.831a1.51 1.51 0 0 1-.415-.415l-.83.556zm14.469.689c.272-.183.506-.417.689-.69l-.831-.556c-.11.164-.251.305-.415.415l.556.83zm-12.877.373c.158.032.32.048.487.048h.458v-1H2.5c-.1 0-.199-.01-.293-.029l-.194.981zM13.5 16c.166 0 .33-.016.487-.048l-.194-.98A1.51 1.51 0 0 1 13.5 15h-.458v1h.458zm-9.625 0h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zm1.834 0h.916v-1h-.916v1zm1.833 0h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zM4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7z"/>
+                                            </svg>
+                                        </a>
+
+                                        <input th:value="${entry.value}" type="text"
+                                               class="form-control form-control-sm"
+                                               th:id="${entry.key.getDishId()}"
+                                               name="dishesQuantities"
+                                               readonly/>
+
+                                        <a class="btn btn-link px-2"
+                                           th:onclick="'incrementValue('+${entry.key.getDishId()}+')'">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="black"
+                                                 class="bi bi-plus-square-dotted text-light" viewBox="0 0 16 16">
+                                                <path d="M2.5 0c-.166 0-.33.016-.487.048l.194.98A1.51 1.51 0 0 1 2.5 1h.458V0H2.5zm2.292 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zm1.833 0h-.916v1h.916V0zm1.834 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zM13.5 0h-.458v1h.458c.1 0 .199.01.293.029l.194-.981A2.51 2.51 0 0 0 13.5 0zm2.079 1.11a2.511 2.511 0 0 0-.69-.689l-.556.831c.164.11.305.251.415.415l.83-.556zM1.11.421a2.511 2.511 0 0 0-.689.69l.831.556c.11-.164.251-.305.415-.415L1.11.422zM16 2.5c0-.166-.016-.33-.048-.487l-.98.194c.018.094.028.192.028.293v.458h1V2.5zM.048 2.013A2.51 2.51 0 0 0 0 2.5v.458h1V2.5c0-.1.01-.199.029-.293l-.981-.194zM0 3.875v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 5.708v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 7.542v.916h1v-.916H0zm15 .916h1v-.916h-1v.916zM0 9.375v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .916v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .917v.458c0 .166.016.33.048.487l.98-.194A1.51 1.51 0 0 1 1 13.5v-.458H0zm16 .458v-.458h-1v.458c0 .1-.01.199-.029.293l.981.194c.032-.158.048-.32.048-.487zM.421 14.89c.183.272.417.506.69.689l.556-.831a1.51 1.51 0 0 1-.415-.415l-.83.556zm14.469.689c.272-.183.506-.417.689-.69l-.831-.556c-.11.164-.251.305-.415.415l.556.83zm-12.877.373c.158.032.32.048.487.048h.458v-1H2.5c-.1 0-.199-.01-.293-.029l-.194.981zM13.5 16c.166 0 .33-.016.487-.048l-.194-.98A1.51 1.51 0 0 1 13.5 15h-.458v1h.458zm-9.625 0h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zm1.834-1v1h.916v-1h-.916zm1.833 1h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 input-group my-2 p-0">
+                            <span class="input-group-text">Нотатки</span>
+                            <textarea class="form-control" aria-label="notes" name="notes"
+                                      th:text="${orderNotes}"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="card-footer border-top border-light mt-2">
+                        <div class="d-flex justify-content-end mt-2">
+                            <button class="btn btn-primary me-4" type="submit">Зберегти</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </main>
 
-<!--  Modal Dish  -->
-
-<div class="modal fade" id="dishModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content bg-dark">
-            <div class="modal-header" style="border-color: white">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-4">
-                        <img src="https://brucelee.com.ua/wp-content/uploads/2019/11/bl011.jpg" alt=""
-                             class="img-fluid rounded">
-                    </div>
-                    <div class="container col-8">
-                        <p class="h1 text-light">ГОСТРА ТЕЛЯТИНА ПО-СИЧУАНСЬКИ</p>
-                        <p class="text-warning">320 гр</p>
-                        <p class="h5 text-secondary">Склад: Телятина, цибуля, брокколі, перець болгарський</p>
-                        <div class="d-flex my-4">
-                            <p class="text-secondary">
-                                Ніжне філе телятини, приготоване в поєднанні овочів і перцю чилі за китайським
-                                рецептом</p>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer d-block">
-                <div class="row d-flex align-items-center justify-content-end">
-                    <div class="row col-md-6 col-sm-12">
-                        <p class="col-5 h4 text-warning mt-1">218 ГРН</p>
-                        <button class="col-7 btn btn-outline-warning round">Додати до кошика</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div>
-
 <script>
-    const exampleModal = document.getElementById('dishModal')
-    exampleModal.addEventListener('show.bs.modal', event => {
-        // Button that triggered the modal
-        const button = event.relatedTarget
-        // Extract info from data-bs-* attributes
-        const recipient = button.getAttribute('data-bs-whatever')
-        // If necessary, you could initiate an AJAX request here
-        // and then do the updating in a callback.
-        //
-        // Update the modal's content.
-        const modalTitle = exampleModal.querySelector('.modal-title')
-        const modalBodyInput = exampleModal.querySelector('.modal-body input')
+    function incrementValue(elementId) {
+        var value = parseInt(document.getElementById(elementId).value, 10);
+        value = isNaN(value) ? 0 : value;
+        value++;
+        document.getElementById(elementId).value = value;
+    }
 
-        modalTitle.textContent = `New message to ${recipient}`
-        modalBodyInput.value = recipient
-    })
+    function decrementValue(elementId) {
+        var value = parseInt(document.getElementById(elementId).value, 10);
+        value = isNaN(value) ? 0 : value;
+        value = value === 0 ? 0 : value--;
+        document.getElementById(elementId).value = value;
+    }
 </script>
 
-<!--  End Modal Dish  -->
+<script>
+    (() => {
+        'use strict'
 
+        const forms = document.querySelectorAll('.needs-validation')
+
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
         crossorigin="anonymous"></script>
+
 </body>
 </html>

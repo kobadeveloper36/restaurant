@@ -23,6 +23,7 @@ public class OrderResponseDTO {
     private String notes;
     private Double sum;
     private List<Long> dishes;
+    private Long userId;
 
     public OrderResponseDTO(Order order) {
         this.orderId = order.getOrderId();
@@ -38,5 +39,6 @@ public class OrderResponseDTO {
         this.notes = order.getNotes();
         this.sum = order.getSum();
         this.dishes = order.getDishes();
+        this.userId = order.getUserId();
     }
 }

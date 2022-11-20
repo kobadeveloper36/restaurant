@@ -52,7 +52,7 @@
                             <th scope="row" th:text="${order.getOrderId()}"></th>
                             <td th:text="${order.getCustomerName()}"></td>
                             <td th:text="${order.getDeliveryAddress()}"></td>
-                            <td th:text="${order.getOrderDate()}"></td>
+                            <td th:text="${order.getOrderDate().toLocalDate()}"></td>
                             <td><a th:href="'/admin/order/page/'+${order.getOrderId()}">Детальніше</a></td>
                             <td><a th:href="'/admin/order/page/edit/'+${order.getOrderId()}">Редагувати</a></td>
                             <td>

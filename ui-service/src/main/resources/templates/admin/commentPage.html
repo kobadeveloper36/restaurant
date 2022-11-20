@@ -25,8 +25,6 @@
                             <div class="col-md-5 my-1">
                                 <label for="loginSelect" class="form-label">Логін</label>
                                 <select class="form-select" id="loginSelect" name="login" required>
-                                    <option value="user">user</option>
-                                    <option value="admin">admin</option>
                                     <option th:each="login : ${logins}" th:value="${login}" th:text="${login}"></option>
                                 </select>
                             </div>

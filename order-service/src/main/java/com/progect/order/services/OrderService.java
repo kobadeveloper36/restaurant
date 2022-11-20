@@ -5,10 +5,8 @@ import com.progect.order.controllers.dto.OrderResponseDTO;
 import com.progect.order.entities.Order;
 import com.progect.order.repository.OrderRepository;
 import org.hibernate.Hibernate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,6 +47,7 @@ public class OrderService {
         order.setIsTableOrder(orderRequestDTO.getIsTableOrder());
         order.setNotes(orderRequestDTO.getNotes());
         order.setDishes(orderRequestDTO.getDishes());
+        order.setUserId(order.getUserId());
         return new OrderResponseDTO(orderRepository.save(order));
     }
 

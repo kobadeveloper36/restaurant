@@ -22,4 +22,5 @@ public class OrderResponseDTO {
     private String notes;
     private Double sum;
     private List<Long> dishes;
+    private Long userId;
 }

@@ -4,10 +4,7 @@ import com.progect.ui.rest.dto.comment.CommentResponseDTO;
 import com.progect.ui.rest.dto.dish.DishResponseDTO;
 import com.progect.ui.rest.dto.order.OrderResponseDTO;
 import com.progect.ui.rest.dto.user.UserResponseDTO;
-import com.progect.ui.services.CommentService;
-import com.progect.ui.services.DishService;
-import com.progect.ui.services.MainService;
-import com.progect.ui.services.UserService;
+import com.progect.ui.services.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -30,16 +26,81 @@ public class AdminController {
 
     private final CommentService commentService;
 
+    private final OrderService orderService;
+
     private final UserService userService;
 
     private Set<String> categories;
 
-    public AdminController(MainService mainService, DishService dishService, CommentService commentService, UserService userService) {
+    public AdminController(MainService mainService, DishService dishService, CommentService commentService, OrderService orderService, UserService userService) {
         this.mainService = mainService;
         this.categories = mainService.getCategoriesSet();
         this.dishService = dishService;
         this.commentService = commentService;
+        this.orderService = orderService;
         this.userService = userService;
+    }
+
+    @GetMapping("/admin/orders")
+    public String orders(Model model) {
+        Set<String> categories = mainService.getCategoriesSet();
+        model.addAttribute("categories", categories);
+
+        List<OrderResponseDTO> orders = orderService.getAllOrders();
+        model.addAttribute("orders", orders);
+        return "admin/orders";
+    }
+
+    @PostMapping("/admin/orders")
+    public String searchedOrders(@RequestParam Long searchedId, Model model) {
+        Set<String> categories = mainService.getCategoriesSet();
+        model.addAttribute("categories", categories);
+
+        Set<OrderResponseDTO> orders = new HashSet<>(orderService.getAllOrders())
+                .stream().filter(x -> x.getOrderId().equals(searchedId)).collect(Collectors.toSet());
+        model.addAttribute("orders", orders);
+        return "admin/orders";
+    }
+
+    @GetMapping("/admin/order/page/{orderId}")
+    public String orderPage(@PathVariable Long orderId, Model model) {
+        Set<String> categories = mainService.getCategoriesSet();
+        model.addAttribute("categories", categories);
+
+        OrderResponseDTO order = orderService.getOrderById(orderId);
+        model.addAttribute("order", order);
+        List<DishResponseDTO> orderDishes = orderService.getOrderDishes(order);
+        model.addAttribute("orderDishes", orderDishes);
+        return "admin/orderPresentPage";
+    }
+
+    @GetMapping("/admin/order/page/add/")
+    public String orderPage(Model model) {
+        Set<String> categories = mainService.getCategoriesSet();
+        model.addAttribute("categories", categories);
+
+        model.addAttribute("orderId", getLastOrdersId(orderService.getAllOrders()) + 1);
+        model.addAttribute("customers", userService.getAllUsers());
+        model.addAttribute("customerName", "");
+        model.addAttribute("customerPhone", "");
+        model.addAttribute("customerEmail", "");
+        model.addAttribute("isDelivery", false);
+        model.addAttribute("isTableOrder", false);
+        model.addAttribute("isPickup", false);
+        model.addAttribute("deliveryAddress", "");
+        model.addAttribute("orderDate", LocalDateTime.now());
+        model.addAttribute("isCash", false);
+        model.addAttribute("isCard", false);
+        List<DishResponseDTO> allDishes = dishService.getAllDishes();
+        Map<DishResponseDTO, Integer> orderedDishes = new HashMap<>();
+        for (DishResponseDTO dish : allDishes) {
+            orderedDishes.put(dish, 0);
+        }
+        model.addAttribute("orderedDishes", orderedDishes);
+        model.addAttribute("orderNotes", "");
+        model.addAttribute("orderSum", 0);
+        model.addAttribute("actionPath", "/admin/order/add");
+        return "admin/orderPage";
     }
 
     @GetMapping("/admin/comments")

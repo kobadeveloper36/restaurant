@@ -19,12 +19,23 @@
             <div class="col py-3">
                 <div class="row ps-1 pb-3 border-bottom">
                     <p class="h3" th:text="'Замовлення №'+${order.getOrderId()}"></p>
-                    <p class="h4 my-2" th:text="'Адреса доставки: '+${order.getDeliveryAddress()}"></p>
+
+                    <div th:if="${order.isTableOrder == false && order.isDelivery == true}">
+                        <p class="h4" th:text="'Вид замовлення: '+${'Доставка'}"></p>
+                    </div>
+                    <div th:if="${order.isTableOrder == false && order.isDelivery == false}">
+                        <p class="h4" th:text="'Вид замовлення: '+${'Самовивіз'}"></p>
+                    </div>
+                    <div th:if="${order.isTableOrder == true}">
+                        <p class="h4" th:text="'Вид замовлення: '+${'Замовлення столику'}"></p>
+                    </div>
+                    <p class="h4 my-2" th:text="'Адреса доставки: '
+                       +${order.getDeliveryAddress() != null ? order.getDeliveryAddress() : 'Відсутня'}"></p>
                     <p class="h4" th:text="'Дата доставки: '+${order.getOrderDate().toLocalDate()}"></p>
                     <p class="h4" th:text="'Час доставки: '+${order.getOrderDate().toLocalTime()}"></p>
-                    <p class="h4" th:text="'Отримувач: '+${order.getCustomerName()}"></p>
-                    <p class="h4" th:text="'Номер телефону отримувача: '+${order.getCustomerPhone()}"></p>
-                    <p class="h4" th:text="'Email отримувача: '+${order.getCustomerEmail()}"></p>
+                    <p class="h4" th:text="'Клієнт: '+${order.getCustomerName()}"></p>
+                    <p class="h4" th:text="'Номер телефону клієнта: '+${order.getCustomerPhone()}"></p>
+                    <p class="h4" th:text="'Email клієнта: '+${order.getCustomerEmail()}"></p>
                     <p class="h4" th:text="'Прибори: '+${order.getCutlery()}"></p>
                     <p class="h4" th:text="'Спосіб оплати: '+${order.getPaymentKind()}"></p>
                     <p class="h4" th:text="'Загальна сума: '+${order.getSum()}+' грн'"></p>

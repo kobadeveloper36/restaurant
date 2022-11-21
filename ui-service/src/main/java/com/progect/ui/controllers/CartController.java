@@ -122,14 +122,17 @@ public class CartController {
         Long userId = null;
         String deliveryAddress = "";
         if (entry != null) {
-            deliveryAddress = street + ", " + flat + ", " + entry;
-            if (floor != null) {
-                deliveryAddress = deliveryAddress + ", " + floor;
+            deliveryAddress = street + ", " + flat;
+            if (entry != null) {
+                deliveryAddress = deliveryAddress + ", " + entry;
+                if (floor != null) {
+                    deliveryAddress = deliveryAddress + ", " + floor;
+                }
             }
         }
         Double sum = orderedDishes.stream().map(OrderedDish::getSum).reduce(0.0, Double::sum);
         Long orderId = orderService.createOrder(new OrderRequestDTO(name, phone, email, isDelivery, deliveryAddress,
-                null, cutlery, paymentKind, isTableOrder, notes, dishes, userId, sum));
+                LocalDateTime.now(), cutlery, paymentKind, isTableOrder, notes, dishes, userId, sum));
         orderedDishes = new ArrayList<>();
         return "redirect:/cart/addComment/" + orderId;
     }
@@ -143,7 +146,7 @@ public class CartController {
 
     @PostMapping("/cart/addComment")
     public String createComment(@RequestParam String text, Model model) {
-        commentService.createComment(new CommentRequestDTO(text, "user", LocalDate.now()));
+        commentService.createComment(new CommentRequestDTO(text, "Гість", LocalDate.now()));
         return "redirect:/";
     }
 

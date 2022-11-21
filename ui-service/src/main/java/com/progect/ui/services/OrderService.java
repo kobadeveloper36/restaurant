@@ -58,4 +58,8 @@ public class OrderService {
     public OrderResponseDTO deleteOrderById(Long orderId) {
         return orderServiceClient.deleteOrderById(orderId);
     }
+
+    public OrderResponseDTO updateOrder(Long orderId, OrderRequestDTO order) {
+        return orderServiceClient.updateOrderById(orderId, order);
+    }
 }

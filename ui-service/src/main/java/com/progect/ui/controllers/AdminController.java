@@ -75,7 +75,7 @@ public class AdminController {
     }
 
     @GetMapping("/admin/order/page/add/")
-    public String orderPage(Model model) {
+    public String orderAddingPage(Model model) {
         Set<String> categories = mainService.getCategoriesSet();
         model.addAttribute("categories", categories);
 
@@ -98,8 +98,60 @@ public class AdminController {
         }
         model.addAttribute("orderedDishes", orderedDishes);
         model.addAttribute("orderNotes", "");
-        model.addAttribute("orderSum", 0);
         model.addAttribute("actionPath", "/admin/order/add");
+        return "admin/orderPage";
+    }
+
+    @GetMapping("/admin/order/page/edit/{orderId}")
+    public String orderEditingPage(@PathVariable Long orderId, Model model) {
+        Set<String> categories = mainService.getCategoriesSet();
+        model.addAttribute("categories", categories);
+
+        OrderResponseDTO order = orderService.getOrderById(orderId);
+        model.addAttribute("orderId", orderId);
+        List<UserResponseDTO> users = userService.getAllUsers();
+        List<UserResponseDTO> customers = new ArrayList<>();
+        if (order.getUserId() != null) {
+            UserResponseDTO user = userService.getUserById(order.getUserId());
+            users.remove(user);
+            customers.add(user);
+            customers.addAll(users);
+        } else {
+            customers = userService.getAllUsers();
+        }
+        model.addAttribute("customers", customers);
+        model.addAttribute("customerName", order.getCustomerName());
+        model.addAttribute("customerPhone", order.getCustomerPhone());
+        model.addAttribute("customerEmail", order.getCustomerEmail());
+        boolean isDelivery = order.getIsDelivery();
+        Boolean isTableOrder = order.getIsTableOrder();
+        boolean isPickup = false;
+        if (!isDelivery && !isTableOrder) {
+            isPickup = true;
+        }
+        model.addAttribute("isDelivery", isDelivery);
+        model.addAttribute("isTableOrder", isTableOrder);
+        model.addAttribute("isPickup", isPickup);
+        model.addAttribute("deliveryAddress", order.getDeliveryAddress());
+        model.addAttribute("orderDate", order.getOrderDate());
+        boolean isCash = false;
+        boolean isCard = false;
+        if (order.getPaymentKind().equals("Готівкою")) {
+            isCash = true;
+        } else {
+            isCard = true;
+        }
+        model.addAttribute("isCash", isCash);
+        model.addAttribute("isCard", isCard);
+        List<DishResponseDTO> allDishes = dishService.getAllDishes();
+        Map<DishResponseDTO, Integer> orderedDishes = new HashMap<>();
+        for (DishResponseDTO dish : allDishes) {
+            orderedDishes.put(dish,
+                    order.getDishes().stream().filter(x -> x.equals(dish.getDishId())).toList().size());
+        }
+        model.addAttribute("orderedDishes", orderedDishes);
+        model.addAttribute("orderNotes", order.getNotes());
+        model.addAttribute("actionPath", "/admin/order/edit/" + orderId);
         return "admin/orderPage";
     }
 

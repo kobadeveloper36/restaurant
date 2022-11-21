@@ -47,7 +47,8 @@ public class OrderService {
         order.setIsTableOrder(orderRequestDTO.getIsTableOrder());
         order.setNotes(orderRequestDTO.getNotes());
         order.setDishes(orderRequestDTO.getDishes());
-        order.setUserId(order.getUserId());
+        order.setUserId(orderRequestDTO.getUserId());
+        order.setSum(orderRequestDTO.getSum());
         return new OrderResponseDTO(orderRepository.save(order));
     }
 

@@ -82,6 +82,9 @@ public class AdminController {
         model.addAttribute("actionPath", "/admin/user/add");
         String userImage = "user.png";
         model.addAttribute("userImage", userImage);
+        model.addAttribute("comments", new ArrayList<CommentResponseDTO>());
+        model.addAttribute("orders", new ArrayList<OrderResponseDTO>());
+
         return "admin/userPage";
     }
 
@@ -110,6 +113,8 @@ public class AdminController {
         model.addAttribute("roles", roles);
         model.addAttribute("actionPath", "/admin/user/edit/" + userId);
         model.addAttribute("userImage", user.getImgFile());
+        model.addAttribute("comments", commentService.getCommentsByUserName(user.getLogin()));
+        model.addAttribute("orders", orderService.getOrdersById(userId));
 
         return "admin/userPage";
     }

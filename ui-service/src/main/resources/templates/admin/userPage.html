@@ -116,6 +116,48 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-12 row mt-3 p-0">
+                        <div class="col-md-6">
+                            <table class="table table-striped">
+                                <thead>
+                                <p class="h5 text-center">Коментарі користувача</p>
+                                <tr>
+                                    <th scope="col">№</th>
+                                    <th scope="col">Дата</th>
+                                    <th scope="col">Текст</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="comment : ${comments}">
+                                    <th scope="row" th:text="${comment.getCommentId()}"></th>
+                                    <td th:text="${comment.getCreationDate()}"></td>
+                                    <td th:text="${comment.getText()}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table table-striped">
+                                <thead>
+                                <p class="h5 text-center">Замовлення користувача</p>
+                                <tr>
+                                    <th scope="col">№</th>
+                                    <th scope="col">Адреса</th>
+                                    <th scope="col">Дата отримання</th>
+                                    <th scope="col">Деталі</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="order : ${orders}">
+                                    <th scope="row" th:text="${order.getOrderId()}"></th>
+                                    <td th:text="${order.getDeliveryAddress()}"></td>
+                                    <td th:text="${order.getOrderDate().toLocalDate()}"></td>
+                                    <td><a th:href="'/admin/order/page/'+${order.getOrderId()}">Детальніше</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                     <div class="card-footer border-top border-light mt-2">
                         <div class="d-flex justify-content-end mt-2">
                             <button class="btn btn-primary me-4" type="submit">Зберегти</button>

@@ -50,7 +50,7 @@
                 <span class="ms-1 d-none d-sm-inline">Страви</span></a>
             <ul class="collapse nav flex-column ms-1" data-bs-parent="#menu" id="dishes">
                 <li th:if="${categories != null}" th:each="category : ${categories}" class="w-100">
-                    <form th:action="'/admin/'+${category}" method="get">
+                    <form th:action="'/admin/'+${category}" method="get" class="p-0 m-0">
                         <button type="submit" class="nav-link px-0">
                             <span class="d-none d-sm-inline" th:text="${category}"></span>
                         </button>

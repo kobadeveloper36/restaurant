@@ -19,5 +19,6 @@ public class UserRequestDTO {
     private String password;
     private List<Long> orders;
     private List<Long> comments;
-    private String privileges;
+    private String role;
+    private String imgFile;
 }

@@ -21,7 +21,9 @@ public class UserResponseDTO {
     private String password;
     private List<Long> orders;
     private List<Long> comments;
-    private String privileges;
+    private String role;
+
+    private String imgFile;
 
     public UserResponseDTO(User user) {
         this.userId = user.getUserId();
@@ -36,6 +38,7 @@ public class UserResponseDTO {
         this.password = user.getPassword();
         this.orders = user.getOrders();
         this.comments = user.getComments();
-        this.privileges = user.getPrivileges();
+        this.role = user.getRole();
+        this.imgFile = user.getImgFile();
     }
 }

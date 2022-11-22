@@ -26,4 +26,7 @@ public interface UserServiceClient {
 
     @GetMapping("users/")
     List<UserResponseDTO> getAllUsers();
+
+    @GetMapping("users/login/{userLogin}")
+    UserResponseDTO getUserByLogin(@PathVariable String userLogin);
 }

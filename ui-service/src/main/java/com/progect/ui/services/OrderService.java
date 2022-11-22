@@ -16,9 +16,13 @@ public class OrderService {
     private final OrderServiceClient orderServiceClient;
     private final DishServiceClient dishServiceClient;
 
-    public OrderService(OrderServiceClient orderServiceClient, DishServiceClient dishServiceClient) {
+    private final UserService userService;
+
+    public OrderService(OrderServiceClient orderServiceClient, DishServiceClient dishServiceClient,
+                        UserService userService) {
         this.orderServiceClient = orderServiceClient;
         this.dishServiceClient = dishServiceClient;
+        this.userService = userService;
     }
 
     public List<OrderResponseDTO> getOrdersById(Long userId) {
@@ -61,5 +65,9 @@ public class OrderService {
 
     public OrderResponseDTO updateOrder(Long orderId, OrderRequestDTO order) {
         return orderServiceClient.updateOrderById(orderId, order);
+    }
+
+    public Long setOrderToUserById(Long customerId, Long orderId) {
+        return userService.setOrderId(customerId, orderId);
     }
 }

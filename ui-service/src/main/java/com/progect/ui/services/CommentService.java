@@ -11,8 +11,11 @@ import java.util.List;
 public class CommentService {
     private final CommentServiceClient commentServiceClient;
 
-    public CommentService(CommentServiceClient commentServiceClient) {
+    private final UserService userService;
+
+    public CommentService(CommentServiceClient commentServiceClient, UserService userService) {
         this.commentServiceClient = commentServiceClient;
+        this.userService = userService;
     }
 
     public Long createComment(CommentRequestDTO commentRequestDTO) {
@@ -37,5 +40,9 @@ public class CommentService {
 
     public CommentResponseDTO getCommentById(Long commentId) {
         return commentServiceClient.getCommentById(commentId);
+    }
+
+    public String setCommentToUserByLogin(String login, Long commentId) {
+        return userService.getSetCommentId(login, commentId);
     }
 }

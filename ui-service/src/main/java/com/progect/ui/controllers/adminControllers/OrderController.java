@@ -1,5 +1,6 @@
 package com.progect.ui.controllers.adminControllers;
 
+import com.progect.ui.controllers.AdminController;
 import com.progect.ui.rest.dto.order.OrderRequestDTO;
 import com.progect.ui.rest.dto.order.OrderResponseDTO;
 import com.progect.ui.services.OrderService;
@@ -51,6 +52,9 @@ public class OrderController {
         }
         if (customerId == 0) {
             customerId = null;
+        } else {
+            orderService.setOrderToUserById(customerId,
+                    AdminController.getLastOrdersId(orderService.getAllOrders()) + 1);
         }
         Double orderSum = orderService.getOrderSum(dishes);
         OrderRequestDTO newOrder = new OrderRequestDTO(customerName, customerPhone, customerEmail, isDelivery,
@@ -90,6 +94,8 @@ public class OrderController {
         }
         if (customerId == 0) {
             customerId = null;
+        } else {
+            orderService.setOrderToUserById(customerId, orderId);
         }
         Double orderSum = orderService.getOrderSum(dishes);
         OrderRequestDTO order = new OrderRequestDTO(customerName, customerPhone, customerEmail, isDelivery,

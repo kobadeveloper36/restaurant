@@ -22,7 +22,8 @@
                 <form th:action="${actionPath}" enctype="multipart/form-data"
                       class="card-body px-4 row my-3 g-2 needs-validation" method="post" novalidate>
                     <div class="col-md-3 col-sm-12 card my-2">
-                        <img class="mt-2" src="#" th:src="'/img/dishes/'+${dishImage}"
+                        <img class="mt-2" src="#"
+                             th:src="${dishImage.equals('dish.png') ? '/images/dish.png' : '/img/dishes/'+ dishImage}"
                              th:alt="${dishImage}" id="dishImage">
                         <div class="card-body d-flex align-items-end">
                             <input class="form-control" type="file" id="imgFile" name="imgFile" required>

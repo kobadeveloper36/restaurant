@@ -4,6 +4,7 @@ import com.progect.ui.rest.dto.comment.CommentResponseDTO;
 import com.progect.ui.rest.dto.dish.DishResponseDTO;
 import com.progect.ui.rest.dto.order.OrderResponseDTO;
 import com.progect.ui.rest.dto.user.UserResponseDTO;
+import com.progect.ui.rest.dto.user.UsersRoles;
 import com.progect.ui.services.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,6 +40,78 @@ public class AdminController {
         this.commentService = commentService;
         this.orderService = orderService;
         this.userService = userService;
+    }
+
+    @GetMapping("/admin/users")
+    public String users(Model model) {
+        Set<String> categories = mainService.getCategoriesSet();
+        model.addAttribute("categories", categories);
+
+        List<UserResponseDTO> users = userService.getAllUsers();
+        model.addAttribute("users", users);
+        return "admin/users";
+    }
+
+    @PostMapping("/admin/users")
+    public String searchedUsers(@RequestParam String searchedLogin, Model model) {
+        Set<String> categories = mainService.getCategoriesSet();
+        model.addAttribute("categories", categories);
+
+        Set<UserResponseDTO> users = new HashSet<>(userService.getAllUsers())
+                .stream().filter(x -> x.getLogin().equals(searchedLogin.toLowerCase())).collect(Collectors.toSet());
+        model.addAttribute("users", users);
+        return "admin/users";
+    }
+
+    @GetMapping("/admin/user/page/add/")
+    public String addUser(Model model) {
+        Set<String> categories = mainService.getCategoriesSet();
+        model.addAttribute("categories", categories);
+
+        model.addAttribute("userId", getLastUserId(userService.getAllUsers()) + 1);
+        model.addAttribute("userName", "");
+        model.addAttribute("userPhone", "");
+        model.addAttribute("userEmail", "");
+        model.addAttribute("userAddress", "");
+        model.addAttribute("userFlat", "");
+        model.addAttribute("userEntrance", "");
+        model.addAttribute("userFloor", "");
+        model.addAttribute("userLogin", "");
+        model.addAttribute("userPassword", "");
+        model.addAttribute("roles", UsersRoles.values());
+        model.addAttribute("actionPath", "/admin/user/add");
+        String userImage = "user.png";
+        model.addAttribute("userImage", userImage);
+        return "admin/userPage";
+    }
+
+    @GetMapping("/admin/user/page/edit/{userId}")
+    public String addUser(@PathVariable Long userId, Model model) {
+        Set<String> categories = mainService.getCategoriesSet();
+        model.addAttribute("categories", categories);
+
+        UserResponseDTO user = userService.getUserById(userId);
+        model.addAttribute("userId", userId);
+        model.addAttribute("userName", user.getName());
+        model.addAttribute("userPhone", user.getPhone());
+        model.addAttribute("userEmail", user.getEmail());
+        model.addAttribute("userAddress", user.getAddress());
+        model.addAttribute("userFlat", user.getFlat());
+        model.addAttribute("userEntrance", user.getEntry());
+        model.addAttribute("userFloor", user.getFloor());
+        model.addAttribute("userLogin", user.getLogin());
+        model.addAttribute("userPassword", user.getPassword());
+        List<UsersRoles> roles = new ArrayList<>();
+        UsersRoles userRole = UsersRoles.valueOf(user.getRole());
+        roles.add(userRole);
+        List<UsersRoles> allroles = new ArrayList<>(Arrays.stream(UsersRoles.values()).toList());
+        allroles.remove(userRole);
+        roles.addAll(allroles);
+        model.addAttribute("roles", roles);
+        model.addAttribute("actionPath", "/admin/user/edit/" + userId);
+        model.addAttribute("userImage", user.getImgFile());
+
+        return "admin/userPage";
     }
 
     @GetMapping("/admin/orders")
@@ -79,7 +152,7 @@ public class AdminController {
         Set<String> categories = mainService.getCategoriesSet();
         model.addAttribute("categories", categories);
 
-        model.addAttribute("orderId", getLastOrdersId(orderService.getAllOrders()) + 1);
+        model.addAttribute("orderId", AdminController.getLastOrdersId(orderService.getAllOrders()) + 1);
         model.addAttribute("customers", userService.getAllUsers());
         model.addAttribute("customerName", "");
         model.addAttribute("customerPhone", "");
@@ -181,7 +254,7 @@ public class AdminController {
         model.addAttribute("categories", categories);
 
         List<CommentResponseDTO> comments = commentService.getAllComments();
-        long commentId = getLastCommentId(comments) + 1;
+        long commentId = AdminController.getLastCommentId(comments) + 1;
         model.addAttribute("commentId", commentId);
         LocalDate creationDate = LocalDate.now();
         model.addAttribute("creationDate", creationDate);
@@ -203,7 +276,18 @@ public class AdminController {
         model.addAttribute("commentId", commentId);
         model.addAttribute("creationDate", comment.getCreationDate());
         model.addAttribute("commentText", comment.getText());
-        model.addAttribute("commentUserName", comment.getUserName());
+        List<UserResponseDTO> users = userService.getAllUsers();
+        List<UserResponseDTO> logins = new ArrayList<>();
+        if (comment.getUserName() != null) {
+            UserResponseDTO user = userService.getUserByLogin(comment.getUserName());
+            users.remove(user);
+            logins.add(user);
+            logins.addAll(users);
+        } else {
+            logins = userService.getAllUsers();
+        }
+        model.addAttribute("logins", logins);
+
         String actionPath = "/admin/comment/edit/" + comment.getCommentId();
         model.addAttribute("actionPath", actionPath);
         return "/admin/commentPage";
@@ -278,7 +362,7 @@ public class AdminController {
         }
     }
 
-    private long getLastCommentId(List<CommentResponseDTO> comments) {
+    public static long getLastCommentId(List<CommentResponseDTO> comments) {
         if (comments.isEmpty()) {
             return 0;
         } else {
@@ -286,7 +370,7 @@ public class AdminController {
         }
     }
 
-    private long getLastOrdersId(List<OrderResponseDTO> orders) {
+    public static long getLastOrdersId(List<OrderResponseDTO> orders) {
         if (orders.isEmpty()) {
             return 0;
         } else {

@@ -1,5 +1,6 @@
 package com.progect.ui.controllers.adminControllers;
 
+import com.progect.ui.controllers.AdminController;
 import com.progect.ui.rest.dto.comment.CommentRequestDTO;
 import com.progect.ui.services.CommentService;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,8 @@ public class CommentController {
     @PostMapping("/admin/comment/add")
     public String addComment(@RequestParam String creationDate,
                              @RequestParam String text, @RequestParam String login) {
+        commentService.setCommentToUserByLogin(login,
+                AdminController.getLastCommentId(commentService.getAllComments()) + 1);
         CommentRequestDTO commentRequestDTO = new CommentRequestDTO(text,
                 login, LocalDate.parse(creationDate, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         commentService.createComment(commentRequestDTO);
@@ -31,6 +34,7 @@ public class CommentController {
     @PostMapping("/admin/comment/edit/{commentId}")
     public String editComment(@PathVariable Long commentId, @RequestParam String creationDate,
                               @RequestParam String text, @RequestParam String login) {
+        commentService.setCommentToUserByLogin(login, commentId);
         CommentRequestDTO commentRequestDTO = new CommentRequestDTO(text,
                 login, LocalDate.parse(creationDate, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         commentService.updateCommentById(commentId, commentRequestDTO);

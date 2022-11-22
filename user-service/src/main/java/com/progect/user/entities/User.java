@@ -25,7 +25,7 @@ public class User {
     @Column(name = "phone", nullable = false, length = 15)
     private String phone;
 
-    @Column(name = "email", nullable = false, length = 20)
+    @Column(name = "email", nullable = false, length = 50)
     private String email;
 
     @Column(name = "address", nullable = false)
@@ -56,13 +56,17 @@ public class User {
     @CollectionTable(name = "user_orders", joinColumns = @JoinColumn(name = "user_id"))
     private List<Long> orders = new ArrayList<>();
 
-    @Column(name = "privileges", nullable = false, length = 10)
-    private String privileges;
+    @Column(name = "role", nullable = false, length = 10)
+    private String role;
+
+    @Column(name = "imgFile", nullable = false)
+    private String imgFile;
+
 
     public User(String name, String phone, String email, String address,
                 String flat, String entry, String floor, String login,
                 String password, List<Long> comments,
-                List<Long> orders, String privileges) {
+                List<Long> orders, String role, String imgFile) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -74,6 +78,7 @@ public class User {
         this.password = password;
         this.comments = comments;
         this.orders = orders;
-        this.privileges = privileges;
+        this.role = role;
+        this.imgFile = imgFile;
     }
 }

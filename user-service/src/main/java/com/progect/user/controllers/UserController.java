@@ -3,7 +3,6 @@ package com.progect.user.controllers;
 import com.progect.user.controllers.dto.UserRequestDTO;
 import com.progect.user.controllers.dto.UserResponseDTO;
 import com.progect.user.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,5 +39,10 @@ public class UserController {
     @GetMapping("/")
     public List<UserResponseDTO> getAllUsers(){
         return userService.getAllUsers();
+    }
+
+    @GetMapping("/login/{userLogin}")
+    public UserResponseDTO getUserByLogin(@PathVariable String userLogin){
+        return  userService.getUserByLogin(userLogin);
     }
 }

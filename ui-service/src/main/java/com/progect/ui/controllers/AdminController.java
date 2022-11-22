@@ -161,7 +161,7 @@ public class AdminController {
         model.addAttribute("isTableOrder", false);
         model.addAttribute("isPickup", false);
         model.addAttribute("deliveryAddress", "");
-        model.addAttribute("orderDate", LocalDateTime.now());
+        model.addAttribute("orderDate", LocalDateTime.now().toString());
         model.addAttribute("isCash", false);
         model.addAttribute("isCard", false);
         List<DishResponseDTO> allDishes = dishService.getAllDishes();
@@ -190,6 +190,7 @@ public class AdminController {
             customers.add(user);
             customers.addAll(users);
         } else {
+            customers.add(new UserResponseDTO(0L, "Неавторизований користувач"));
             customers = userService.getAllUsers();
         }
         model.addAttribute("customers", customers);
@@ -198,15 +199,12 @@ public class AdminController {
         model.addAttribute("customerEmail", order.getCustomerEmail());
         boolean isDelivery = order.getIsDelivery();
         Boolean isTableOrder = order.getIsTableOrder();
-        boolean isPickup = false;
-        if (!isDelivery && !isTableOrder) {
-            isPickup = true;
-        }
+        boolean isPickup = !isDelivery && !isTableOrder;
         model.addAttribute("isDelivery", isDelivery);
         model.addAttribute("isTableOrder", isTableOrder);
         model.addAttribute("isPickup", isPickup);
         model.addAttribute("deliveryAddress", order.getDeliveryAddress());
-        model.addAttribute("orderDate", order.getOrderDate());
+        model.addAttribute("orderDate", order.getOrderDate().toString());
         boolean isCash = false;
         boolean isCard = false;
         if (order.getPaymentKind().equals("Готівкою")) {
@@ -276,15 +274,15 @@ public class AdminController {
         model.addAttribute("commentId", commentId);
         model.addAttribute("creationDate", comment.getCreationDate());
         model.addAttribute("commentText", comment.getText());
-        List<UserResponseDTO> users = userService.getAllUsers();
-        List<UserResponseDTO> logins = new ArrayList<>();
+        List<String> users = new ArrayList<>(userService.getAllUsers().stream().map(UserResponseDTO::getLogin).toList());
+        List<String> logins = new ArrayList<>();
         if (comment.getUserName() != null) {
-            UserResponseDTO user = userService.getUserByLogin(comment.getUserName());
+            String user = comment.getUserName();
             users.remove(user);
             logins.add(user);
             logins.addAll(users);
         } else {
-            logins = userService.getAllUsers();
+            logins = userService.getAllUsers().stream().map(UserResponseDTO::getLogin).toList();
         }
         model.addAttribute("logins", logins);
 

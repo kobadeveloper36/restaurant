@@ -24,7 +24,6 @@
                         <div class="col-md-6 my-1 pe-0">
                             <label for="customerLogin" class="form-label">Логін клієнта</label>
                             <select class="form-select" id="customerLogin" name="customerId" required>
-                                <option value="0">Неавторизований користувач</option>
                                 <option th:each="customer : ${customers}" th:value="${customer.getUserId()}"
                                         th:text="${customer.getLogin()}"></option>
                             </select>

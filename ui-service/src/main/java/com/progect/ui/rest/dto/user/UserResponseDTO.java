@@ -2,11 +2,13 @@ package com.progect.ui.rest.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserResponseDTO {
     private Long userId;
     private String name;
@@ -22,4 +24,9 @@ public class UserResponseDTO {
     private List<Long> comments;
     private String role;
     private String imgFile;
+
+    public UserResponseDTO(Long userId, String login) {
+        this.userId = userId;
+        this.login = login;
+    }
 }

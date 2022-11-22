@@ -193,10 +193,11 @@ public class AdminController {
             UserResponseDTO user = userService.getUserById(order.getUserId());
             users.remove(user);
             customers.add(user);
+            customers.add(new UserResponseDTO(0L, "Неавторизований користувач"));
             customers.addAll(users);
         } else {
             customers.add(new UserResponseDTO(0L, "Неавторизований користувач"));
-            customers = userService.getAllUsers();
+            customers.addAll(userService.getAllUsers());
         }
         model.addAttribute("customers", customers);
         model.addAttribute("customerName", order.getCustomerName());

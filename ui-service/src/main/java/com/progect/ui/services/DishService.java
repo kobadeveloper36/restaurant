@@ -17,10 +17,6 @@ public class DishService {
         this.dishServiceClient = dishServiceClient;
     }
 
-    public List<DishResponseDTO> getDishesById(Long dishId) {
-        return dishServiceClient.getDishesById(dishId);
-    }
-
     public List<DishResponseDTO> getAllDishes() {
         return dishServiceClient.getAllDishes();
     }

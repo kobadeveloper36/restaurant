@@ -10,42 +10,8 @@
           integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 </head>
 <body>
-<header class="container d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-    <a href="../index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-        <img src="../../static/images/logo.png"
-             alt="logo" style="width: 42px; height: 42px">
-        <span class=" fs-4 ms-2">Ресторан ChiNA</span>
-    </a>
-    <ul class="nav nav-pills">
-        <li class="nav-item">
-            <a class="btn btn-outline-light me-2" type="button" data-bs-toggle="dropdown"
-               aria-expanded="false">Меню</a>
-            <ul class="dropdown-menu dropdown-menu-light">
-                <li><a class="dropdown-item" href="../menu.html#soups">Супи</a></li>
-                <li><a class="dropdown-item" href="../menu.html#meet">М'ясо</a></li>
-                <li><a class="dropdown-item" href="../menu.html#fowl">Птах</a></li>
-                <li><a class="dropdown-item" href="../menu.html#seafood">Морепродукти</a></li>
-                <li><a class="dropdown-item" href="../menu.html#handmade">Ліпимо самі</a></li>
-                <li><a class="dropdown-item" href="../menu.html#noodles">Локшина</a></li>
-                <li><a class="dropdown-item" href="../menu.html#sideDish">Гарніри</a></li>
-                <li><a class="dropdown-item" href="../menu.html#salads">Салати</a></li>
-                <li><a class="dropdown-item" href="../menu.html#snacks">Закуски</a></li>
-                <li><a class="dropdown-item" href="../menu.html#desserts">Десерти</a></li>
-            </ul>
-        </li>
-        <li class="nav-item">
-            <a class="btn btn-outline-light me-2" href="../account.html">Ваш акаунт</a>
-        </li>
-        <li class="nav-item">
-            <a class="btn btn-outline-light me-2" href="../aboutUs.html">Про нас</a>
-        </li>
-        <li class="nav-item">
-            <a href="">
-                <img src="../../static/images/cart.png" alt="" style="width: 38px; height: 38px">
-            </a>
-        </li>
-    </ul>
-</header>
+
+<header th:insert="blocks/header :: #header"></header>
 
 <main>
 
@@ -54,7 +20,7 @@
         <div class="card bg-dark p-4">
             <div class="card-header navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-light">
                 <div class="container-fluid mb-2">
-                    <a class="navbar-brand" href="">User</a>
+                    <a class="navbar-brand" href="/account" th:text="'Вітаємо, '+${name}+'!'"></a>
                     <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#accountMenu" aria-controls="accountMenu" aria-expanded="false">
                         <span class="navbar-toggler-icon"></span>
@@ -63,13 +29,15 @@
                     <div class="navbar-collapse justify-content-md-end collapse" id="accountMenu" style="">
                         <ul class="navbar-nav">
                             <li class="nav-item my-1">
-                                <a href="orders-account.html" class="btn btn-outline-warning mx-2">Історія замовлень</a>
+                                <a href="/account/orders-account" class="btn btn-outline-warning mx-2">Історія
+                                    замовлень</a>
                             </li>
                             <li class="nav-item my-1">
-                                <a href="info-account.html" class="btn btn-outline-warning mx-2">Про користувача</a>
+                                <a href="/account/info-account" class="btn btn-outline-warning mx-2">Про
+                                    користувача</a>
                             </li>
                             <li class="nav-item my-1">
-                                <form action="">
+                                <form action="/logout" method="post">
                                     <button class="btn btn-outline-warning mx-2">Вийти з акаунту</button>
                                 </form>
                             </li>
@@ -85,30 +53,17 @@
                         <th scope="col">Дата</th>
                         <th scope="col">Адреса</th>
                         <th scope="col">Сума</th>
-                        <th scope="col">Додатково</th>
+                        <th scope="col">Детальніше</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>20-08-2022</td>
-                        <td>вул. Антоновича, 20, кв.70</td>
-                        <td>450 грн</td>
-                        <td><a href="order-info.html">Детальніше</a></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>21-08-2022</td>
-                        <td>вул. Антоновича, 20, кв.70</td>
-                        <td>720 грн</td>
-                        <td><a href="order-info.html">Детальніше</a></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>22-08-2022</td>
-                        <td>вул. Антоновича, 20, кв.70</td>
-                        <td>370 грн</td>
-                        <td><a href="order-info.html">Детальніше</a></td>
+                    <tr th:each="order : ${orders}">
+                        <th scope="row" th:text="${order.getOrderId()}"></th>
+                        <td th:text="${order.getOrderDate().toLocalDate()}"></td>
+                        <td th:text="${order.getDeliveryAddress()}"></td>
+                        <td th:text="${order.getSum()}+' грн'"></td>
+                        <td><a th:href="'/account/orders-account/order-info/'+${order.getOrderId()}">Детальніше</a>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -117,32 +72,7 @@
     </div>
 </main>
 
-<footer class="m-5 d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-    <div class="col-md-4 d-flex align-items-center">
-        <a href="../index.html" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
-            <img src="../../static/images/logo.png" alt="" style="height: 62px; width: 62px;">
-            <span class="mb-3 ms-2 mb-md-0 text-light">© 2022 ChiNA</span>
-        </a>
-    </div>
-
-    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-        <li class="ms-3"><a class="text-muted" href="https://web.telegram.org/">
-            <img src="../../static/images/media/telegram.png" alt=""
-                 style="height: 42px; width: 42px;">
-        </a></li>
-        <li class="ms-3"><a class="text-muted" href="https://twitter.com/">
-            <img src="../../static/images/media/twitter.png" alt=""
-                 style="height: 42px; width: 42px;">
-        </a></li>
-        <li class="ms-3"><a class="text-muted" href="https://www.instagram.com/">
-            <img src="../../static/images/media/instagram.png" alt=""
-                 style="height: 42px; width: 42px;">
-        </a></li>
-        <li class="ms-3"><a class="text-muted" href="https://www.facebook.com/">
-            <img src="../../static/images/media/facebook.png" alt="" style="height: 42px; width: 42px;">
-        </a></li>
-    </ul>
-</footer>
+<footer th:insert="blocks/footer :: #footer"></footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
         crossorigin="anonymous"></script>

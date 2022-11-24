@@ -1,0 +1,25 @@
+<div class="container-fluid mb-2" id="accountNavbar">
+    <a class="navbar-brand" href="/account" th:text="'Вітаємо, '+${name}+'!'"></a>
+    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#accountMenu" aria-controls="accountMenu" aria-expanded="false">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="navbar-collapse justify-content-md-end collapse" id="accountMenu" style="">
+        <ul class="navbar-nav">
+            <li class="nav-item my-1">
+                <a href="/account/orders-account" class="btn btn-outline-warning mx-2">Історія
+                    замовлень</a>
+            </li>
+            <li class="nav-item my-1">
+                <a href="/account/info-account" class="btn btn-outline-warning mx-2">Про
+                    користувача</a>
+            </li>
+            <li class="nav-item my-1">
+                <form action="/logout" method="post">
+                    <button class="btn btn-outline-warning mx-2">Вийти з акаунту</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</div>

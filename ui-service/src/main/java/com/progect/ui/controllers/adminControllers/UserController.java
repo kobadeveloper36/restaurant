@@ -3,6 +3,7 @@ package com.progect.ui.controllers.adminControllers;
 import com.progect.ui.UiApplication;
 import com.progect.ui.rest.dto.user.UserRequestDTO;
 import com.progect.ui.rest.dto.user.UserResponseDTO;
+import com.progect.ui.services.RegistrationService;
 import com.progect.ui.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +19,12 @@ import java.util.UUID;
 @Controller
 public class UserController {
     private final UserService userService;
+    private final RegistrationService registrationService;
     private final String uploadPath;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, RegistrationService registrationService) {
         this.userService = userService;
+        this.registrationService = registrationService;
         String location = UiApplication.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         this.uploadPath = location.substring(0, location.indexOf("/build")) + "/uploads/img/users/";
     }
@@ -50,7 +53,7 @@ public class UserController {
                 return "redirect:/admin/users";
             }
         }
-        userService.createUser(new UserRequestDTO(userName, userPhone, userEmail, userAddress, userFlat, userEntrance,
+        registrationService.register(new UserRequestDTO(userName, userPhone, userEmail, userAddress, userFlat, userEntrance,
                 userFloor, userLogin, userPassword, null, null, userRole, resultFileName));
         return "redirect:/admin/users";
     }
@@ -84,7 +87,7 @@ public class UserController {
             UserResponseDTO userById = userService.getUserById(userId);
             userPassword = userById.getPassword();
         }
-        userService.updateUser(userId, new UserRequestDTO(userName, userPhone, userEmail, userAddress, userFlat,
+        registrationService.register(userId, new UserRequestDTO(userName, userPhone, userEmail, userAddress, userFlat,
                 userEntrance, userFloor, userLogin, userPassword, null, null, userRole, resultFileName));
         return "redirect:/admin/users";
     }

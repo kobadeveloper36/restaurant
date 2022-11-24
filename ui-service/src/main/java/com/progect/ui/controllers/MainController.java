@@ -3,9 +3,12 @@ package com.progect.ui.controllers;
 import com.progect.ui.rest.dto.comment.CommentResponseDTO;
 import com.progect.ui.rest.dto.dish.DishResponseDTO;
 import com.progect.ui.rest.dto.order.OrderRequestDTO;
+import com.progect.ui.rest.dto.user.UserResponseDTO;
+import com.progect.ui.security.UserDetailsImpl;
 import com.progect.ui.services.CommentService;
 import com.progect.ui.services.MainService;
 import com.progect.ui.services.OrderService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -77,8 +80,9 @@ public class MainController {
     }
 
     @GetMapping("/account")
-    public String account(Model model) {
-        model.addAttribute("userName", "");
+    public String account(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
+        UserResponseDTO userResponseDTO = userDetails.getUserResponseDTO();
+        model.addAttribute("name", userResponseDTO.getName());
         return "account";
     }
 

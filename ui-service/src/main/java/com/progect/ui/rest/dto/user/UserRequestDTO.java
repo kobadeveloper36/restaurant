@@ -1,6 +1,5 @@
 package com.progect.ui.rest.dto.user;
 
-import com.progect.ui.security.UsersRoles;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

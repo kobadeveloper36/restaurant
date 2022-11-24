@@ -77,7 +77,6 @@ public class AdminController {
         model.addAttribute("userEntrance", "");
         model.addAttribute("userFloor", "");
         model.addAttribute("userLogin", "");
-        model.addAttribute("userPassword", "");
         model.addAttribute("roles", UsersRoles.values());
         model.addAttribute("actionPath", "/admin/user/add");
         String userImage = "user.png";
@@ -103,7 +102,6 @@ public class AdminController {
         model.addAttribute("userEntrance", user.getEntry());
         model.addAttribute("userFloor", user.getFloor());
         model.addAttribute("userLogin", user.getLogin());
-        model.addAttribute("userPassword", user.getPassword());
         List<UsersRoles> roles = new ArrayList<>();
         UsersRoles userRole = UsersRoles.valueOf(user.getRole());
         roles.add(userRole);
@@ -112,7 +110,12 @@ public class AdminController {
         roles.addAll(allroles);
         model.addAttribute("roles", roles);
         model.addAttribute("actionPath", "/admin/user/edit/" + userId);
-        model.addAttribute("userImage", user.getImgFile());
+        String imgFile = user.getImgFile();
+        if (imgFile.equals("user.png")) {
+            model.addAttribute("userImage", "user.png");
+        } else {
+            model.addAttribute("userImage", user.getImgFile());
+        }
         model.addAttribute("comments", commentService.getCommentsByUserName(user.getLogin()));
         model.addAttribute("orders", orderService.getOrdersById(userId));
 

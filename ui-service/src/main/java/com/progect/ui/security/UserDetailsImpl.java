@@ -1,6 +1,7 @@
 package com.progect.ui.security;
 
 import com.progect.ui.rest.dto.user.UserResponseDTO;
+import com.progect.ui.rest.dto.user.UsersRoles;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

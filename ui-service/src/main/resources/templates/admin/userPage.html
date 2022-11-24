@@ -16,10 +16,10 @@
             </div>
             <div class="col py-3">
                 <div class="row ps-1 pb-3 border-bottom">
-                    <p class="h3 ms-3" th:value="'Клієнт №'+${userId}"></p>
+                    <p class="h3 ms-3" th:text="'Клієнт №'+${userId}"></p>
                 </div>
                 <form th:action="${actionPath}" method="post"
-                      class="row g-2 needs-validation" enctype="multipart/form-data">
+                      class="row g-2 needs-validation mt-1" enctype="multipart/form-data">
                     <div class="col-md-3 col-sm-12 card my-2">
                         <div class="text-center">
                             <img class="rounded-circle mt-2" width="250" height="250"
@@ -94,15 +94,15 @@
                             </div>
                             <div class="col-md-3 my-1">
                                 <label for="password" class="form-label">Пароль</label>
-                                <input type="text" class="form-control" id="password" th:value="${userPassword}"
-                                       name="userPassword" required>
+                                <input type="text" class="form-control" id="password"
+                                       name="userPassword">
                                 <div class="invalid-feedback">
                                     Заповніть поле
                                 </div>
                             </div>
                             <div class="col-md-3 my-1">
                                 <label for="passwordConfirmed" class="form-label">Повторіть пароль</label>
-                                <input type="text" class="form-control" id="passwordConfirmed" required>
+                                <input type="text" class="form-control" id="passwordConfirmed">
                                 <div class="invalid-feedback">
                                     Заповніть поле
                                 </div>

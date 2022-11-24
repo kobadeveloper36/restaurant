@@ -2,6 +2,7 @@ package com.progect.ui.controllers.adminControllers;
 
 import com.progect.ui.UiApplication;
 import com.progect.ui.rest.dto.user.UserRequestDTO;
+import com.progect.ui.rest.dto.user.UserResponseDTO;
 import com.progect.ui.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -79,6 +80,10 @@ public class UserController {
             }
         }
 
+        if (userPassword.equals("")) {
+            UserResponseDTO userById = userService.getUserById(userId);
+            userPassword = userById.getPassword();
+        }
         userService.updateUser(userId, new UserRequestDTO(userName, userPhone, userEmail, userAddress, userFlat,
                 userEntrance, userFloor, userLogin, userPassword, null, null, userRole, resultFileName));
         return "redirect:/admin/users";

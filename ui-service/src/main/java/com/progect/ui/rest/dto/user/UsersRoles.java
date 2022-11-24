@@ -1,5 +1,12 @@
 package com.progect.ui.rest.dto.user;
 
-public enum UsersRoles {
-    USER, ADMIN
+import org.springframework.security.core.GrantedAuthority;
+
+public enum UsersRoles implements GrantedAuthority {
+    USER, ADMIN;
+
+    @Override
+    public String getAuthority() {
+        return name();
+    }
 }

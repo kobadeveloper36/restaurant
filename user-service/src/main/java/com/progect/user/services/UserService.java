@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -74,6 +75,7 @@ public class UserService {
     }
 
     public UserResponseDTO getUserByLogin(String userLogin) {
-        return new UserResponseDTO(userRepository.findUserByLogin(userLogin));
+        Optional<User> userByLogin = userRepository.findUserByLogin(userLogin);
+        return userByLogin.map(UserResponseDTO::new).orElse(null);
     }
 }

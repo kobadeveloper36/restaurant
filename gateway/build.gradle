@@ -38,5 +38,6 @@ dependencies {
     implementation "org.springframework.cloud:spring-cloud-starter"
     implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
     implementation "org.springframework.cloud:spring-cloud-starter-sleuth"
+
     testImplementation 'junit:junit:4.13.2'
 }

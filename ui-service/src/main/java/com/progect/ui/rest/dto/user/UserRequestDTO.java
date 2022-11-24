@@ -1,5 +1,6 @@
 package com.progect.ui.rest.dto.user;
 
+import com.progect.ui.security.UsersRoles;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,4 +26,18 @@ public class UserRequestDTO {
     private List<Long> comments;
     private String role;
     private String imgFile;
+
+    public UserRequestDTO(String login, String password, String email) {
+        this.name = "Не вказано";
+        this.phone = "Не вказано";
+        this.email = email;
+        this.address = "Не вказано";
+        this.flat = "Не вказано";
+        this.entry = "Не вказано";
+        this.floor = "Не вказано";
+        this.imgFile = "user.png";
+        this.role = UsersRoles.USER.name();
+        this.login = login;
+        this.password = password;
+    }
 }

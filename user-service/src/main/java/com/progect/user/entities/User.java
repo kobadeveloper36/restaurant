@@ -34,10 +34,10 @@ public class User {
     @Column(name = "flat", nullable = false, length = 10)
     private String flat;
 
-    @Column(name = "entry", nullable = false, length = 10)
+    @Column(name = "entry", length = 10)
     private String entry;
 
-    @Column(name = "floor", nullable = false, length = 10)
+    @Column(name = "floor", length = 10)
     private String floor;
 
     @Column(name = "login", nullable = false, length = 50)
@@ -59,7 +59,7 @@ public class User {
     @Column(name = "role", nullable = false, length = 10)
     private String role;
 
-    @Column(name = "imgFile", nullable = false)
+    @Column(name = "imgFile")
     private String imgFile;
 
 

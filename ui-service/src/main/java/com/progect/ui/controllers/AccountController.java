@@ -28,13 +28,6 @@ public class AccountController {
         this.dishService = dishService;
     }
 
-    @GetMapping("/account/{userId}")
-    public String account(Model model, @PathVariable Long userId) {
-        userName = userService.getUserById(userId).getName();
-        model.addAttribute("userName", userName);
-        return "account";
-    }
-
     @GetMapping("/account/{userId}/orders-account")
     public String ordersAccount(Model model, @PathVariable Long userId) {
         userName = userService.getUserById(userId).getName();

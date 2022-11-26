@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 public class UserDetailsImpl implements UserDetails {
-    private final UserResponseDTO userResponseDTO;
+    private UserResponseDTO userResponseDTO;
 
     public UserDetailsImpl(UserResponseDTO userResponseDTO) {
         this.userResponseDTO = userResponseDTO;
@@ -52,5 +52,9 @@ public class UserDetailsImpl implements UserDetails {
 
     public UserResponseDTO getUserResponseDTO() {
         return this.userResponseDTO;
+    }
+
+    public void setUserResponseDTO(UserResponseDTO userResponseDTO) {
+        this.userResponseDTO = userResponseDTO;
     }
 }

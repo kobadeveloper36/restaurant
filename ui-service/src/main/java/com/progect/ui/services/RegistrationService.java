@@ -1,6 +1,7 @@
 package com.progect.ui.services;
 
 import com.progect.ui.rest.dto.user.UserRequestDTO;
+import com.progect.ui.rest.dto.user.UserResponseDTO;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,15 +21,15 @@ public class RegistrationService {
         userService.createUser(userRequestDTO);
     }
 
-    public void register(Long userId, UserRequestDTO userRequestDTO) {
+    public UserResponseDTO register(Long userId, UserRequestDTO userRequestDTO) {
         String password = userRequestDTO.getPassword();
         if (password.equals("")) {
             password = userService.getUserById(userId).getPassword();
             userRequestDTO.setPassword(password);
-            userService.updateUser(userId, userRequestDTO);
+            return userService.updateUser(userId, userRequestDTO);
         } else {
             userRequestDTO.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
-            userService.updateUser(userId, userRequestDTO);
+            return userService.updateUser(userId, userRequestDTO);
         }
     }
 }

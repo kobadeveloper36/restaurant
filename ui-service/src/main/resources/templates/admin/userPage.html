@@ -22,12 +22,12 @@
                       class="row g-2 needs-validation mt-1" enctype="multipart/form-data">
                     <div class="col-md-3 col-sm-12 card my-2">
                         <div class="text-center">
-                            <img class="rounded-circle mt-2" width="250" height="250"
+                            <img class="rounded-circle mt-2"
                                  th:src="${userImage.equals('user.png') ? '/images/user.png' : '/img/users/'+ userImage}"
                                  th:alt="${userImage}" id="userImage">
                         </div>
 
-                        <div class="card-body">
+                        <div class="card-body d-flex align-items-end">
                             <input class="form-control" type="file"
                                    id="imgFile" name="imgFile" required>
                         </div>

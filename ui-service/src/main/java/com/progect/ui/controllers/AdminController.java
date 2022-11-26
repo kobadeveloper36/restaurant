@@ -94,7 +94,7 @@ public class AdminController {
     }
 
     @GetMapping("/admin/user/page/edit/{userId}")
-    public String addUser(@PathVariable Long userId, Model model) {
+    public String editUser(@PathVariable Long userId, Model model) {
         Set<String> categories = mainService.getCategoriesSet();
         model.addAttribute("categories", categories);
 

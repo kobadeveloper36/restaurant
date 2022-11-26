@@ -10,116 +10,103 @@
           integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 </head>
 <body>
-<header class="container d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-    <a href="../index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-        <img src="../../static/images/logo.png"
-             alt="logo" style="width: 42px; height: 42px">
-        <span class=" fs-4 ms-2">Ресторан ChiNA</span>
-    </a>
-    <ul class="nav nav-pills">
-        <li class="nav-item">
-            <a class="btn btn-outline-light me-2" type="button" data-bs-toggle="dropdown"
-               aria-expanded="false">Меню</a>
-            <ul class="dropdown-menu dropdown-menu-light">
-                <li><a class="dropdown-item" href="../menu.html#soups">Супи</a></li>
-                <li><a class="dropdown-item" href="../menu.html#meet">М'ясо</a></li>
-                <li><a class="dropdown-item" href="../menu.html#fowl">Птах</a></li>
-                <li><a class="dropdown-item" href="../menu.html#seafood">Морепродукти</a></li>
-                <li><a class="dropdown-item" href="../menu.html#handmade">Ліпимо самі</a></li>
-                <li><a class="dropdown-item" href="../menu.html#noodles">Локшина</a></li>
-                <li><a class="dropdown-item" href="../menu.html#sideDish">Гарніри</a></li>
-                <li><a class="dropdown-item" href="../menu.html#salads">Салати</a></li>
-                <li><a class="dropdown-item" href="../menu.html#snacks">Закуски</a></li>
-                <li><a class="dropdown-item" href="../menu.html#desserts">Десерти</a></li>
-            </ul>
-        </li>
-        <li class="nav-item">
-            <a class="btn btn-outline-light me-2" href="../account.html">Ваш акаунт</a>
-        </li>
-        <li class="nav-item">
-            <a class="btn btn-outline-light me-2" href="../aboutUs.html">Про нас</a>
-        </li>
-        <li class="nav-item">
-            <a href="">
-                <img src="../../static/images/cart.png" alt="" style="width: 38px; height: 38px">
-            </a>
-        </li>
-    </ul>
-</header>
+<header th:insert="blocks/header :: #header"></header>
 
 <main>
 
     <div class="container">
         <h1 class="text-light">Кабінет користувача</h1>
         <div class="card bg-dark p-4">
-            <div class="card-header navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-light">
-                <div class="container-fluid mb-2">
-                    <a class="navbar-brand" href="">User</a>
-                    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#accountMenu" aria-controls="accountMenu" aria-expanded="false">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
+            <div class="card-header navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-light"
+                 th:insert="blocks/accountNavbar ::#accountNavbar"></div>
+            <form th:action="${actionPath}" method="post"
+                  class="row g-2 needs-validation mt-1" enctype="multipart/form-data">
+                <div class="col-md-3 col-sm-12 card my-2">
+                    <div class="text-center">
+                        <img class="rounded-circle mt-2"
+                             th:src="${userImage.equals('user.png') ? '/images/user.png' : '/img/users/'+ userImage}"
+                             th:alt="${userImage}" id="userImage">
+                    </div>
 
-                    <div class="navbar-collapse justify-content-md-end collapse" id="accountMenu" style="">
-                        <ul class="navbar-nav">
-                            <li class="nav-item my-1">
-                                <a href="orders-account.html" class="btn btn-outline-warning mx-2">Історія замовлень</a>
-                            </li>
-                            <li class="nav-item my-1">
-                                <a href="orders-account.html" class="btn btn-outline-warning mx-2">Про
-                                    користувача</a>
-                            </li>
-                            <li class="nav-item my-1">
-                                <form action="">
-                                    <button class="btn btn-outline-warning mx-2">Вийти з акаунту</button>
-                                </form>
-                            </li>
-                        </ul>
+                    <div class="card-body d-flex align-items-end">
+                        <input class="form-control" type="file"
+                               id="imgFile" name="imgFile" required>
                     </div>
                 </div>
-            </div>
-            <form class="row g-2 needs-validation">
-                <div class="card-body px-4">
+                <div class="col-md-9 col-sm-12 card-body px-4">
                     <div class="row">
                         <div class="col-md-4 my-1">
                             <label for="name" class="form-label text-light">Ім'я</label>
-                            <input type="text" class="form-control" id="name">
+                            <input type="text" class="form-control" id="name" th:value="${name}"
+                                   name="userName" required>
+                            <div class="invalid-feedback">
+                                Заповніть поле
+                            </div>
                         </div>
                         <div class="col-md-4 my-1">
                             <label for="phone" class="form-label text-light">Номер телефону</label>
-                            <input type="text" class="form-control" id="phone">
+                            <input type="text" class="form-control" id="phone" th:value="${userPhone}"
+                                   name="userPhone" required>
+                            <div class="invalid-feedback">
+                                Заповніть поле
+                            </div>
                         </div>
                         <div class="col-md-4 my-1">
                             <label for="email" class="form-label text-light">Email</label>
-                            <input type="text" class="form-control" id="email">
+                            <input type="text" class="form-control" id="email" th:value="${userEmail}"
+                                   name="userEmail" required>
+                            <div class="invalid-feedback">
+                                Заповніть поле
+                            </div>
                         </div>
                         <div class="col-md-3 my-1">
                             <label for="address" class="form-label text-light">Адреса</label>
-                            <input type="text" class="form-control" id="address">
+                            <input type="text" class="form-control" id="address" th:value="${userAddress}"
+                                   name="userAddress" required>
+                            <div class="invalid-feedback">
+                                Заповніть поле
+                            </div>
                         </div>
                         <div class="col-md-3 my-1">
                             <label for="flat" class="form-label text-light">Квартира/Офіс</label>
-                            <input type="text" class="form-control" id="flat">
+                            <input type="text" class="form-control" id="flat" th:value="${userFlat}"
+                                   name="userFlat" required>
+                            <div class="invalid-feedback">
+                                Заповніть поле
+                            </div>
                         </div>
                         <div class="col-md-3 my-1">
                             <label for="entrance" class="form-label text-light">Під'їзд</label>
-                            <input type="text" class="form-control" id="entrance">
+                            <input type="text" class="form-control" id="entrance" th:value="${userEntrance}"
+                                   name="userEntrance">
                         </div>
                         <div class="col-md-3 my-1">
                             <label for="floor" class="form-label text-light">Поверх</label>
-                            <input type="text" class="form-control" id="floor">
+                            <input type="text" class="form-control" id="floor" th:value="${userFloor}"
+                                   name="userFloor">
                         </div>
                         <div class="col-md-4 my-1">
                             <label for="login" class="form-label text-light">Логін</label>
-                            <input type="text" class="form-control" id="login">
+                            <input type="text" class="form-control" id="login" th:value="${userLogin}"
+                                   name="userLogin" required>
+                            <div class="invalid-feedback">
+                                Заповніть поле
+                            </div>
                         </div>
                         <div class="col-md-4 my-1">
                             <label for="password" class="form-label text-light">Пароль</label>
-                            <input type="password" class="form-control" id="password">
+                            <input type="text" class="form-control" id="password"
+                                   name="userPassword">
+                            <div class="invalid-feedback">
+                                Заповніть поле
+                            </div>
                         </div>
                         <div class="col-md-4 my-1">
                             <label for="passwordConfirmed" class="form-label text-light">Повторіть пароль</label>
-                            <input type="password" class="form-control" id="passwordConfirmed">
+                            <input type="text" class="form-control" id="passwordConfirmed">
+                            <div class="invalid-feedback">
+                                Заповніть поле
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -134,32 +121,65 @@
 
 </main>
 
-<footer class="m-5 d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-    <div class="col-md-4 d-flex align-items-center">
-        <a href="../index.html" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
-            <img src="../../static/images/logo.png" alt="" style="height: 62px; width: 62px;">
-            <span class="mb-3 ms-2 mb-md-0 text-light">© 2022 ChiNA</span>
-        </a>
-    </div>
+<footer th:insert="blocks/footer :: #footer"></footer>
 
-    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-        <li class="ms-3"><a class="text-muted" href="https://web.telegram.org/">
-            <img src="../../static/images/media/telegram.png" alt=""
-                 style="height: 42px; width: 42px;">
-        </a></li>
-        <li class="ms-3"><a class="text-muted" href="https://twitter.com/">
-            <img src="../../static/images/media/twitter.png" alt=""
-                 style="height: 42px; width: 42px;">
-        </a></li>
-        <li class="ms-3"><a class="text-muted" href="https://www.instagram.com/">
-            <img src="../../static/images/media/instagram.png" alt=""
-                 style="height: 42px; width: 42px;">
-        </a></li>
-        <li class="ms-3"><a class="text-muted" href="https://www.facebook.com/">
-            <img src="../../static/images/media/facebook.png" alt="" style="height: 42px; width: 42px;">
-        </a></li>
-    </ul>
-</footer>
+<script>
+    const fileInput = document.querySelector('#imgFile');
+    const img = document.getElementById('userImage');
+    const imgSrc = img.getAttribute('src');
+    const filename = img.getAttribute('alt');
+    fetch(imgSrc)
+        .then(async response => {
+            const blob = await response.blob()
+            const file = new File([blob], filename, {type: blob.type})
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            fileInput.files = dataTransfer.files;
+        })
+</script>
+
+<script>
+    const imgImg = document.getElementById('imgFile')
+    const dishImage = document.getElementById('userImage')
+    imgImg.onchange = evt => {
+        const [file] = imgImg.files
+        if (file) {
+            dishImage.src = URL.createObjectURL(file)
+        }
+    }
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var pass1 = document.querySelector('#password'),
+            pass2 = document.querySelector('#passwordConfirmed')
+        pass1.addEventListener('input', function () {
+            this.value !== pass2.value ? pass2.setCustomValidity('Password incorrect') : pass2.setCustomValidity('')
+        })
+        pass2.addEventListener('input', function (e) {
+            this.value !== pass1.value ? this.setCustomValidity('Password incorrect') : this.setCustomValidity('')
+        })
+    })
+</script>
+<script>
+    (() => {
+        'use strict'
+
+        const forms = document.querySelectorAll('.needs-validation')
+
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
         crossorigin="anonymous"></script>

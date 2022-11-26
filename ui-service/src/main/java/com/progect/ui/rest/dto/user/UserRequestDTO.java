@@ -28,12 +28,12 @@ public class UserRequestDTO {
 
     public UserRequestDTO(String login, String password, String email) {
         this.name = "Користувач";
-        this.phone = "Не вказано";
+        this.phone = "";
         this.email = email;
-        this.address = "Не вказано";
-        this.flat = "Не вказано";
-        this.entry = "Не вказано";
-        this.floor = "Не вказано";
+        this.address = "";
+        this.flat = "";
+        this.entry = "";
+        this.floor = "";
         this.imgFile = "user.png";
         this.role = UsersRoles.USER.name();
         this.login = login;

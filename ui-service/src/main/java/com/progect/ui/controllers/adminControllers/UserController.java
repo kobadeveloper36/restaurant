@@ -2,6 +2,7 @@ package com.progect.ui.controllers.adminControllers;
 
 import com.progect.ui.UiApplication;
 import com.progect.ui.rest.dto.user.UserRequestDTO;
+import com.progect.ui.rest.dto.user.UserResponseDTO;
 import com.progect.ui.services.RegistrationService;
 import com.progect.ui.services.UserService;
 import org.springframework.stereotype.Controller;
@@ -64,22 +65,32 @@ public class UserController {
                            @RequestParam String userEntrance, @RequestParam String userFloor,
                            @RequestParam String userLogin, @RequestParam String userPassword,
                            @RequestParam String userRole, @RequestParam("imgFile") MultipartFile imgFile) {
-        File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) {
-            uploadDir.mkdirs();
-        }
+        UserResponseDTO user = userService.getUserById(userId);
+        String resultFileName;
+        if (!imgFile.getOriginalFilename().equals(user.getImgFile())) {
 
-        String uuidFile = UUID.randomUUID().toString();
-        String resultFileName = uuidFile + "." + imgFile.getOriginalFilename();
-        File file = new File(uploadPath + resultFileName);
-
-        if (!file.exists()) {
-            try {
-                imgFile.transferTo(file);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return "redirect:/admin/users";
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();
             }
+
+            String uuidFile = UUID.randomUUID().toString();
+            resultFileName = uuidFile + "." + imgFile.getOriginalFilename();
+            File newFile = new File(uploadPath + resultFileName);
+
+            File oldFile = new File(uploadPath + user.getImgFile());
+            oldFile.delete();
+
+            if (!newFile.exists()) {
+                try {
+                    imgFile.transferTo(newFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return "redirect:/admin/users";
+                }
+            }
+        } else {
+            resultFileName = imgFile.getOriginalFilename();
         }
         registrationService.register(userId, new UserRequestDTO(userName, userPhone, userEmail, userAddress, userFlat,
                 userEntrance, userFloor, userLogin, userPassword, null, null, userRole, resultFileName));

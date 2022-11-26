@@ -56,8 +56,8 @@ public class AccountController {
     }
 
     @GetMapping("/account/orders-account/order-info/{orderId}")
-    public String orderInfo(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long orderId,
-                            Model model) {
+    public String orderInfo(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                            @PathVariable Long orderId, Model model) {
         model.addAttribute("categories", categories);
 
         UserResponseDTO userResponseDTO = userDetails.getUserResponseDTO();
@@ -72,7 +72,6 @@ public class AccountController {
 
     @GetMapping("/account/info")
     public String info(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
-        Set<String> categories = mainService.getCategoriesSet();
         model.addAttribute("categories", categories);
 
         UserResponseDTO user = userDetails.getUserResponseDTO();
@@ -110,23 +109,31 @@ public class AccountController {
                            @RequestParam String userFloor, @RequestParam String userLogin,
                            @RequestParam String userPassword, @RequestParam("imgFile") MultipartFile imgFile) {
         UserResponseDTO user = userDetail.getUserResponseDTO();
+        String resultFileName;
+        if (!imgFile.getOriginalFilename().equals(user.getImgFile())) {
 
-        File uploadDir = new File(uploadPath + "users/");
-        if (!uploadDir.exists()) {
-            uploadDir.mkdirs();
-        }
-
-        String uuidFile = UUID.randomUUID().toString();
-        String resultFileName = uuidFile + "." + imgFile.getOriginalFilename();
-        File file = new File(uploadPath + "users/" + resultFileName);
-
-        if (!file.exists()) {
-            try {
-                imgFile.transferTo(file);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return "redirect:/account";
+            File uploadDir = new File(uploadPath + "users/");
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();
             }
+
+            String uuidFile = UUID.randomUUID().toString();
+            resultFileName = uuidFile + "." + imgFile.getOriginalFilename();
+            File newFile = new File(uploadPath + "users/" + resultFileName);
+
+            File oldFile = new File(uploadPath + "users/" + user.getImgFile());
+            oldFile.delete();
+
+            if (!newFile.exists()) {
+                try {
+                    imgFile.transferTo(newFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return "redirect:/account";
+                }
+            }
+        } else {
+            resultFileName = imgFile.getOriginalFilename();
         }
         userDetail.setUserResponseDTO(registrationService.register(user.getUserId(),
                 new UserRequestDTO(userName, userPhone, userEmail, userAddress, userFlat, userEntrance, userFloor,

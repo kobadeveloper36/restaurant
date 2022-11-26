@@ -2,6 +2,7 @@ package com.progect.ui.controllers.adminControllers;
 
 import com.progect.ui.UiApplication;
 import com.progect.ui.rest.dto.dish.DishRequestDTO;
+import com.progect.ui.rest.dto.dish.DishResponseDTO;
 import com.progect.ui.services.DishService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,22 +66,32 @@ public class DishController {
                            @RequestParam String composition, @RequestParam String description,
                            @RequestParam(defaultValue = "false") boolean isPopular) {
 
-        File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) {
-            uploadDir.mkdirs();
-        }
+        DishResponseDTO dish = dishService.getDishById(dishId);
+        String resultFileName;
+        if (!imgFile.getOriginalFilename().equals(dish.getImg())) {
 
-        String uuidFile = UUID.randomUUID().toString();
-        String resultFileName = uuidFile + "." + imgFile.getOriginalFilename();
-        File file = new File(uploadPath + resultFileName);
-
-        if (!file.exists()) {
-            try {
-                imgFile.transferTo(file);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return "redirect:/admin/" + category;
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();
             }
+
+            String uuidFile = UUID.randomUUID().toString();
+            resultFileName = uuidFile + "." + imgFile.getOriginalFilename();
+            File newFile = new File(uploadPath + resultFileName);
+
+            File oldFile = new File(uploadPath + dish.getImg());
+            oldFile.delete();
+
+            if (!newFile.exists()) {
+                try {
+                    imgFile.transferTo(newFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return "redirect:/admin/" + category;
+                }
+            }
+        } else {
+            resultFileName = imgFile.getOriginalFilename();
         }
 
         Long orderId = null;

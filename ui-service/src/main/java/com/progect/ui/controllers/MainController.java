@@ -80,6 +80,8 @@ public class MainController {
 
     @GetMapping("/account")
     public String account(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
+        model.addAttribute("categories", categories);
+
         UserResponseDTO userResponseDTO = userDetails.getUserResponseDTO();
         model.addAttribute("name", userResponseDTO.getName());
         model.addAttribute("userRole", userResponseDTO.getRole());

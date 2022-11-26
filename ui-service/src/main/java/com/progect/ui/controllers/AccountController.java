@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Controller
 public class AccountController {
@@ -43,7 +44,7 @@ public class AccountController {
         this.uploadPath = location.substring(0, location.indexOf("/build")) + "/uploads/img/";
     }
 
-    @GetMapping("/account/orders-account")
+    @GetMapping("/account/orders")
     public String ordersAccount(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
         model.addAttribute("categories", categories);
 
@@ -51,11 +52,12 @@ public class AccountController {
         model.addAttribute("name", userResponseDTO.getName());
         model.addAttribute("userRole", userResponseDTO.getRole());
         List<OrderResponseDTO> orders = orderService.getOrdersById(userResponseDTO.getUserId());
-        model.addAttribute("orders", orders);
+        model.addAttribute("orders", orders.stream()
+                .filter(x -> !x.getIsTableOrder()).collect(Collectors.toList()));
         return "account/orders-account";
     }
 
-    @GetMapping("/account/orders-account/order-info/{orderId}")
+    @GetMapping("/account/orders/order-info/{orderId}")
     public String orderInfo(@AuthenticationPrincipal UserDetailsImpl userDetails,
                             @PathVariable Long orderId, Model model) {
         model.addAttribute("categories", categories);

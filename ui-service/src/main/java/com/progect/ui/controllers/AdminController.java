@@ -226,8 +226,13 @@ public class AdminController {
         model.addAttribute("orderDate", order.getOrderDate().toString());
         boolean isCash = false;
         boolean isCard = false;
-        if (order.getPaymentKind().equals("Готівкою")) {
-            isCash = true;
+        String paymentKind = order.getPaymentKind();
+        if (paymentKind != null) {
+            if (paymentKind.equals("Готівкою")) {
+                isCash = true;
+            } else {
+                isCard = true;
+            }
         } else {
             isCard = true;
         }

@@ -36,8 +36,11 @@
                                 <a href="/account/info" class="btn btn-outline-warning mx-2">Про
                                     користувача</a>
                             </li>
+                            <li th:if="${userRole.equals('ADMIN')}" class="nav-item my-1">
+                                <a href="/admin" class="btn btn-outline-warning mx-2">Адмін-пенель</a>
+                            </li>
                             <li class="nav-item my-1">
-                                <form action="/logout" method="post">
+                                <form th:action="@{/logout}" th:method="POST">
                                     <button class="btn btn-outline-warning mx-2">Вийти з акаунту</button>
                                 </form>
                             </li>
@@ -62,7 +65,7 @@
                         <td th:text="${order.getOrderDate().toLocalDate()}"></td>
                         <td th:text="${order.getDeliveryAddress()}"></td>
                         <td th:text="${order.getSum()}+' грн'"></td>
-                        <td><a th:href="'/account/orders-account/order-info/'+${order.getOrderId()}">Детальніше</a>
+                        <td><a th:href="'/account/orders/order-info/'+${order.getOrderId()}">Детальніше</a>
                         </td>
                     </tr>
                     </tbody>

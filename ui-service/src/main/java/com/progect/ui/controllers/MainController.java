@@ -8,6 +8,7 @@ import com.progect.ui.security.UserDetailsImpl;
 import com.progect.ui.services.CommentService;
 import com.progect.ui.services.MainService;
 import com.progect.ui.services.OrderService;
+import com.progect.ui.services.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Controller
@@ -26,13 +28,16 @@ public class MainController {
     private final OrderService orderService;
     private final CommentService commentService;
 
+    private final UserService userService;
+
     private Set<String> categories;
 
-    public MainController(MainService mainService, OrderService orderService, CommentService commentService) {
+    public MainController(MainService mainService, OrderService orderService, CommentService commentService, UserService userService) {
         this.mainService = mainService;
         this.categories = mainService.getCategoriesSet();
         this.orderService = orderService;
         this.commentService = commentService;
+        this.userService = userService;
     }
 
     @GetMapping("/")
@@ -55,20 +60,39 @@ public class MainController {
     }
 
     @GetMapping("/aboutUs")
-    public String aboutUs(Model model) {
+    public String aboutUs(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
         model.addAttribute("categories", categories);
-        List<CommentResponseDTO> comments = commentService.getAllComments();
+
+        if (userDetails != null) {
+            UserResponseDTO userResponseDTO = userDetails.getUserResponseDTO();
+            model.addAttribute("name", userResponseDTO.getName());
+            model.addAttribute("phone", userResponseDTO.getPhone());
+            model.addAttribute("email", userResponseDTO.getEmail());
+        }
+
+        Map<UserResponseDTO, CommentResponseDTO> comments = new HashMap<>();
+        for (CommentResponseDTO commentResponseDTO : commentService.getAllComments()) {
+            comments.put(userService.getUserByLogin(commentResponseDTO.getUserName()), commentResponseDTO);
+        }
         model.addAttribute("comments", comments);
         return "aboutUs";
     }
 
     @PostMapping("/aboutUs")
-    public String createTableOrder(@RequestParam String name, @RequestParam String phone, @RequestParam String email, Model model) {
+    public String createTableOrder(@AuthenticationPrincipal UserDetailsImpl userDetails
+            , @RequestParam String name, @RequestParam String phone, @RequestParam String email, Model model) {
         boolean isDelivery = false;
         boolean isTableOrder = true;
         String deliveryAddress = null;
         List<Long> dishes = null;
-        Long userId = null;
+        UserResponseDTO userResponseDTO = userDetails.getUserResponseDTO();
+        Long userId;
+        if (userResponseDTO != null) {
+            userId = userResponseDTO.getUserId();
+        } else {
+            userId = null;
+        }
+
         Double sum = null;
         String cutlery = null;
         String paymentKind = null;

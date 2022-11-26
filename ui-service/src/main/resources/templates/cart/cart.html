@@ -123,49 +123,59 @@
                     <h2 class="text-light mb-2">Оформлення доставки</h2>
                     <form class="row card bg-dark mt-1 g-3 needs-validation p-2" action="/cart/delivery" method="post"
                           novalidate>
+
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
                         <div class="row">
                             <div class="col-md-4">
                                 <label for="nameDelivery" class="form-label text-light">Ім'я</label>
-                                <input type="text" class="form-control" id="nameDelivery" name="name" required>
+                                <input type="text" class="form-control" id="nameDelivery" name="name"
+                                       th:value="${name}" required>
                                 <div class="invalid-feedback">
                                     Заповніть поле
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <label for="phoneDelivery" class="form-label text-light">Номер телефону</label>
-                                <input type="text" class="form-control" id="phoneDelivery" name="phone" required>
+                                <input type="text" class="form-control" id="phoneDelivery" name="phone"
+                                       th:value="${phone}" required>
                                 <div class="invalid-feedback">
                                     Заповніть поле
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <label for="emailDelivery" class="form-label text-light">Email</label>
-                                <input type="text" class="form-control" id="emailDelivery" name="email" required>
+                                <input type="text" class="form-control" id="emailDelivery" name="email"
+                                       th:value="${email}" required>
                                 <div class="invalid-feedback">
                                     Заповніть поле
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <label for="addressDelivery" class="form-label text-light">Адреса</label>
-                                <input type="text" class="form-control" id="addressDelivery" name="street" required>
+                                <input type="text" class="form-control" id="addressDelivery" name="address"
+                                       th:value="${address}" required>
                                 <div class="invalid-feedback">
                                     Заповніть поле
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <label for="flatDelivery" class="form-label text-light">Квартира/Офіс</label>
-                                <input type="text" class="form-control" id="flatDelivery" name="flat" required>
+                                <input type="text" class="form-control" id="flatDelivery" name="flat"
+                                       th:value="${flat}" required>
                                 <div class="invalid-feedback">
                                     Заповніть поле
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <label for="entranceDelivery" class="form-label text-light">Під'їзд</label>
-                                <input type="text" class="form-control" id="entranceDelivery" name="entry">
+                                <input type="text" class="form-control" id="entranceDelivery" name="entry"
+                                       th:value="${entry}">
                             </div>
                             <div class="col-md-3">
                                 <label for="floorDelivery" class="form-label text-light">Поверх</label>
-                                <input type="text" class="form-control" id="floorDelivery" name="floor">
+                                <input type="text" class="form-control" id="floorDelivery" name="floor"
+                                       th:value="${floor}">
                             </div>
                             <div class="col-12">
                                 <div class="form-check">
@@ -239,24 +249,30 @@
 
                     <form class="row card bg-dark mt-1 g-3 needs-validation p-2" action="/cart/pickup" method="post"
                           novalidate>
+
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
                         <div class="row">
                             <div class="col-md-4">
                                 <label for="namePickup" class="form-label text-light">Ім'я</label>
-                                <input type="text" class="form-control" id="namePickup" name="name" required>
+                                <input type="text" class="form-control" id="namePickup" name="name"
+                                       th:value="${name}" required>
                                 <div class="invalid-feedback">
                                     Заповніть поле
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <label for="phonePickup" class="form-label text-light">Номер телефону</label>
-                                <input type="text" class="form-control" id="phonePickup" name="phone" required>
+                                <input type="text" class="form-control" id="phonePickup" name="phone"
+                                       th:value="${phone}" required>
                                 <div class="invalid-feedback">
                                     Заповніть поле
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <label for="emailPickup" class="form-label text-light">Email</label>
-                                <input type="text" class="form-control" id="emailPickup" name="email" required>
+                                <input type="text" class="form-control" id="emailPickup" name="email"
+                                       th:value="${email}" required>
                                 <div class="invalid-feedback">
                                     Заповніть поле
                                 </div>

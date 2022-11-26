@@ -2,10 +2,13 @@ package com.progect.ui.controllers;
 
 import com.progect.ui.rest.dto.comment.CommentRequestDTO;
 import com.progect.ui.rest.dto.order.OrderRequestDTO;
+import com.progect.ui.rest.dto.user.UserResponseDTO;
+import com.progect.ui.security.UserDetailsImpl;
 import com.progect.ui.services.CommentService;
 import com.progect.ui.services.DishService;
 import com.progect.ui.services.MainService;
 import com.progect.ui.services.OrderService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,9 +45,21 @@ public class CartController {
     }
 
     @GetMapping("/cart")
-    public String cart(Model model) {
+    public String cart(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
         model.addAttribute("categories", categories);
+
         model.addAttribute("orderedDishes", orderedDishes);
+        if (userDetails != null) {
+            UserResponseDTO userResponseDTO = userDetails.getUserResponseDTO();
+            model.addAttribute("name", userResponseDTO.getName());
+            model.addAttribute("phone", userResponseDTO.getPhone());
+            model.addAttribute("email", userResponseDTO.getEmail());
+            model.addAttribute("address", userResponseDTO.getAddress());
+            model.addAttribute("flat", userResponseDTO.getFlat());
+            model.addAttribute("entry", userResponseDTO.getEntry());
+            model.addAttribute("floor", userResponseDTO.getFloor());
+        }
+
         double sum = orderedDishes.stream().map(OrderedDish::getSum).reduce(0.0, Double::sum);
         model.addAttribute("sum", sum);
         List<String> orderTimes = new ArrayList<>();
@@ -92,6 +107,9 @@ public class CartController {
     public String createPickupOrder(@RequestParam String name, @RequestParam String phone, @RequestParam String email,
                                     @RequestParam String day, @RequestParam String time, @RequestParam String cutlery,
                                     @RequestParam String paymentKind, @RequestParam String notes) {
+        if (orderedDishes.isEmpty()) {
+            return "redirect:/menu";
+        }
         boolean isDelivery = false;
         boolean isTableOrder = false;
         String deliveryAddress = null;
@@ -116,6 +134,9 @@ public class CartController {
                                       @RequestParam String street, @RequestParam String flat, @RequestParam String entry,
                                       @RequestParam String floor, @RequestParam String cutlery,
                                       @RequestParam String paymentKind, @RequestParam String notes) {
+        if (orderedDishes.isEmpty()) {
+            return "redirect:/menu";
+        }
         boolean isDelivery = true;
         boolean isTableOrder = false;
         List<Long> dishes = getDishesId();
@@ -123,9 +144,9 @@ public class CartController {
         String deliveryAddress = "";
         if (entry != null) {
             deliveryAddress = street + ", " + flat;
-            if (entry != null) {
+            if (entry.equals("")) {
                 deliveryAddress = deliveryAddress + ", " + entry;
-                if (floor != null) {
+                if (floor.equals("")) {
                     deliveryAddress = deliveryAddress + ", " + floor;
                 }
             }
@@ -141,12 +162,14 @@ public class CartController {
     public String addComment(@PathVariable Long orderId, Model model) {
         model.addAttribute("categories", categories);
         model.addAttribute("orderId", orderId);
-        return "cart/addComment";
+        return "/cart/addComment";
     }
 
     @PostMapping("/cart/addComment")
-    public String createComment(@RequestParam String text, Model model) {
-        commentService.createComment(new CommentRequestDTO(text, "Гість", LocalDate.now()));
+    public String createComment(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                @RequestParam String text) {
+        UserResponseDTO userResponseDTO = userDetails.getUserResponseDTO();
+        commentService.createComment(new CommentRequestDTO(text, userResponseDTO.getLogin(), LocalDate.now()));
         return "redirect:/";
     }
 

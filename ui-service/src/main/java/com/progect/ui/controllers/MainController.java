@@ -12,7 +12,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -83,6 +82,7 @@ public class MainController {
     public String account(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
         UserResponseDTO userResponseDTO = userDetails.getUserResponseDTO();
         model.addAttribute("name", userResponseDTO.getName());
+        model.addAttribute("userRole", userResponseDTO.getRole());
         return "account";
     }
 

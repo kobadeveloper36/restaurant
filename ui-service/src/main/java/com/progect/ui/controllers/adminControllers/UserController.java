@@ -2,7 +2,6 @@ package com.progect.ui.controllers.adminControllers;
 
 import com.progect.ui.UiApplication;
 import com.progect.ui.rest.dto.user.UserRequestDTO;
-import com.progect.ui.rest.dto.user.UserResponseDTO;
 import com.progect.ui.services.RegistrationService;
 import com.progect.ui.services.UserService;
 import org.springframework.stereotype.Controller;
@@ -81,11 +80,6 @@ public class UserController {
                 e.printStackTrace();
                 return "redirect:/admin/users";
             }
-        }
-
-        if (userPassword.equals("")) {
-            UserResponseDTO userById = userService.getUserById(userId);
-            userPassword = userById.getPassword();
         }
         registrationService.register(userId, new UserRequestDTO(userName, userPhone, userEmail, userAddress, userFlat,
                 userEntrance, userFloor, userLogin, userPassword, null, null, userRole, resultFileName));

@@ -1,5 +1,6 @@
 package com.progect.ui.controllers;
 
+import com.progect.ui.UiApplication;
 import com.progect.ui.rest.dto.comment.CommentResponseDTO;
 import com.progect.ui.rest.dto.dish.DishResponseDTO;
 import com.progect.ui.rest.dto.order.OrderResponseDTO;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -33,6 +35,8 @@ public class AdminController {
 
     private Set<String> categories;
 
+    private final String uploadPath;
+
     public AdminController(MainService mainService, DishService dishService, CommentService commentService, OrderService orderService, UserService userService) {
         this.mainService = mainService;
         this.categories = mainService.getCategoriesSet();
@@ -40,6 +44,8 @@ public class AdminController {
         this.commentService = commentService;
         this.orderService = orderService;
         this.userService = userService;
+        String location = UiApplication.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        this.uploadPath = location.substring(0, location.indexOf("/build")) + "/uploads/img/";
     }
 
     @GetMapping("/admin/users")
@@ -114,7 +120,11 @@ public class AdminController {
         if (imgFile.equals("user.png")) {
             model.addAttribute("userImage", "user.png");
         } else {
-            model.addAttribute("userImage", user.getImgFile());
+            if (new File(uploadPath + "users/" + imgFile).exists()) {
+                model.addAttribute("userImage", imgFile);
+            } else {
+                model.addAttribute("userImage", "user.png");
+            }
         }
         model.addAttribute("comments", commentService.getCommentsByUserName(user.getLogin()));
         model.addAttribute("orders", orderService.getOrdersById(userId));

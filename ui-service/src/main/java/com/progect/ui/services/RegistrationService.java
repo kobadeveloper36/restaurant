@@ -21,7 +21,14 @@ public class RegistrationService {
     }
 
     public void register(Long userId, UserRequestDTO userRequestDTO) {
-        userRequestDTO.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
-        userService.updateUser(userId, userRequestDTO);
+        String password = userRequestDTO.getPassword();
+        if (password.equals("")) {
+            password = userService.getUserById(userId).getPassword();
+            userRequestDTO.setPassword(password);
+            userService.updateUser(userId, userRequestDTO);
+        } else {
+            userRequestDTO.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
+            userService.updateUser(userId, userRequestDTO);
+        }
     }
 }

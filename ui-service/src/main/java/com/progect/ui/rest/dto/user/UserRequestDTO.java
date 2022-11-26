@@ -27,7 +27,7 @@ public class UserRequestDTO {
     private String imgFile;
 
     public UserRequestDTO(String login, String password, String email) {
-        this.name = "Не вказано";
+        this.name = "Користувач";
         this.phone = "Не вказано";
         this.email = email;
         this.address = "Не вказано";

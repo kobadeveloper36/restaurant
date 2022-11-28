@@ -41,7 +41,7 @@ public class AccountController {
         this.categories = mainService.getCategoriesSet();
         this.registrationService = registrationService;
         String location = UiApplication.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-        this.uploadPath = location.substring(0, location.indexOf("/BOOT-INF")) + "/uploads/img/";
+        this.uploadPath = location.substring(0, location.indexOf("file:")) + "/restaurant/uploads/img/users/";
     }
 
     @GetMapping("/account/orders")

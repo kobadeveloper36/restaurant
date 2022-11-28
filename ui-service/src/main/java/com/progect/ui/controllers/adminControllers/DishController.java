@@ -24,7 +24,7 @@ public class DishController {
     public DishController(DishService dishService) {
         this.dishService = dishService;
         String location = UiApplication.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-        this.uploadPath = location.substring(0, location.indexOf("/BOOT-INF")) + "/uploads/img/dishes/";
+        this.uploadPath = location.substring(0, location.indexOf("file:")) + "/restaurant/uploads/img/dishes/";
     }
 
     @PostMapping("/admin/dish/add")

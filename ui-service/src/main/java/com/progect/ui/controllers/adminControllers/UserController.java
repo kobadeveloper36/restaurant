@@ -14,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.UUID;
 
 @Controller
@@ -26,7 +28,8 @@ public class UserController {
         this.userService = userService;
         this.registrationService = registrationService;
         String location = UiApplication.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-        this.uploadPath = location.substring(0, location.indexOf("/BOOT-INF")) + "/uploads/img/users/";
+        this.uploadPath = location.substring(0, location.indexOf("file:")) + "/restaurant/uploads/img/users/";
+        System.out.println("Upl: " + this.uploadPath);
     }
 
     @PostMapping("/admin/user/add")
@@ -71,18 +74,23 @@ public class UserController {
 
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
-                uploadDir.mkdirs();
+                System.out.println("Make dir: " + uploadDir.mkdirs());
+                System.out.println("Dir1: " + uploadDir.getAbsolutePath());
+                System.out.println("Dir2: " + uploadDir.getPath());
             }
 
             String uuidFile = UUID.randomUUID().toString();
             resultFileName = uuidFile + "." + imgFile.getOriginalFilename();
-            File newFile = new File(uploadPath + resultFileName);
-
+            Path newPath = Paths.get(uploadPath + resultFileName);
+            System.out.println("New Path: " + newPath.toFile().getAbsolutePath());
+            File newFile = new File(newPath.toFile().getAbsolutePath());
+            System.out.println("New file: " + newFile.getAbsolutePath());
             File oldFile = new File(uploadPath + user.getImgFile());
-            oldFile.delete();
+            System.out.println("Delete old file: " + oldFile.delete());
 
             if (!newFile.exists()) {
                 try {
+                    System.out.println("Preparing to transfer...");
                     imgFile.transferTo(newFile);
                 } catch (IOException e) {
                     e.printStackTrace();

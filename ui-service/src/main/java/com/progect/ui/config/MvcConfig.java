@@ -11,8 +11,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
     public MvcConfig() {
         String location = UiApplication.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-        System.out.println(location);
-        this.uploadPath = location.substring(0, location.indexOf("/BOOT-INF")) + "/uploads/img";
+        this.uploadPath = location.substring(0, location.indexOf("file:")) + "/restaurant/uploads/img";
     }
 
     @Override

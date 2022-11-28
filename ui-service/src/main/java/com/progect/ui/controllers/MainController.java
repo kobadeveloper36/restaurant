@@ -118,4 +118,9 @@ public class MainController {
         model.addAttribute("categories", categories);
         return "admin";
     }
+
+    @GetMapping("/403")
+    public String accessDenied() {
+        return "403";
+    }
 }

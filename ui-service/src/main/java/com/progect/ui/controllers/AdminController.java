@@ -287,7 +287,7 @@ public class AdminController {
         model.addAttribute("logins", logins);
         String actionPath = "/admin/comment/add";
         model.addAttribute("actionPath", actionPath);
-        return "/admin/commentPage";
+        return "admin/commentPage";
     }
 
     @GetMapping("/admin/comment/page/edit/{commentId}")
@@ -312,7 +312,7 @@ public class AdminController {
 
         String actionPath = "/admin/comment/edit/" + comment.getCommentId();
         model.addAttribute("actionPath", actionPath);
-        return "/admin/commentPage";
+        return "admin/commentPage";
     }
 
     @GetMapping("/admin/{category}")
@@ -341,7 +341,7 @@ public class AdminController {
         model.addAttribute("isPopular", dish.getIs_Popular());
         String actionPath = "/admin/dish/edit/" + dishId;
         model.addAttribute("actionPath", actionPath);
-        return "/admin/dishPage";
+        return "admin/dishPage";
     }
 
     @GetMapping("/admin/dish/page/add/{category}")
@@ -373,7 +373,7 @@ public class AdminController {
         model.addAttribute("dishImage", dishImage);
         String actionPath = "/admin/dish/add";
         model.addAttribute("actionPath", actionPath);
-        return "/admin/dishPage";
+        return "admin/dishPage";
     }
 
     private long getLastDishId(List<DishResponseDTO> dishes) {

@@ -29,7 +29,7 @@ zuul:
       path: /orders/**
       serviceId: order-service
       stripPrefix: false
-    customer-service:
+    user-service:
       path: /users/**
       serviceId: user-service
       stripPrefix: false

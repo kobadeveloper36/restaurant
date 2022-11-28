@@ -26,7 +26,7 @@ public class UserController {
         this.userService = userService;
         this.registrationService = registrationService;
         String location = UiApplication.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-        this.uploadPath = location.substring(0, location.indexOf("/build")) + "/uploads/img/users/";
+        this.uploadPath = location.substring(0, location.indexOf("/BOOT-INF")) + "/uploads/img/users/";
     }
 
     @PostMapping("/admin/user/add")

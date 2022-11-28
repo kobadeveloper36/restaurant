@@ -3,11 +3,11 @@ spring:
     database: POSTGRESQL
     properties.hibernate.temp.use_jdbc_metadata_defaults: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
   datasource:
     platform: postgres
-    url: jdbc:postgresql://localhost:5432/dish_service_database
+    url: jdbc:postgresql://192.168.119.5:5432/dish_service_database
     username: postgres
     password: root
 

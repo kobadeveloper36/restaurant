@@ -45,7 +45,7 @@ public class AdminController {
         this.orderService = orderService;
         this.userService = userService;
         String location = UiApplication.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-        this.uploadPath = location.substring(0, location.indexOf("/build")) + "/uploads/img/";
+        this.uploadPath = location.substring(0, location.indexOf("/BOOT-INF")) + "/uploads/img/";
     }
 
     @GetMapping("/admin/users")

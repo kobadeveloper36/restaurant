@@ -27,6 +27,95 @@ services:
     networks:
       - postgres
     restart: unless-stopped
+  config-service:
+    container_name: config-service
+    build: config-service
+    ports:
+      - "8001:8001"
+
+  registry:
+    container_name: registry
+    restart: always
+    build: registry
+    ports:
+      - "8761:8761"
+    depends_on:
+      - config-service
+
+  gateway:
+    container_name: gateway
+    restart: always
+    build: gateway
+    ports:
+      - "8989:8989"
+    depends_on:
+      - config-service
+      - registry
+
+  dish-service:
+    restart: on-failure
+    container_name: dish-service
+    build: dish-service
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    ports:
+      - "8081:8081"
+    depends_on:
+      - config-service
+      - registry
+      - gateway
+
+  order-service:
+    restart: on-failure
+    container_name: order-service
+    build: order-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - config-service
+      - registry
+      - gateway
+      - dish-service
+
+  user-service:
+    restart: on-failure
+    container_name: user-service
+    build: user-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      - config-service
+      - registry
+      - gateway
+      - comment-service
+      - order-service
+
+  comment-service:
+    restart: on-failure
+    container_name: comment-service
+    build: comment-service
+    ports:
+      - "8084:8084"
+    depends_on:
+      - config-service
+      - registry
+      - gateway
+
+  ui-service:
+    restart: on-failure
+    container_name: ui-service
+    build: ui-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - config-service
+      - registry
+      - gateway
+      - user-service
+
 
 networks:
   postgres:

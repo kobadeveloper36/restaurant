@@ -104,7 +104,8 @@ public class CartController {
     }
 
     @PostMapping("/cart/pickup")
-    public String createPickupOrder(@RequestParam String name, @RequestParam String phone, @RequestParam String email,
+    public String createPickupOrder(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                    @RequestParam String name, @RequestParam String phone, @RequestParam String email,
                                     @RequestParam String day, @RequestParam String time, @RequestParam String cutlery,
                                     @RequestParam String paymentKind, @RequestParam String notes) {
         if (orderedDishes.isEmpty()) {
@@ -126,11 +127,15 @@ public class CartController {
         Long orderId = orderService.createOrder(new OrderRequestDTO(name, phone, email, isDelivery, deliveryAddress,
                 orderDate, cutlery, paymentKind, isTableOrder, notes, dishes, userId, sum));
         orderedDishes = new ArrayList<>();
-        return "redirect:/cart/addComment/" + orderId;
+        if (userDetails != null) {
+            return "redirect:/cart/addComment/" + orderId;
+        }
+        return "cart/orderConfirmed";
     }
 
     @PostMapping("/cart/delivery")
-    public String createDeliveryOrder(@RequestParam String name, @RequestParam String phone, @RequestParam String email,
+    public String createDeliveryOrder(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                      @RequestParam String name, @RequestParam String phone, @RequestParam String email,
                                       @RequestParam String street, @RequestParam String flat, @RequestParam String entry,
                                       @RequestParam String floor, @RequestParam String cutlery,
                                       @RequestParam String paymentKind, @RequestParam String notes) {
@@ -155,14 +160,17 @@ public class CartController {
         Long orderId = orderService.createOrder(new OrderRequestDTO(name, phone, email, isDelivery, deliveryAddress,
                 LocalDateTime.now(), cutlery, paymentKind, isTableOrder, notes, dishes, userId, sum));
         orderedDishes = new ArrayList<>();
-        return "redirect:/cart/addComment/" + orderId;
+        if (userDetails != null) {
+            return "redirect:/cart/addComment/" + orderId;
+        }
+        return "cart/orderConfirmed";
     }
 
     @GetMapping("/cart/addComment/{orderId}")
     public String addComment(@PathVariable Long orderId, Model model) {
         model.addAttribute("categories", categories);
         model.addAttribute("orderId", orderId);
-        return "/cart/addComment";
+        return "cart/addComment";
     }
 
     @PostMapping("/cart/addComment")

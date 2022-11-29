@@ -81,9 +81,9 @@
                    th:data-dish-composition="${dish.getComposition()}"
                    th:data-dish-price="${dish.getPrice()}"
                    th:data-dish-description="${dish.getDescription()}"
-                   th:data-dish-img="'img/dishes/'+${dish.getImg()}"
+                   th:data-dish-img="'/img/dishes/'+${dish.getImg()}"
                    th:data-dish-id="${dish.getDishId()}">
-                    <img th:src="'img/dishes/'+${dish.getImg()}"
+                    <img th:src="'/img/dishes/'+${dish.getImg()}"
                          class="card-img-top pt-2"
                          alt="...">
                 </a>
@@ -96,7 +96,7 @@
                        th:data-dish-composition="${dish.getComposition()}"
                        th:data-dish-price="${dish.getPrice()}"
                        th:data-dish-description="${dish.getDescription()}"
-                       th:data-dish-img="'img/dishes/'+${dish.getImg()}"
+                       th:data-dish-img="'/img/dishes/'+${dish.getImg()}"
                        th:data-dish-id="${dish.getDishId()}"
                        th:text="${dish.getName()}"></a>
                     <p class="card-text"><small class="text-light" th:text="${dish.getWeight()} + ' гр'"></small></p>

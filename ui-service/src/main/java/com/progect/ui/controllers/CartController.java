@@ -119,6 +119,9 @@ public class CartController {
                 LocalDateTime.of(date, LocalTime.parse(time));
         List<Long> dishes = getDishesId();
         Long userId = null;
+        if (userDetails != null) {
+            userId = userDetails.getUserResponseDTO().getUserId();
+        }
         Double sum = orderedDishes.stream().map(OrderedDish::getSum).reduce(0.0, Double::sum);
         Long orderId = orderService.createOrder(new OrderRequestDTO(name, phone, email, isDelivery, deliveryAddress,
                 orderDate, cutlery, paymentKind, isTableOrder, notes, dishes, userId, sum));
@@ -142,6 +145,9 @@ public class CartController {
         boolean isTableOrder = false;
         List<Long> dishes = getDishesId();
         Long userId = null;
+        if (userDetails != null) {
+            userId = userDetails.getUserResponseDTO().getUserId();
+        }
         String deliveryAddress = "";
         if (entry != null) {
             deliveryAddress = street + ", " + flat;

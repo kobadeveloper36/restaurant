@@ -33,13 +33,10 @@ public class AdminController {
 
     private final UserService userService;
 
-    private Set<String> categories;
-
     private final String uploadPath;
 
     public AdminController(MainService mainService, DishService dishService, CommentService commentService, OrderService orderService, UserService userService) {
         this.mainService = mainService;
-        this.categories = mainService.getCategoriesSet();
         this.dishService = dishService;
         this.commentService = commentService;
         this.orderService = orderService;
@@ -50,8 +47,7 @@ public class AdminController {
 
     @GetMapping("/admin/users")
     public String users(Model model) {
-        Set<String> categories = mainService.getCategoriesSet();
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", mainService.getCategoriesSet());
 
         List<UserResponseDTO> users = userService.getAllUsers();
         model.addAttribute("users", users);
@@ -60,8 +56,7 @@ public class AdminController {
 
     @PostMapping("/admin/users")
     public String searchedUsers(@RequestParam String searchedLogin, Model model) {
-        Set<String> categories = mainService.getCategoriesSet();
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", mainService.getCategoriesSet());
 
         Set<UserResponseDTO> users = new HashSet<>(userService.getAllUsers())
                 .stream().filter(x -> x.getLogin().equals(searchedLogin.toLowerCase())).collect(Collectors.toSet());
@@ -71,8 +66,7 @@ public class AdminController {
 
     @GetMapping("/admin/user/page/add/")
     public String addUser(Model model) {
-        Set<String> categories = mainService.getCategoriesSet();
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", mainService.getCategoriesSet());
 
         model.addAttribute("userId", getLastUserId(userService.getAllUsers()) + 1);
         model.addAttribute("userName", "");
@@ -95,8 +89,7 @@ public class AdminController {
 
     @GetMapping("/admin/user/page/edit/{userId}")
     public String editUser(@PathVariable Long userId, Model model) {
-        Set<String> categories = mainService.getCategoriesSet();
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", mainService.getCategoriesSet());
 
         UserResponseDTO user = userService.getUserById(userId);
         model.addAttribute("userId", userId);
@@ -134,8 +127,7 @@ public class AdminController {
 
     @GetMapping("/admin/orders")
     public String orders(Model model) {
-        Set<String> categories = mainService.getCategoriesSet();
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", mainService.getCategoriesSet());
 
         List<OrderResponseDTO> orders = orderService.getAllOrders();
         model.addAttribute("orders", orders);
@@ -144,8 +136,7 @@ public class AdminController {
 
     @PostMapping("/admin/orders")
     public String searchedOrders(@RequestParam Long searchedId, Model model) {
-        Set<String> categories = mainService.getCategoriesSet();
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", mainService.getCategoriesSet());
 
         Set<OrderResponseDTO> orders = new HashSet<>(orderService.getAllOrders())
                 .stream().filter(x -> x.getOrderId().equals(searchedId)).collect(Collectors.toSet());
@@ -155,8 +146,7 @@ public class AdminController {
 
     @GetMapping("/admin/order/page/{orderId}")
     public String orderPage(@PathVariable Long orderId, Model model) {
-        Set<String> categories = mainService.getCategoriesSet();
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", mainService.getCategoriesSet());
 
         OrderResponseDTO order = orderService.getOrderById(orderId);
         model.addAttribute("order", order);
@@ -167,8 +157,7 @@ public class AdminController {
 
     @GetMapping("/admin/order/page/add/")
     public String orderAddingPage(Model model) {
-        Set<String> categories = mainService.getCategoriesSet();
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", mainService.getCategoriesSet());
 
         model.addAttribute("orderId", AdminController.getLastOrdersId(orderService.getAllOrders()) + 1);
         model.addAttribute("customers", userService.getAllUsers());
@@ -195,8 +184,7 @@ public class AdminController {
 
     @GetMapping("/admin/order/page/edit/{orderId}")
     public String orderEditingPage(@PathVariable Long orderId, Model model) {
-        Set<String> categories = mainService.getCategoriesSet();
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", mainService.getCategoriesSet());
 
         OrderResponseDTO order = orderService.getOrderById(orderId);
         model.addAttribute("orderId", orderId);
@@ -252,8 +240,7 @@ public class AdminController {
 
     @GetMapping("/admin/comments")
     public String comments(Model model) {
-        Set<String> categories = mainService.getCategoriesSet();
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", mainService.getCategoriesSet());
 
         Set<CommentResponseDTO> comments = new HashSet<>(commentService.getAllComments());
         model.addAttribute("comments", comments);
@@ -262,8 +249,7 @@ public class AdminController {
 
     @PostMapping("/admin/comments")
     public String searchedComments(@RequestParam String searchedLogin, Model model) {
-        Set<String> categories = mainService.getCategoriesSet();
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", mainService.getCategoriesSet());
 
         Set<CommentResponseDTO> comments = new HashSet<>(commentService.getAllComments())
                 .stream().filter(x -> x.getUserName().equals(searchedLogin.toLowerCase())).collect(Collectors.toSet());
@@ -273,7 +259,7 @@ public class AdminController {
 
     @GetMapping("/admin/comment/page/add")
     public String addCommentPage(Model model) {
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", mainService.getCategoriesSet());
 
         List<CommentResponseDTO> comments = commentService.getAllComments();
         long commentId = AdminController.getLastCommentId(comments) + 1;
@@ -292,7 +278,7 @@ public class AdminController {
 
     @GetMapping("/admin/comment/page/edit/{commentId}")
     public String editCommentPage(@PathVariable Long commentId, Model model) {
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", mainService.getCategoriesSet());
 
         CommentResponseDTO comment = commentService.getCommentById(commentId);
         model.addAttribute("commentId", commentId);
@@ -317,7 +303,7 @@ public class AdminController {
 
     @GetMapping("/admin/{category}")
     public String dishesCategory(@PathVariable String category, Model model) {
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", mainService.getCategoriesSet());
 
         Set<DishResponseDTO> dishes = mainService.getDishesByCategory(category);
         model.addAttribute("dishes", dishes);
@@ -326,7 +312,7 @@ public class AdminController {
 
     @GetMapping("/admin/dish/page/edit/{dishId}")
     public String editDishPage(@PathVariable Long dishId, Model model) {
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", mainService.getCategoriesSet());
 
 
         DishResponseDTO dish = dishService.getDishById(dishId);
@@ -346,7 +332,7 @@ public class AdminController {
 
     @GetMapping("/admin/dish/page/add/{category}")
     public String addDishPage(@PathVariable String category, Model model) {
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", mainService.getCategoriesSet());
 
 
         List<DishResponseDTO> dishes = dishService.getAllDishes();

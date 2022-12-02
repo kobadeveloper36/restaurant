@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Set;
-
 @Controller
 public class AuthController {
 
@@ -20,24 +18,21 @@ public class AuthController {
 
     private final RegistrationService registrationService;
 
-    private Set<String> categories;
-
     public AuthController(MainService mainService, UserService userService, RegistrationService registrationService) {
         this.mainService = mainService;
         this.userService = userService;
         this.registrationService = registrationService;
-        this.categories = mainService.getCategoriesSet();
     }
 
     @GetMapping("/login")
     public String loginPage(Model model) {
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", mainService.getCategoriesSet());
         return "login";
     }
 
     @GetMapping("/registration")
     public String registrationPage(Model model) {
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", mainService.getCategoriesSet());
         return "registration";
     }
 

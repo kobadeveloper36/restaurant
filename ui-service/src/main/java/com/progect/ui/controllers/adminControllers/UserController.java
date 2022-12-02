@@ -29,7 +29,6 @@ public class UserController {
         this.registrationService = registrationService;
         String location = UiApplication.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         this.uploadPath = location.substring(0, location.indexOf("file:")) + "/restaurant/uploads/img/users/";
-        System.out.println("Upl: " + this.uploadPath);
     }
 
     @PostMapping("/admin/user/add")
@@ -74,23 +73,18 @@ public class UserController {
 
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
-                System.out.println("Make dir: " + uploadDir.mkdirs());
-                System.out.println("Dir1: " + uploadDir.getAbsolutePath());
-                System.out.println("Dir2: " + uploadDir.getPath());
+                uploadDir.mkdirs();
             }
 
             String uuidFile = UUID.randomUUID().toString();
             resultFileName = uuidFile + "." + imgFile.getOriginalFilename();
             Path newPath = Paths.get(uploadPath + resultFileName);
-            System.out.println("New Path: " + newPath.toFile().getAbsolutePath());
             File newFile = new File(newPath.toFile().getAbsolutePath());
-            System.out.println("New file: " + newFile.getAbsolutePath());
             File oldFile = new File(uploadPath + user.getImgFile());
-            System.out.println("Delete old file: " + oldFile.delete());
+           oldFile.delete();
 
             if (!newFile.exists()) {
                 try {
-                    System.out.println("Preparing to transfer...");
                     imgFile.transferTo(newFile);
                 } catch (IOException e) {
                     e.printStackTrace();

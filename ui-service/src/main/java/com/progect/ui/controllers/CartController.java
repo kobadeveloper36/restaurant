@@ -22,7 +22,6 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.IntStream;
 
 @Controller
@@ -33,20 +32,17 @@ public class CartController {
     private final CommentService commentService;
     private List<OrderedDish> orderedDishes;
 
-    private Set<String> categories;
-
     public CartController(MainService mainService, DishService dishService, OrderService orderService, CommentService commentService, List<OrderedDish> orderedDishes) {
         this.mainService = mainService;
         this.dishService = dishService;
         this.orderService = orderService;
         this.commentService = commentService;
         this.orderedDishes = orderedDishes;
-        this.categories = mainService.getCategoriesSet();
     }
 
     @GetMapping("/cart")
     public String cart(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", mainService.getCategoriesSet());
 
         model.addAttribute("orderedDishes", orderedDishes);
         if (userDetails != null) {
@@ -168,7 +164,7 @@ public class CartController {
 
     @GetMapping("/cart/addComment/{orderId}")
     public String addComment(@PathVariable Long orderId, Model model) {
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", mainService.getCategoriesSet());
         model.addAttribute("orderId", orderId);
         return "cart/addComment";
     }

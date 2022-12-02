@@ -21,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -29,8 +28,6 @@ import java.util.stream.Collectors;
 public class AccountController {
     private final OrderService orderService;
     private final MainService mainService;
-    private Set<String> categories;
-
     private final RegistrationService registrationService;
 
     private final String uploadPath;
@@ -38,7 +35,6 @@ public class AccountController {
     public AccountController(OrderService orderService, MainService mainService, RegistrationService registrationService) {
         this.mainService = mainService;
         this.orderService = orderService;
-        this.categories = mainService.getCategoriesSet();
         this.registrationService = registrationService;
         String location = UiApplication.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         this.uploadPath = location.substring(0, location.indexOf("file:")) + "/restaurant/uploads/img/users/";
@@ -46,7 +42,7 @@ public class AccountController {
 
     @GetMapping("/account/orders")
     public String ordersAccount(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", mainService.getCategoriesSet());
 
         UserResponseDTO userResponseDTO = userDetails.getUserResponseDTO();
         model.addAttribute("name", userResponseDTO.getName());
@@ -60,7 +56,7 @@ public class AccountController {
     @GetMapping("/account/orders/order-info/{orderId}")
     public String orderInfo(@AuthenticationPrincipal UserDetailsImpl userDetails,
                             @PathVariable Long orderId, Model model) {
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", mainService.getCategoriesSet());
 
         UserResponseDTO userResponseDTO = userDetails.getUserResponseDTO();
         model.addAttribute("name", userResponseDTO.getName());
@@ -74,7 +70,7 @@ public class AccountController {
 
     @GetMapping("/account/info")
     public String info(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", mainService.getCategoriesSet());
 
         UserResponseDTO user = userDetails.getUserResponseDTO();
         model.addAttribute("userId", user.getUserId());

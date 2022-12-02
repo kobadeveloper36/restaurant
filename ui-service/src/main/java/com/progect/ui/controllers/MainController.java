@@ -30,11 +30,8 @@ public class MainController {
 
     private final UserService userService;
 
-    private Set<String> categories;
-
     public MainController(MainService mainService, OrderService orderService, CommentService commentService, UserService userService) {
         this.mainService = mainService;
-        this.categories = mainService.getCategoriesSet();
         this.orderService = orderService;
         this.commentService = commentService;
         this.userService = userService;
@@ -42,7 +39,7 @@ public class MainController {
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", mainService.getCategoriesSet());
         Set<DishResponseDTO> popular = mainService.getPopularDishes();
         model.addAttribute("popular", popular);
         return "index";
@@ -50,6 +47,7 @@ public class MainController {
 
     @GetMapping("/menu")
     public String menu(Model model) {
+        Set<String> categories = mainService.getCategoriesSet();
         model.addAttribute("categories", categories);
         HashMap<String, Set<DishResponseDTO>> categoriesWithDishes = new HashMap<>();
         for (String category : categories) {
@@ -61,7 +59,7 @@ public class MainController {
 
     @GetMapping("/aboutUs")
     public String aboutUs(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", mainService.getCategoriesSet());
 
         if (userDetails != null) {
             UserResponseDTO userResponseDTO = userDetails.getUserResponseDTO();
@@ -104,7 +102,7 @@ public class MainController {
 
     @GetMapping("/account")
     public String account(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", mainService.getCategoriesSet());
 
         UserResponseDTO userResponseDTO = userDetails.getUserResponseDTO();
         model.addAttribute("name", userResponseDTO.getName());
@@ -114,8 +112,7 @@ public class MainController {
 
     @GetMapping("/admin")
     public String admin(Model model) {
-        Set<String> categories = mainService.getCategoriesSet();
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", mainService.getCategoriesSet());
         return "admin";
     }
 
